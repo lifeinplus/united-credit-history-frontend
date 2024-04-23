@@ -1,0 +1,21 @@
+.uch-list-group-item {
+    &.dark {
+        color: var(--bs-white);
+        background-color: var(--uch-black-light);
+        --bs-list-group-border-color: rgba(255, 255, 255, 0.125);
+    }
+
+    &.uch-list-group-item-info {
+        &.dark {
+            color: var(--uch-green-100);
+            background-color: var(--uch-green-900);
+        }
+    }
+
+    &.uch-list-group-item-primary {
+        &.dark {
+            color: var(--uch-purple-100);
+            background-color: var(--uch-purple-900);
+        }
+    }
+}
