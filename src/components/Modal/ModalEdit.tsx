@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { axiosPrivate } from "../../api/axios";
+
 import { useModalData } from "../../contexts";
+import { useAxiosPrivate } from "../../hooks";
 
 const ModalEdit = () => {
     const effectRan = useRef(false);
+    const closeRef = useRef<HTMLButtonElement>(null);
+
     const [activeSave, setActiveSave] = useState(false);
     const { t } = useTranslation("modal");
 
+    const axiosPrivate = useAxiosPrivate();
     const { modalData, setModalData } = useModalData();
     const { _id, userName, roles } = modalData;
 
@@ -17,7 +21,13 @@ const ModalEdit = () => {
 
             axiosPrivate
                 .put(`/users/updateById`, { id: _id, roles })
-                .then((response) => console.log(response))
+                .then(() => {
+                    setModalData((prev) => ({
+                        ...prev,
+                        closingRefresh: "yes",
+                    }));
+                    closeRef.current?.click();
+                })
                 .catch((error) => console.log(error.message));
         }
 
@@ -41,10 +51,11 @@ const ModalEdit = () => {
                             {t("title.edit")}
                         </h1>
                         <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="modal"
                             aria-label="Close"
+                            data-bs-dismiss="modal"
+                            className="btn-close"
+                            ref={closeRef}
+                            type="button"
                         ></button>
                     </div>
                     <div className="modal-body">
@@ -95,7 +106,6 @@ const ModalEdit = () => {
                         </button>
                         <button
                             className="btn btn-primary"
-                            data-bs-dismiss="modal"
                             onClick={() => {
                                 setActiveSave(true);
                             }}

@@ -4,6 +4,7 @@ import { Loan, Person, Report } from "./Report";
 import { User } from "./User";
 
 export type TableData = Loan | Person | Report | User;
+export type TableDataList = Loan[] | Person[] | Report[] | User[];
 
 export interface TableColumn {
     alignment?: string;
@@ -22,11 +23,17 @@ export interface TableColumn {
     type?: string;
 }
 
+export interface MethodParams {
+    reportId?: string;
+}
+
 export interface Table {
     id: string;
     actions?: boolean;
     columns: TableColumn[];
-    data?: Loan[] | Person[] | Report[] | User[];
+    data?: TableDataList;
+    method?: string;
+    methodParams?: MethodParams;
     mobileView?: boolean;
     rowActive?: boolean;
     rowHover?: boolean;
@@ -80,6 +87,10 @@ export interface TableDiffBadges {
     data?: TableDiff[];
 }
 
+export interface TableRefreshFunc {
+    (): void;
+}
+
 export interface TableSortClass {
     (sysName?: string): string | undefined;
 }
@@ -93,6 +104,21 @@ export interface TableSortConfig {
 
 export interface TableSortFunc {
     (column: TableColumn): void;
+}
+
+interface TableSortCompareOptions {
+    statusA: string | number;
+    statusB: string | number;
+    valueA: string | number;
+    valueB: string | number;
+}
+
+export interface TableSortCompare {
+    (arg0: TableSortCompareOptions): {
+        order?: number;
+        resultA?: string | number;
+        resultB?: string | number;
+    };
 }
 
 export interface TableScrollButtons {
