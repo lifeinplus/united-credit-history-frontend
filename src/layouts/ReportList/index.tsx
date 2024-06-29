@@ -3,11 +3,10 @@ import { useTranslation } from "react-i18next";
 
 import { PanelHeader, Table } from "../../components";
 import { useTheme } from "../../contexts";
-import { ReportListProps } from "../../types";
 
 import { tableColumns } from "./utils";
 
-const ReportList = ({ reports }: ReportListProps) => {
+const ReportList = () => {
     const theme = useTheme();
     const { t } = useTranslation(["report_list"]);
 
@@ -37,7 +36,7 @@ const ReportList = ({ reports }: ReportListProps) => {
                             <Table
                                 id={"rl"}
                                 columns={columns}
-                                data={reports}
+                                method={"/reports/getAll"}
                                 rowHover={true}
                             />
                         </div>

@@ -1,14 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { axiosPrivate } from "../../api/axios";
+
 import { useModalData } from "../../contexts";
+import { useAxiosPrivate } from "../../hooks";
 
 const ModalDelete = () => {
     const effectRan = useRef(false);
+    const closeRef = useRef<HTMLButtonElement>(null);
+
     const [activeDelete, setActiveDelete] = useState(false);
     const { t } = useTranslation("modal");
 
-    const { modalData } = useModalData();
+    const axiosPrivate = useAxiosPrivate();
+    const { modalData, setModalData } = useModalData();
     const { _id, userName } = modalData;
 
     useEffect(() => {
@@ -17,7 +21,13 @@ const ModalDelete = () => {
 
             axiosPrivate
                 .delete(`/users/deleteById/${_id}`)
-                .then((response) => console.log(response))
+                .then(() => {
+                    setModalData((prev) => ({
+                        ...prev,
+                        closingRefresh: "yes",
+                    }));
+                    closeRef.current?.click();
+                })
                 .catch((error) => console.log(error.message));
         }
 
@@ -41,10 +51,11 @@ const ModalDelete = () => {
                             {t("title.delete")}
                         </h1>
                         <button
-                            type="button"
+                            aria-label="Close"
                             className="btn-close"
                             data-bs-dismiss="modal"
-                            aria-label="Close"
+                            ref={closeRef}
+                            type="button"
                         ></button>
                     </div>
                     <div className="modal-body">
@@ -60,7 +71,6 @@ const ModalDelete = () => {
                         </button>
                         <button
                             className="btn btn-danger"
-                            data-bs-dismiss="modal"
                             onClick={() => {
                                 setActiveDelete(true);
                             }}

@@ -16,7 +16,6 @@ const PersonalData = ({ commons, report }: PersonalDataProps) => {
     const { t } = useTranslation(["personal_data"]);
     const theme = useTheme();
 
-    const persons = useDataById<Person[]>("persons/getByReportId", reportId);
     const requestCounts = useDataById<RequestCount>(
         "requestCounts/getByReportId",
         reportId
@@ -56,7 +55,8 @@ const PersonalData = ({ commons, report }: PersonalDataProps) => {
                             <Table
                                 id={"pd"}
                                 columns={columns}
-                                data={persons}
+                                method={"persons/getByReportId"}
+                                methodParams={{ reportId }}
                                 mobileView={true}
                                 textDifference={true}
                             />

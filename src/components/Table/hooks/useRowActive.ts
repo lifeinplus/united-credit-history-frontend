@@ -1,11 +1,7 @@
 import { useMemo } from "react";
-import { Loan, Person, Report } from "../../../types/Report";
-import { User } from "../../../types/User";
+import { TableDataList } from "../../../types/Table";
 
-const useRowActive = (
-    rowActive: boolean,
-    data: Loan[] | Person[] | Report[] | User[] = []
-) => {
+const useRowActive = (rowActive: boolean, data: TableDataList = []) => {
     return useMemo(() => {
         return rowActive
             ? data?.map((element, index) => ({

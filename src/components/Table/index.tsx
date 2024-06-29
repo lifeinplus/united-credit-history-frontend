@@ -1,10 +1,13 @@
 import classNames from "classnames";
+import { useEffect } from "react";
 
-import { useTheme } from "../../contexts";
+import { useModalData, useTheme } from "../../contexts";
 import { TableSortClass, Table } from "../../types/Table";
 
 import { Body, Head, ScrollButtons } from "./components";
 import {
+    useData,
+    useDataByParams,
     useRowActive,
     useSortableData,
     useStickyHeader,
@@ -16,6 +19,8 @@ const Table = ({
     actions = false,
     columns,
     data,
+    method,
+    methodParams,
     mobileView = false,
     rowActive = false,
     rowHover = false,
@@ -24,8 +29,23 @@ const Table = ({
     textDifference = false,
     tooltips = false,
 }: Table) => {
-    const rowActiveData = useRowActive(rowActive, data);
+    const [methodData, requestRefresh] = methodParams
+        ? useDataByParams(method, methodParams)
+        : useData(method);
+
+    const tableData = methodData || data;
+    const rowActiveData = useRowActive(rowActive, tableData);
     const theme = useTheme();
+
+    const { modalData, setModalData } = useModalData();
+    const { closingRefresh } = modalData;
+
+    useEffect(() => {
+        if (closingRefresh === "yes") {
+            setModalData((prev) => ({ ...prev, closingRefresh: "no" }));
+            requestRefresh();
+        }
+    }, [closingRefresh]);
 
     const [sortedData, requestSort, sortConfig] = useSortableData(
         rowActiveData,

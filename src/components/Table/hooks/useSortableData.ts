@@ -1,5 +1,10 @@
 import { useMemo, useState } from "react";
-import { TableSortConfig, TableColumn, TableData } from "../../../types/Table";
+import {
+    TableSortConfig,
+    TableColumn,
+    TableData,
+    TableSortCompare,
+} from "../../../types/Table";
 
 const useSortableData = (data: TableData[] = [], config: TableSortConfig) => {
     const [sortConfig, setSortConfig] = useState(config);
@@ -57,23 +62,8 @@ const useSortableData = (data: TableData[] = [], config: TableSortConfig) => {
     return [sortedData, requestSort, sortConfig] as const;
 };
 
-interface CompareOptions {
-    statusA: string | number;
-    statusB: string | number;
-    valueA: string | number;
-    valueB: string | number;
-}
-
-interface CompareFunction {
-    (arg0: CompareOptions): {
-        order?: number;
-        resultA?: string | number;
-        resultB?: string | number;
-    };
-}
-
 function getCompareFunction(type: string) {
-    const _compareFunctions: Record<string, CompareFunction> = {
+    const _compareFunctions: Record<string, TableSortCompare> = {
         amount({ statusA, statusB, valueA, valueB }) {
             if (statusA === "Ошибка вычисления") return { order: -1 };
             if (statusB === "Ошибка вычисления") return { order: 1 };

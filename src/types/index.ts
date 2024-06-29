@@ -27,14 +27,6 @@ export interface ModalDataContext {
     setModalData: Dispatch<SetStateAction<ModalData>>;
 }
 
-export interface ReportListProps {
-    reports: Report[];
-}
-
 export interface RequireAuthProps {
     allowedRoles: number[];
-}
-
-export interface UserListProps {
-    users: User[];
 }

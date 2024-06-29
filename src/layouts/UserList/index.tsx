@@ -3,11 +3,10 @@ import { useTranslation } from "react-i18next";
 
 import { PanelHeader, Table } from "../../components";
 import { useTheme } from "../../contexts";
-import { UserListProps } from "../../types";
 
 import { tableColumns } from "./utils";
 
-const UserList = ({ users }: UserListProps) => {
+const UserList = () => {
     const theme = useTheme();
     const { t } = useTranslation(["user_list"]);
 
@@ -38,7 +37,7 @@ const UserList = ({ users }: UserListProps) => {
                                 id={"ul"}
                                 actions={true}
                                 columns={columns}
-                                data={users}
+                                method={"/users/getAll"}
                                 rowHover={true}
                             />
                         </div>
