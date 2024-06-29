@@ -1,11 +1,11 @@
 {
     "table": {
         "reportId": "ID",
-        "appCreationDate": "Дата Создания",
-        "appNumber": "Номер Заявки",
+        "appCreationDate": "Дата создания",
+        "appNumber": "Номер заявки",
         "clientName": "Клиент",
-        "documentNumber": "Номер Паспорта",
-        "documentSeries": "Серия Паспорта"
+        "documentNumber": "Номер паспорта",
+        "documentSeries": "Серия паспорта"
     },
-    "title": "Список Отчётов"
+    "title": "Список отчётов"
 }

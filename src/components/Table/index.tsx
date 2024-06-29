@@ -29,13 +29,14 @@ const Table = ({
     textDifference = false,
     tooltips = false,
 }: Table) => {
+    const theme = useTheme();
+
     const [methodData, requestRefresh] = methodParams
         ? useDataByParams(method, methodParams)
         : useData(method);
 
     const tableData = methodData || data;
     const rowActiveData = useRowActive(rowActive, tableData);
-    const theme = useTheme();
 
     const { modalData, setModalData } = useModalData();
     const { closingRefresh } = modalData;
