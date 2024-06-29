@@ -27,7 +27,7 @@ const UserList = () => {
                 <div className="col">
                     <div className="row">
                         <PanelHeader
-                            iconName={"bi-card-list"}
+                            iconName={"bi bi-people"}
                             nameSpaces={["user_list"]}
                         />
                     </div>
