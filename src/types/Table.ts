@@ -38,6 +38,7 @@ export interface Table {
     rowActive?: boolean;
     rowHover?: boolean;
     scrolling?: boolean;
+    sorting?: TableSortConfig;
     stickyHeader?: boolean;
     textDifference?: boolean;
     tooltips?: boolean;
@@ -97,7 +98,7 @@ export interface TableSortClass {
 
 export interface TableSortConfig {
     dataType?: string;
-    direction: string;
+    direction?: string;
     sysName?: string;
     sysNameStatus?: string;
 }

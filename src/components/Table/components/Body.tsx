@@ -116,9 +116,7 @@ const Body = ({
         const { isLink, name, type } = column;
 
         const { cell, badge, diffData, value } =
-            type === "common" || !type
-                ? getCommonData(params)
-                : getStatusData(params);
+            type === "status" ? getStatusData(params) : getCommonData(params);
 
         const label = mobileView ? name : undefined;
 

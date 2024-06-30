@@ -7,6 +7,11 @@ import {
 } from "../../../types/Table";
 
 const useSortableData = (data: TableData[] = [], config: TableSortConfig) => {
+    const { dataType, direction } = config;
+
+    if (!dataType) config.dataType = "date";
+    if (!direction) config.direction = "asc";
+
     const [sortConfig, setSortConfig] = useState(config);
 
     const sortedData = useMemo(() => {
@@ -74,16 +79,6 @@ function getCompareFunction(type: string) {
             return { resultA: valueA, resultB: valueB };
         },
 
-        date({ valueA, valueB }) {
-            const resultA = Date.parse(String(valueA)) || "";
-            const resultB = Date.parse(String(valueB)) || "";
-
-            if (!resultA) return { order: 1 };
-            if (!resultB) return { order: -1 };
-
-            return { resultA, resultB };
-        },
-
         numeric({ statusA, statusB, valueA, valueB }) {
             if (statusA === "Ошибка вычисления") return { order: -1 };
             if (statusB === "Ошибка вычисления") return { order: 1 };
@@ -115,7 +110,8 @@ function getCompareFunction(type: string) {
         },
     };
 
-    return _compareFunctions[type];
+    const func = _compareFunctions[type];
+    return func || _compareFunctions.text;
 }
 
 export default useSortableData;

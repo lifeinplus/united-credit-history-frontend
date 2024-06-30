@@ -39,6 +39,7 @@ const UserList = () => {
                                 columns={columns}
                                 method={"/users/getAll"}
                                 rowHover={true}
+                                sorting={{ sysName: "creationDate" }}
                             />
                         </div>
                     </div>

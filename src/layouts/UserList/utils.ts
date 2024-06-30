@@ -4,6 +4,7 @@ export const tableColumns: TableColumn[] = [
     {
         alignment: "text-center",
         dataType: "dateTime",
+        sortable: true,
         sysName: "creationDate",
     },
     {
