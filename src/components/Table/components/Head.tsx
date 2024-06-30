@@ -12,7 +12,6 @@ const Head = forwardRef<HTMLTableSectionElement, TableHead>(
         const { columns, actions, getSortClass, requestSort, tooltips } = props;
 
         const theme = useTheme();
-        const { t } = useTranslation("table");
         useTooltip(tooltips, columns);
 
         return (
@@ -33,61 +32,51 @@ const Head = forwardRef<HTMLTableSectionElement, TableHead>(
                             theme={theme}
                         />
                     ))}
-                    {actions && <ActionTh />}
+                    {actions && <ThActions />}
                 </tr>
             </thead>
         );
-
-        function ActionTh() {
-            return (
-                <th className={"text-end"} scope="col">
-                    {t("actions")}
-                </th>
-            );
-        }
-
-        function Th({
-            column,
-            getSortClass,
-            requestSort,
-            theme,
-        }: TableHeaderCell) {
-            const {
-                alignment,
-                extended,
-                name,
-                sortable,
-                sysName,
-                tooltipName,
-            } = column;
-
-            const extendedClass =
-                extended &&
-                (theme === "light" ? "table-info" : "uch-table dark info");
-
-            const sortClass = sortable && getSortClass(sysName);
-            const sortThemeClass = sortable && `sortable ${theme}`;
-
-            return (
-                <th
-                    className={classNames(
-                        alignment,
-                        extendedClass,
-                        sortClass,
-                        sortThemeClass
-                    )}
-                    data-bs-toggle={tooltipName && "tooltip"}
-                    data-bs-placement={tooltipName && "top"}
-                    data-bs-custom-class={`uch-tooltip ${theme}`}
-                    data-bs-title={tooltipName}
-                    onClick={sortable ? () => requestSort(column) : undefined}
-                    scope="col"
-                >
-                    {name}
-                </th>
-            );
-        }
     }
 );
+
+function Th({ column, getSortClass, requestSort, theme }: TableHeaderCell) {
+    const { alignment, extended, name, sortable, sysName, tooltipName } =
+        column;
+
+    const extendedClass =
+        extended && (theme === "light" ? "table-info" : "uch-table dark info");
+
+    const sortClass = sortable && getSortClass(sysName);
+    const sortThemeClass = sortable && `sortable ${theme}`;
+
+    return (
+        <th
+            className={classNames(
+                alignment,
+                extendedClass,
+                sortClass,
+                sortThemeClass
+            )}
+            data-bs-toggle={tooltipName && "tooltip"}
+            data-bs-placement={tooltipName && "top"}
+            data-bs-custom-class={`uch-tooltip ${theme}`}
+            data-bs-title={tooltipName}
+            onClick={sortable ? () => requestSort(column) : undefined}
+            scope="col"
+        >
+            {name}
+        </th>
+    );
+}
+
+function ThActions() {
+    const { t } = useTranslation("table");
+
+    return (
+        <th className={"text-end"} scope="col">
+            {t("actions")}
+        </th>
+    );
+}
 
 export default Head;
