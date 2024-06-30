@@ -69,12 +69,40 @@ const Body = ({
                         <Cell key={key} id={key} column={element} data={data} />
                     );
                 })}
-                {actions && <ActionCell data={data} />}
+                {actions && <CellActions data={data} />}
             </tr>
         );
     }
 
-    function ActionCell({ data }: TableRow) {
+    function Cell(params: TableDataCell) {
+        const { id, column, data } = params;
+        const { isLink, name, type } = column;
+
+        const { cell, badge, diffData, value } =
+            type === "status" ? getStatusData(params) : getCommonData(params);
+
+        const label = mobileView ? name : undefined;
+
+        const linkValue = isLink && (
+            <Link className={`uch-link ${theme}`} to={`/reports/${data._id}`}>
+                {value}
+            </Link>
+        );
+
+        return (
+            <td className={cell} data-label={label}>
+                <span className={badge}>
+                    {textDifference ? (
+                        <DiffBadges id={id} data={diffData} />
+                    ) : (
+                        linkValue || value
+                    )}
+                </span>
+            </td>
+        );
+    }
+
+    function CellActions({ data }: TableRow) {
         return (
             <td className={"text-end"}>
                 <div className="btn-group" role="group">
@@ -107,34 +135,6 @@ const Body = ({
                         <i className="bi bi-trash"></i>
                     </button>
                 </div>
-            </td>
-        );
-    }
-
-    function Cell(params: TableDataCell) {
-        const { id, column, data } = params;
-        const { isLink, name, type } = column;
-
-        const { cell, badge, diffData, value } =
-            type === "status" ? getStatusData(params) : getCommonData(params);
-
-        const label = mobileView ? name : undefined;
-
-        const linkValue = isLink && (
-            <Link className={`uch-link ${theme}`} to={`/reports/${data._id}`}>
-                {value}
-            </Link>
-        );
-
-        return (
-            <td className={cell} data-label={label}>
-                <span className={badge}>
-                    {textDifference ? (
-                        <DiffBadges id={id} data={diffData} />
-                    ) : (
-                        linkValue || value
-                    )}
-                </span>
             </td>
         );
     }
