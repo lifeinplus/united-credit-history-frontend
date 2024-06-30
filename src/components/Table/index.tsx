@@ -25,6 +25,7 @@ const Table = ({
     rowActive = false,
     rowHover = false,
     scrolling = false,
+    sorting = {},
     stickyHeader = false,
     textDifference = false,
     tooltips = false,
@@ -50,12 +51,7 @@ const Table = ({
 
     const [sortedData, requestSort, sortConfig] = useSortableData(
         rowActiveData,
-        {
-            dataType: "amount",
-            direction: "asc",
-            sysName: "chbPayment",
-            sysNameStatus: "chbPaymentStatus",
-        }
+        sorting
     );
 
     const [tableWrapperRef, headerRef] = useStickyHeader(stickyHeader);

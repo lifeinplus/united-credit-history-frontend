@@ -59,33 +59,28 @@ const Head = forwardRef<HTMLTableSectionElement, TableHead>(
                 sortable,
                 sysName,
                 tooltipName,
-                type,
             } = column;
 
-            const common = type === "common";
-
             const extendedClass =
-                common &&
                 extended &&
                 (theme === "light" ? "table-info" : "uch-table dark info");
 
-            const sortableThemeClass =
-                common && sortable && `sortable ${theme}`;
-            const sortClass = common && sortable && getSortClass(sysName);
+            const sortClass = sortable && getSortClass(sysName);
+            const sortThemeClass = sortable && `sortable ${theme}`;
 
             return (
                 <th
                     className={classNames(
+                        alignment,
                         extendedClass,
-                        sortableThemeClass,
                         sortClass,
-                        alignment
+                        sortThemeClass
                     )}
                     data-bs-toggle={tooltipName && "tooltip"}
                     data-bs-placement={tooltipName && "top"}
                     data-bs-custom-class={`uch-tooltip ${theme}`}
                     data-bs-title={tooltipName}
-                    onClick={common ? () => requestSort(column) : undefined}
+                    onClick={sortable ? () => requestSort(column) : undefined}
                     scope="col"
                 >
                     {name}

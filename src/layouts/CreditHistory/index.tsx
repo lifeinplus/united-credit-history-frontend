@@ -126,6 +126,11 @@ const CreditHistory = ({
                                 rowActive={true}
                                 rowHover={true}
                                 scrolling={true}
+                                sorting={{
+                                    dataType: "amount",
+                                    sysName: "chbPayment",
+                                    sysNameStatus: "chbPaymentStatus",
+                                }}
                                 stickyHeader={true}
                                 tooltips={true}
                             />
@@ -155,8 +160,6 @@ const CreditHistory = ({
             return {
                 ...item,
                 name: t(`columns.${sysName}`),
-                sortable: true,
-                type: "common",
                 tooltipName: tooltip
                     ? t(`columns.tooltips.${sysName}`)
                     : undefined,
