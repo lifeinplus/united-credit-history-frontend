@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAxiosPrivate } from "../../../hooks";
-import { MethodParams, TableDataList } from "../../../types/Table";
+import { MethodParams, TableData } from "../../../types/Table";
 
-const useDataByParams = (method?: string, params?: MethodParams) => {
-    const [data, setData] = useState<TableDataList>();
+const useDataByParams = (methodParams: MethodParams, pagination: boolean) => {
+    const [data, setData] = useState<TableData[]>();
     const [refresh, setRefresh] = useState(false);
 
     const location = useLocation();
@@ -13,16 +13,20 @@ const useDataByParams = (method?: string, params?: MethodParams) => {
     const effectRan = useRef(false);
 
     const axiosPrivate = useAxiosPrivate();
-
-    const reportId = params?.reportId;
+    const { options, url } = methodParams;
 
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
 
-        if (method && reportId && effectRan.current === true) {
+        if (
+            !pagination &&
+            url &&
+            options?.reportId &&
+            effectRan.current === true
+        ) {
             axiosPrivate
-                .get(`/${method}/${reportId}`, {
+                .get(`/${url}/${options?.reportId}`, {
                     signal: controller.signal,
                 })
                 .then((response) => {

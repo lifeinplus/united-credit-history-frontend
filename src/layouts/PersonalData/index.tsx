@@ -55,8 +55,10 @@ const PersonalData = ({ commons, report }: PersonalDataProps) => {
                             <Table
                                 id={"pd"}
                                 columns={columns}
-                                method={"persons/getByReportId"}
-                                methodParams={{ reportId }}
+                                methodParams={{
+                                    options: { reportId },
+                                    url: "persons/getByReportId",
+                                }}
                                 mobileView={true}
                                 textDifference={true}
                             />

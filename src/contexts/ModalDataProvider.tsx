@@ -1,5 +1,5 @@
 import { PropsWithChildren, createContext, useContext, useState } from "react";
-import { ModalData, ModalDataContext } from "../types";
+import { ModalData, ModalDataContext } from "../types/Modal";
 
 const Context = createContext<ModalDataContext>({
     modalData: {},

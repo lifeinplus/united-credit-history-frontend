@@ -37,7 +37,11 @@ const UserList = () => {
                                 id={"ul"}
                                 actions={true}
                                 columns={columns}
-                                method={"/users/getAll"}
+                                methodParams={{
+                                    limit: 5,
+                                    url: "users/getPaginated",
+                                }}
+                                pagination={true}
                                 rowHover={true}
                                 sorting={{ sysName: "creationDate" }}
                             />

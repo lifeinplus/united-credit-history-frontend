@@ -1,7 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-import { Report } from "./Report";
-import { User } from "./User";
-
 export interface DateOptions {
     date: Intl.DateTimeFormatOptions;
     header: Intl.DateTimeFormatOptions;
@@ -18,15 +14,4 @@ export interface Lang {
 export interface ListField {
     sysName: string;
     type: string;
-}
-
-export interface ModalData extends Record<string, string | number> {}
-
-export interface ModalDataContext {
-    modalData: ModalData;
-    setModalData: Dispatch<SetStateAction<ModalData>>;
-}
-
-export interface RequireAuthProps {
-    allowedRoles: number[];
 }

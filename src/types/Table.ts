@@ -4,7 +4,6 @@ import { Loan, Person, Report } from "./Report";
 import { User } from "./User";
 
 export type TableData = Loan | Person | Report | User;
-export type TableDataList = Loan[] | Person[] | Report[] | User[];
 
 export interface TableColumn {
     alignment?: string;
@@ -24,17 +23,21 @@ export interface TableColumn {
 }
 
 export interface MethodParams {
-    reportId?: string;
+    limit?: number;
+    options?: {
+        reportId?: string;
+    };
+    url?: string;
 }
 
 export interface Table {
     id: string;
     actions?: boolean;
     columns: TableColumn[];
-    data?: TableDataList;
-    method?: string;
+    data?: TableData[];
     methodParams?: MethodParams;
     mobileView?: boolean;
+    pagination?: boolean;
     rowActive?: boolean;
     rowHover?: boolean;
     scrolling?: boolean;
@@ -47,8 +50,8 @@ export interface Table {
 export interface TableHead {
     actions: boolean;
     columns: TableColumn[];
-    getSortClass: TableSortClass;
     requestSort: TableSortFunc;
+    requestSortClass: TableSortClass;
     tooltips: boolean;
 }
 
@@ -67,8 +70,8 @@ export interface TableRow {
 
 export interface TableHeaderCell {
     column: TableColumn;
-    getSortClass: TableSortClass;
     requestSort: TableSortFunc;
+    requestSortClass: TableSortClass;
     theme: string;
 }
 
