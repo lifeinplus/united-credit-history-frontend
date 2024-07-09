@@ -1,4 +1,5 @@
 import { disableReactDevTools } from "@fvilers/disable-react-devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -17,6 +18,7 @@ if (process.env.NODE_ENV === "production") {
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement!);
+const queryClient = new QueryClient();
 
 root.render(
     <StrictMode>
@@ -24,11 +26,13 @@ root.render(
             <AuthProvider>
                 <ModalDataProvider>
                     <ThemeProvider>
-                        <BrowserRouter>
-                            <Routes>
-                                <Route path="/*" element={<App />} />
-                            </Routes>
-                        </BrowserRouter>
+                        <QueryClientProvider client={queryClient}>
+                            <BrowserRouter>
+                                <Routes>
+                                    <Route path="/*" element={<App />} />
+                                </Routes>
+                            </BrowserRouter>
+                        </QueryClientProvider>
                     </ThemeProvider>
                 </ModalDataProvider>
             </AuthProvider>

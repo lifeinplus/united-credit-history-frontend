@@ -13,3 +13,27 @@
         }
     }
 }
+
+.uch-page-link {
+    &.dark {
+        --bs-pagination-color: var(--uch-purple-100);
+    }
+
+    &.light {
+        --bs-pagination-color: var(--uch-purple-900);
+    }
+}
+
+.active > .uch-page-link {
+    --bs-pagination-active-bg: transparent;
+
+    &.dark {
+        --bs-pagination-active-border-color: var(--uch-purple-600);
+        --bs-pagination-active-color: var(--uch-purple-600);
+    }
+
+    &.light {
+        --bs-pagination-active-border-color: var(--uch-purple-700);
+        --bs-pagination-active-color: var(--uch-purple-700);
+    }
+}

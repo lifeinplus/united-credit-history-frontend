@@ -36,7 +36,11 @@ const ReportList = () => {
                             <Table
                                 id={"rl"}
                                 columns={columns}
-                                method={"/reports/getAll"}
+                                methodParams={{
+                                    limit: 2,
+                                    url: "reports/getPaginated",
+                                }}
+                                pagination={true}
                                 rowHover={true}
                             />
                         </div>

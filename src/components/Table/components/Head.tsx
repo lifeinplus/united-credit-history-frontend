@@ -9,7 +9,8 @@ import { useTranslation } from "react-i18next";
 
 const Head = forwardRef<HTMLTableSectionElement, TableHead>(
     (props: TableHead, ref) => {
-        const { columns, actions, getSortClass, requestSort, tooltips } = props;
+        const { columns, actions, requestSort, requestSortClass, tooltips } =
+            props;
 
         const theme = useTheme();
         useTooltip(tooltips, columns);
@@ -27,7 +28,7 @@ const Head = forwardRef<HTMLTableSectionElement, TableHead>(
                         <Th
                             key={item.sysName || item.name}
                             column={item}
-                            getSortClass={getSortClass}
+                            requestSortClass={requestSortClass}
                             requestSort={requestSort}
                             theme={theme}
                         />
@@ -39,14 +40,14 @@ const Head = forwardRef<HTMLTableSectionElement, TableHead>(
     }
 );
 
-function Th({ column, getSortClass, requestSort, theme }: TableHeaderCell) {
+function Th({ column, requestSort, requestSortClass, theme }: TableHeaderCell) {
     const { alignment, extended, name, sortable, sysName, tooltipName } =
         column;
 
     const extendedClass =
         extended && (theme === "light" ? "table-info" : "uch-table dark info");
 
-    const sortClass = sortable && getSortClass(sysName);
+    const sortClass = sortable && requestSortClass(sysName);
     const sortThemeClass = sortable && `sortable ${theme}`;
 
     return (

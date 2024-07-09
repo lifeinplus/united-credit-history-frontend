@@ -23,6 +23,10 @@ export interface AuthProps {
     title: string;
 }
 
+export interface RequireAuthProps {
+    allowedRoles: number[];
+}
+
 export interface SubmitCallback {
     (response: AxiosResponse, userName: string): void;
 }

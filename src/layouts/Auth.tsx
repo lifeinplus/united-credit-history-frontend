@@ -5,10 +5,12 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { axiosPrivate } from "../api/axios";
+import { useTheme } from "../contexts";
 import { useInput } from "../hooks";
 import { AuthProps, SubmitHandler } from "../types/Auth";
 
 const Auth = ({ buttonText, question, submit, title }: AuthProps) => {
+    const theme = useTheme();
     const { t } = useTranslation(["auth"]);
     const userNameRef = useRef<HTMLInputElement>(null);
     const [validated, setValidated] = useState(false);
@@ -77,7 +79,12 @@ const Auth = ({ buttonText, question, submit, title }: AuthProps) => {
                 <div className="my-3">
                     <label className="form-label">
                         {question.text}{" "}
-                        <Link to={question.link}>{question.linkText}</Link>
+                        <Link
+                            className={`uch-link ${theme}`}
+                            to={question.link}
+                        >
+                            {question.linkText}
+                        </Link>
                     </label>
                 </div>
                 <button className="btn btn-primary w-100 py-2" type="submit">
