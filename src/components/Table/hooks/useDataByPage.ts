@@ -24,6 +24,8 @@ const useDataByPage = (methodParams: MethodParams, pagination: boolean) => {
         queryKey: [url, page],
         queryFn: () => getReportsByPage(page),
         placeholderData: keepPreviousData,
+        refetchOnWindowFocus: false,
+        retry: false,
     });
 
     if (isError) {
