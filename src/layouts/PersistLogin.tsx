@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
 
 import Spinner from "../components/Spinner";
@@ -7,21 +7,26 @@ import { useRefreshToken } from "../hooks";
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
+    const effectRan = useRef(false);
+
     const { auth } = useAuth();
     const refreshToken = useRefreshToken();
 
     useEffect(() => {
         let isMounted = true;
 
-        if (!auth.accessToken) {
-            refreshToken()
+        const verifyRefreshToken = async () => {
+            if (!effectRan.current) return;
+
+            await refreshToken()
                 .catch((error) => console.error(error))
                 .finally(() => isMounted && setIsLoading(false));
-        } else {
-            setIsLoading(false);
-        }
+        };
+
+        !auth.accessToken ? verifyRefreshToken() : setIsLoading(false);
 
         return () => {
+            effectRan.current = true;
             isMounted = false;
         };
     }, []);
