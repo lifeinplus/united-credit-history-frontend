@@ -14,8 +14,8 @@ const Account = () => {
     return auth?.userName ? <Out /> : <In />;
 
     function Out() {
-        const handleLogout = () => {
-            axiosPrivate("/auth/logout")
+        const handleLogout = async () => {
+            await axiosPrivate("/auth/logout")
                 .then(() => {
                     setAuth({});
                     navigate("/login");

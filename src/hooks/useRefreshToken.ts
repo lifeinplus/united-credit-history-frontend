@@ -5,12 +5,11 @@ const useRefreshToken = () => {
     const { setAuth } = useAuth();
 
     return async () => {
-        const response = await axiosPrivate.get("auth/refreshToken");
-        const { accessToken, roles, userName } = response.data;
+        const { accessToken, roles, userName } = await axiosPrivate
+            .get("auth/refreshToken")
+            .then((response) => response.data);
 
-        setAuth((prev) => {
-            return { ...prev, accessToken, roles, userName };
-        });
+        setAuth((prev) => ({ ...prev, accessToken, roles, userName }));
 
         return accessToken;
     };
