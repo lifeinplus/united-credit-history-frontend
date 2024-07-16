@@ -1,16 +1,16 @@
 import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
-import { useTheme } from "../../../../contexts";
+import { useTheme } from "../../contexts";
 import {
     RequestCountsCard,
     RequestCountsItem,
     RequestCountsProps,
-} from "../../../../types/PersonalData";
+} from "../../types/PersonalData";
 
-import { customFields, scoreStyles } from "./utils";
+import { listFields, scoreStyles } from "./utils";
 
-const RequestCounts = ({ counts, score }: RequestCountsProps) => {
+const RequestCounts = ({ requestCounts: data, score }: RequestCountsProps) => {
     const { t } = useTranslation(["personal_data"]);
     const theme = useTheme();
 
@@ -22,8 +22,8 @@ const RequestCounts = ({ counts, score }: RequestCountsProps) => {
     );
 
     function Card({ title, type }: RequestCountsCard) {
-        const fields = customFields.filter((item) => item.type === type);
-        const values = fields.map(({ sysName }) => counts && counts[sysName]);
+        const fields = listFields.filter((item) => item.type === type);
+        const values = fields.map(({ sysName }) => data && data[sysName]);
 
         const scoreDanger = score && score < 500;
         const microDanger = type === "micro" && values.some((item) => item);
@@ -45,13 +45,13 @@ const RequestCounts = ({ counts, score }: RequestCountsProps) => {
                 >
                     {title}
                 </div>
-                {counts && (
+                {data && (
                     <ul className="list-group list-group-flush">
                         {fields.map(({ sysName }) => {
                             return (
                                 <Item
                                     key={sysName}
-                                    count={counts[sysName]}
+                                    count={data[sysName]}
                                     sysName={sysName}
                                     type={type}
                                 />

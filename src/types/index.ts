@@ -10,8 +10,3 @@ export interface Lang {
     locale: string;
     nativeName: string;
 }
-
-export interface ListField {
-    sysName: string;
-    type: string;
-}

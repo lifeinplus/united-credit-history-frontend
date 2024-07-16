@@ -1,4 +1,4 @@
-import { Common, Report } from "../Report";
+import { Person, ReportFull } from "../Report";
 import {
     RequestCountsCard,
     RequestCountsItem,
@@ -6,8 +6,11 @@ import {
 } from "./RequestCounts";
 
 export interface PersonalDataProps {
-    commons?: Common;
-    report?: Report;
+    data?: ReportFull;
+}
+
+export interface PersonsProps {
+    persons?: Person[];
 }
 
 export interface ScoreStyle {
