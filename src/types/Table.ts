@@ -1,9 +1,9 @@
 import { MouseEvent, RefObject } from "react";
 
-import { Loan, Person, Report } from "./Report";
+import { Loan, Person, ReportRecord } from "./Report";
 import { User } from "./User";
 
-export type TableData = Loan | Person | Report | User;
+export type TableData = Loan | Person | ReportRecord | User;
 
 export interface TableColumn {
     alignment?: string;

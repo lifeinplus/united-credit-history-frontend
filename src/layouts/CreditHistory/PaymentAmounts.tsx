@@ -1,13 +1,13 @@
 import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
-import { useTheme } from "../../../../contexts";
+import { useTheme } from "../../contexts";
 import {
     AmountContextField,
     GroupProps,
     PaymentAmountsProps,
-} from "../../../../types/CreditHistory";
-import { langs } from "../../../../utils";
+} from "../../types/CreditHistory";
+import { langs } from "../../utils";
 
 import { obligationFields, paymentFields } from "./utils";
 
@@ -69,7 +69,7 @@ const PaymentAmounts = ({ data, showExtendedData }: PaymentAmountsProps) => {
                 return {
                     ...item,
                     name: t(`amounts.${sysName}`),
-                    value: numberFormat.format(value || 0),
+                    value: numberFormat.format(Number(value) || 0),
                 };
             });
     }

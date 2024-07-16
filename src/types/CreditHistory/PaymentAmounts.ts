@@ -1,4 +1,4 @@
-import { Common } from "../Report";
+import { Commons } from "../Report";
 
 export interface AmountField {
     sysName: string;
@@ -25,6 +25,6 @@ export interface GroupProps {
 }
 
 export interface PaymentAmountsProps {
-    data?: Common;
+    data?: Commons;
     showExtendedData: boolean;
 }

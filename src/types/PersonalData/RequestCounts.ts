@@ -1,7 +1,7 @@
-import { RequestCount } from "../Report";
+import { RequestCounts } from "../Report";
 
 export interface RequestCountsProps {
-    counts?: RequestCount;
+    requestCounts?: RequestCounts;
     score?: number;
 }
 

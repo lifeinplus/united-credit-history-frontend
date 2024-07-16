@@ -1,30 +1,18 @@
 import classNames from "classnames";
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { FC } from "react";
 
-import { PanelHeader, Table } from "../../components";
+import { PanelHeader } from "../../components";
 import { useTheme } from "../../contexts";
-import { useDataById } from "../../hooks";
 import { PersonalDataProps } from "../../types/PersonalData";
-import { Person, RequestCount } from "../../types/Report";
 
-import RequestCounts from "./components/RequestCounts";
-import { tableColumns } from "./utils";
+import Persons from "./Persons";
+import RequestCounts from "./RequestCounts";
 
-const PersonalData = ({ commons, report }: PersonalDataProps) => {
-    const { reportId } = useParams();
-    const { t } = useTranslation(["personal_data"]);
+const PersonalData: FC<PersonalDataProps> = ({ data }) => {
+    const { appCreationDate, appNumber, commons, persons, requestCounts } =
+        data || {};
+
     const theme = useTheme();
-
-    const requestCounts = useDataById<RequestCount>(
-        "requestCounts/getByReportId",
-        reportId
-    );
-
-    const columns = tableColumns.map((item) => ({
-        ...item,
-        name: t(`document.${item.sysName}`),
-    }));
 
     return (
         <div className="container-fluid mb-3">
@@ -40,32 +28,23 @@ const PersonalData = ({ commons, report }: PersonalDataProps) => {
                         <PanelHeader
                             date={{
                                 caption: "app_creation_date",
-                                value: report?.appCreationDate,
+                                value: appCreationDate,
                             }}
                             iconName={"bi-file-person"}
                             nameSpaces={["personal_data"]}
                             number={{
                                 caption: "app_number",
-                                value: report?.appNumber,
+                                value: appNumber,
                             }}
                         />
                     </div>
                     <div className="row justify-content-center">
                         <div className="col-md-12 col-lg-7 col-xl-8">
-                            <Table
-                                id={"pd"}
-                                columns={columns}
-                                methodParams={{
-                                    options: { reportId },
-                                    url: "persons/getByReportId",
-                                }}
-                                mobileView={true}
-                                textDifference={true}
-                            />
+                            <Persons persons={persons} />
                         </div>
                         <div className="col-md-8 col-lg-5 col-xl-4 mb-sm-3">
                             <RequestCounts
-                                counts={requestCounts}
+                                requestCounts={requestCounts}
                                 score={commons?.score}
                             />
                         </div>

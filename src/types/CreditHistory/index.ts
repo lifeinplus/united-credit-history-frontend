@@ -1,21 +1,26 @@
-import { Common, Report } from "../Report";
 import {
     AmountField,
     AmountContextField,
     GroupProps,
     PaymentAmountsProps,
 } from "./PaymentAmounts";
+import { ReportFull, Loan } from "../Report";
 
 export interface CreditHistoryProps {
-    commons?: Common;
+    data?: ReportFull;
     handleExtend: () => void;
-    report?: Report;
     showExtendedData: boolean;
 }
 
 export interface ExtendControlProps {
     handleExtend?: () => void;
     showExtendedData?: boolean;
+}
+
+export interface LoansProps {
+    loans?: Loan[];
+    reportCreationDate?: string;
+    showExtendedData: boolean;
 }
 
 export { AmountField, AmountContextField, GroupProps, PaymentAmountsProps };

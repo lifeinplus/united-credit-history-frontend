@@ -1,10 +1,11 @@
-import { PaymentHistory } from "../../types/Report";
+import { AmountContextField, AmountField } from "../../types/CreditHistory";
+import { Loan } from "../../types/Report";
 import { TableColumn } from "../../types/Table";
 import { getDateFormat } from "../../utils";
 
 export class TimePeriod {
     constructor(
-        private readonly history: PaymentHistory[],
+        private readonly loans: Loan[],
         private readonly lastDate: string
     ) {}
 
@@ -38,8 +39,8 @@ export class TimePeriod {
     }
 
     #getStartDate() {
-        return this.history?.reduce((result, { date }) => {
-            return result > date ? date : result;
+        return this.loans?.reduce((result, { firstPaymentDate }) => {
+            return result > firstPaymentDate ? firstPaymentDate : result;
         }, this.lastDate);
     }
 
@@ -55,6 +56,66 @@ export class TimePeriod {
             .map((item) => Number(item));
     }
 }
+
+export const obligationFields: AmountField[] = [
+    { sysName: "chbLoansAmount", type: "loan" },
+    { sysName: "chbLoansAmountGbp", country: "gb", hide: true, type: "loan" },
+    { sysName: "chbLoansAmountRub", country: "ru", hide: true, type: "loan" },
+    { sysName: "chbLoansAmountTry", country: "tr", hide: true, type: "loan" },
+    { sysName: "chbCreditCardsAmount", type: "card" },
+    {
+        sysName: "chbCreditCardsAmountGbp",
+        country: "gb",
+        hide: true,
+        type: "card",
+    },
+    {
+        sysName: "chbCreditCardsAmountRub",
+        country: "ru",
+        hide: true,
+        type: "card",
+    },
+    {
+        sysName: "chbCreditCardsAmountTry",
+        country: "tr",
+        hide: true,
+        type: "card",
+    },
+];
+
+export const paymentFields: AmountContextField[] = [
+    { sysName: "chbPaymentsAmount", type: "chb", context: "primary" },
+    { sysName: "chbPaymentsAmountGbp", type: "chb", country: "gb" },
+    { sysName: "chbPaymentsAmountRub", type: "chb", country: "ru" },
+    { sysName: "chbPaymentsAmountTry", type: "chb", country: "tr" },
+    {
+        sysName: "flcPaymentsAmount",
+        type: "flc",
+        extended: true,
+        context: "info",
+    },
+    {
+        sysName: "flcPaymentsAmountGbp",
+        type: "flc",
+        extended: true,
+        country: "gb",
+        hide: true,
+    },
+    {
+        sysName: "flcPaymentsAmountRub",
+        type: "flc",
+        extended: true,
+        country: "ru",
+        hide: true,
+    },
+    {
+        sysName: "flcPaymentsAmountTry",
+        type: "flc",
+        extended: true,
+        country: "tr",
+        hide: true,
+    },
+];
 
 export const tableColumns: TableColumn[] = [
     {
