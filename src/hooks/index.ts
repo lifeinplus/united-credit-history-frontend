@@ -3,7 +3,7 @@ import useDataById from "./useDataById";
 import useDataByIds from "./useDataByIds";
 import useInput from "./useInput";
 import useLocalStorage from "./useLocalStorage";
-import useRefreshToken from "./useRefreshToken";
+import useRefreshAuth from "./useRefreshAuth";
 
 export {
     useAxiosPrivate,
@@ -11,5 +11,5 @@ export {
     useDataByIds,
     useInput,
     useLocalStorage,
-    useRefreshToken,
+    useRefreshAuth,
 };

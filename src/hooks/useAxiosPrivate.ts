@@ -3,11 +3,11 @@ import { useEffect, useRef } from "react";
 import { axiosPrivate } from "../api/axios";
 import { useAuth } from "../contexts";
 
-import useRefreshToken from "./useRefreshToken";
+import useRefreshAuth from "./useRefreshAuth";
 
 const useAxiosPrivate = () => {
     const { auth } = useAuth();
-    const refreshToken = useRefreshToken();
+    const refreshAuth = useRefreshAuth();
     const refreshRan = useRef(false);
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const useAxiosPrivate = () => {
 
                 if (error?.response?.status === 403 && !refreshRan.current) {
                     refreshRan.current = true;
-                    const accessToken = await refreshToken();
+                    const accessToken = await refreshAuth();
                     prevRequest.headers.Authorization = `Bearer ${accessToken}`;
                     return axiosPrivate(prevRequest);
                 }
@@ -43,7 +43,7 @@ const useAxiosPrivate = () => {
             axiosPrivate.interceptors.request.eject(requestIntercept);
             axiosPrivate.interceptors.response.eject(responseIntercept);
         };
-    }, [auth, refreshToken]);
+    }, [auth, refreshAuth]);
 
     return axiosPrivate;
 };

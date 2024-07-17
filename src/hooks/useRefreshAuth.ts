@@ -1,12 +1,12 @@
 import { axiosPrivate } from "../api/axios";
 import { useAuth } from "../contexts";
 
-const useRefreshToken = () => {
+const useRefreshAuth = () => {
     const { setAuth } = useAuth();
 
     return async () => {
         const { accessToken, roles, userName } = await axiosPrivate
-            .get("auth/refreshToken")
+            .get("auth/refresh")
             .then((response) => response.data);
 
         setAuth((prev) => ({ ...prev, accessToken, roles, userName }));
@@ -15,4 +15,4 @@ const useRefreshToken = () => {
     };
 };
 
-export default useRefreshToken;
+export default useRefreshAuth;
