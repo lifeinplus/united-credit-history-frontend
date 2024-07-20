@@ -24,10 +24,8 @@ const Layout = () => {
             <ModalDelete />
             <ModalEdit />
             <Header />
-            <main>
-                <div className="container-fluid">
-                    <Outlet />
-                </div>
+            <main className="container-fluid">
+                <Outlet />
             </main>
             <Footer />
         </>

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { PanelHeader } from "../components";
 import { useTheme } from "../contexts";
+import { LegendProps, TaskProps, TitleProps } from "../types/About";
 
 const About = () => {
     const theme = useTheme();
@@ -33,7 +34,7 @@ const About = () => {
     });
 
     return (
-        <div className="container-fluid mb-3">
+        <section className="container-fluid mb-3">
             <div
                 className={classNames(
                     `row panel ${theme} pt-3 pb-2 rounded-bottom`,
@@ -42,44 +43,44 @@ const About = () => {
                 )}
             >
                 <div className="col">
-                    <div className="row">
-                        <PanelHeader
-                            iconName={"bi-file-text"}
-                            nameSpaces={["about"]}
+                    <PanelHeader
+                        iconName={"bi-file-text"}
+                        nameSpaces={["about"]}
+                    />
+                    <article className="row">
+                        <Title
+                            name={t("definition.title")}
+                            textTheme={textTheme}
                         />
-                    </div>
-                    <Title name={t("definition.title")} textTheme={textTheme} />
-                    <div className="row">
-                        <div className="col">
+                        <div className="col-12">
                             <p className={textTheme}>{t("definition.value")}</p>
                         </div>
-                    </div>
-                    <Title name={t("tasks.title")} textTheme={textTheme} />
-                    <div className="row">
-                        <div className="col">
+                    </article>
+                    <article className="row">
+                        <Title name={t("tasks.title")} textTheme={textTheme} />
+                        <div className="col-12">
                             <Tasks tasks={tasks} textTheme={textTheme} />
                         </div>
-                    </div>
-                    <Title name={t("legend.title")} textTheme={textTheme} />
-                    <div className="row">
-                        <div className="col">
+                    </article>
+                    <article className="row">
+                        <Title name={t("legend.title")} textTheme={textTheme} />
+                        <div className="col-12">
                             <Legend legend={legend} textTheme={textTheme} />
                         </div>
-                    </div>
+                    </article>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 
-type TaskProps = {
-    tasks: Array<{
-        id: string;
-        title: string;
-        text: string;
-    }>;
-    textTheme: string;
-};
+function Title({ name, textTheme }: TitleProps) {
+    return (
+        <header className="col-12 my-2">
+            <h5 className={textTheme}>{name}</h5>
+        </header>
+    );
+}
 
 function Tasks({ tasks, textTheme }: TaskProps) {
     return (
@@ -99,17 +100,6 @@ function Tasks({ tasks, textTheme }: TaskProps) {
         </ol>
     );
 }
-
-type LegendProps = {
-    legend: Array<{
-        id: string;
-        leftBadge: string;
-        leftText: string;
-        rightBadge: string;
-        rightText: string;
-    }>;
-    textTheme: string;
-};
 
 function Legend({ legend, textTheme }: LegendProps) {
     return (
@@ -139,21 +129,6 @@ function Legend({ legend, textTheme }: LegendProps) {
                 </div>
             ))}
         </>
-    );
-}
-
-type TitleProps = {
-    name: string;
-    textTheme: string;
-};
-
-function Title({ name, textTheme }: TitleProps) {
-    return (
-        <div className="row my-2">
-            <div className="col">
-                <h5 className={textTheme}>{name}</h5>
-            </div>
-        </div>
     );
 }
 

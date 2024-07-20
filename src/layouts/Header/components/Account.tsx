@@ -78,20 +78,18 @@ const Account = () => {
 
     function In() {
         return (
-            <div>
-                <button
-                    className={classNames(
-                        "btn",
-                        "btn-outline-primary",
-                        `uch-btn-outline-primary ${theme}`,
-                        "btn-sm"
-                    )}
-                    onClick={() => navigate("/login")}
-                    type="button"
-                >
-                    <i className="bi bi-box-arrow-in-right me-1"></i>
-                </button>
-            </div>
+            <button
+                className={classNames(
+                    "btn",
+                    "btn-outline-primary",
+                    `uch-btn-outline-primary ${theme}`,
+                    "btn-sm"
+                )}
+                onClick={() => navigate("/login")}
+                type="button"
+            >
+                <i className="bi bi-box-arrow-in-right me-1"></i>
+            </button>
         );
     }
 };

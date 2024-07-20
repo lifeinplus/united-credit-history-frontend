@@ -6,7 +6,7 @@ const Unauthorized = () => {
     const textClass = theme === "light" ? "text-dark" : "text-light";
 
     return (
-        <div className="container-fluid">
+        <section className="container-fluid">
             <div
                 className={classNames(
                     `row panel ${theme} pt-3 pb-2 rounded-bottom`,
@@ -18,7 +18,7 @@ const Unauthorized = () => {
                     <h3 className={textClass}>401 Unauthorized</h3>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

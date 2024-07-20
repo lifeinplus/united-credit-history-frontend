@@ -29,7 +29,7 @@ const RequestCounts = ({ requestCounts: data, score }: RequestCountsProps) => {
         const microDanger = type === "micro" && values.some((item) => item);
 
         return (
-            <div
+            <section
                 className={classNames(
                     "card",
                     `uch-text-bg ${theme}`,
@@ -37,14 +37,14 @@ const RequestCounts = ({ requestCounts: data, score }: RequestCountsProps) => {
                     (scoreDanger || microDanger) && "border-danger"
                 )}
             >
-                <div
+                <header
                     className={classNames(
                         "card-header text-center text-truncate",
                         theme === "dark" && "uch-border-dark"
                     )}
                 >
                     {title}
-                </div>
+                </header>
                 {data && (
                     <ul className="list-group list-group-flush">
                         {fields.map(({ sysName }) => {
@@ -60,7 +60,7 @@ const RequestCounts = ({ requestCounts: data, score }: RequestCountsProps) => {
                     </ul>
                 )}
                 {type === "all" && <CardFooter />}
-            </div>
+            </section>
         );
     }
 
@@ -100,7 +100,7 @@ const RequestCounts = ({ requestCounts: data, score }: RequestCountsProps) => {
         });
 
         return (
-            <div className="card-footer text-center">
+            <footer className="card-footer text-center">
                 <li className="list-group-item d-flex justify-content-between align-items-center">
                     <span className="text-truncate">{t("score")}</span>
                     <span
@@ -109,7 +109,7 @@ const RequestCounts = ({ requestCounts: data, score }: RequestCountsProps) => {
                         {score}
                     </span>
                 </li>
-            </div>
+            </footer>
         );
     }
 };

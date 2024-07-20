@@ -16,7 +16,7 @@ const UserList = () => {
     }));
 
     return (
-        <div className="container-fluid mb-3">
+        <section className="container-fluid mb-3">
             <div
                 className={classNames(
                     `row panel ${theme} pt-2 rounded-bottom`,
@@ -25,12 +25,10 @@ const UserList = () => {
                 )}
             >
                 <div className="col">
-                    <div className="row">
-                        <PanelHeader
-                            iconName={"bi bi-people"}
-                            nameSpaces={["user_list"]}
-                        />
-                    </div>
+                    <PanelHeader
+                        iconName={"bi bi-people"}
+                        nameSpaces={["user_list"]}
+                    />
                     <div className="row">
                         <div className="col">
                             <Table
@@ -49,7 +47,7 @@ const UserList = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

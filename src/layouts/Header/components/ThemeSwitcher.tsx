@@ -5,13 +5,11 @@ const ThemeSwitcher = () => {
     const toggleTheme = useThemeUpdate();
 
     return (
-        <div className="me-3">
-            <button
-                type="button"
-                className={`btn btn-sm uch-btn-theme ${theme}`}
-                onClick={toggleTheme}
-            ></button>
-        </div>
+        <button
+            type="button"
+            className={`btn btn-sm uch-btn-theme ${theme}`}
+            onClick={toggleTheme}
+        ></button>
     );
 };
 

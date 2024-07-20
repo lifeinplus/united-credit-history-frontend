@@ -145,9 +145,9 @@ const Body = ({
             const key = `${id}-span${index}`;
 
             return spanText ? (
-                <span key={key} className={"uch-badge diff uch-text-bg-A"}>
+                <mark key={key} className={"uch-badge diff uch-text-bg-A"}>
                     {spanText}
-                </span>
+                </mark>
             ) : (
                 text
             );

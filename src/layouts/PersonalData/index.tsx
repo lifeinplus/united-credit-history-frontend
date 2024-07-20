@@ -15,7 +15,7 @@ const PersonalData: FC<PersonalDataProps> = ({ data }) => {
     const theme = useTheme();
 
     return (
-        <div className="container-fluid mb-3">
+        <section className="container-fluid mb-3">
             <div
                 className={classNames(
                     `row panel ${theme} pt-2 rounded-bottom`,
@@ -24,20 +24,18 @@ const PersonalData: FC<PersonalDataProps> = ({ data }) => {
                 )}
             >
                 <div className="col">
-                    <div className="row">
-                        <PanelHeader
-                            date={{
-                                caption: "app_creation_date",
-                                value: appCreationDate,
-                            }}
-                            iconName={"bi-file-person"}
-                            nameSpaces={["personal_data"]}
-                            number={{
-                                caption: "app_number",
-                                value: appNumber,
-                            }}
-                        />
-                    </div>
+                    <PanelHeader
+                        date={{
+                            caption: "app_creation_date",
+                            value: appCreationDate,
+                        }}
+                        iconName={"bi-file-person"}
+                        nameSpaces={["personal_data"]}
+                        number={{
+                            caption: "app_number",
+                            value: appNumber,
+                        }}
+                    />
                     <div className="row justify-content-center">
                         <div className="col-md-12 col-lg-7 col-xl-8">
                             <Persons persons={persons} />
@@ -51,7 +49,7 @@ const PersonalData: FC<PersonalDataProps> = ({ data }) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 
