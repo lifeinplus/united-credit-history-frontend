@@ -16,33 +16,31 @@ const Pagination = ({
         .map((_, index) => index + 1);
 
     return (
-        <div>
-            <nav aria-label="Pages">
-                <ul className="pagination justify-content-end">
+        <nav aria-label="Pages">
+            <ul className="pagination justify-content-end">
+                <PageItem
+                    disabled={isPlaceholderData || page === 1}
+                    page={page - 1}
+                    pageText={"<"}
+                    setPage={setPage}
+                />
+                {pagesArray.map((item) => (
                     <PageItem
-                        disabled={isPlaceholderData || page === 1}
-                        page={page - 1}
-                        pageText={"<"}
+                        key={item}
+                        active={item === page}
+                        disabled={isPlaceholderData}
+                        page={item}
                         setPage={setPage}
                     />
-                    {pagesArray.map((item) => (
-                        <PageItem
-                            key={item}
-                            active={item === page}
-                            disabled={isPlaceholderData}
-                            page={item}
-                            setPage={setPage}
-                        />
-                    ))}
-                    <PageItem
-                        disabled={isPlaceholderData || page === totalPages}
-                        page={page + 1}
-                        pageText={">"}
-                        setPage={setPage}
-                    />
-                </ul>
-            </nav>
-        </div>
+                ))}
+                <PageItem
+                    disabled={isPlaceholderData || page === totalPages}
+                    page={page + 1}
+                    pageText={">"}
+                    setPage={setPage}
+                />
+            </ul>
+        </nav>
     );
 
     function PageItem({

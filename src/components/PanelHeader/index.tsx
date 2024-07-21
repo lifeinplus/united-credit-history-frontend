@@ -23,40 +23,42 @@ const PanelHeader = ({
     const headerDate = date && date.value && getHeaderDate(date.value);
 
     return (
-        <nav className="navbar" data-bs-theme={`${theme}`}>
-            <div className="container-fluid">
-                <a className="navbar-brand">
-                    <i className={`bi ${iconName} me-2`}></i>
-                    {t("title")}
-                </a>
-                {handleExtend && (
-                    <ul className="navbar-nav me-auto">
-                        <li className="nav-item">
-                            <ExtendControl
-                                handleExtend={handleExtend}
-                                showExtendedData={showExtendedData}
-                            />
-                        </li>
-                    </ul>
-                )}
-                <form className="d-flex">
-                    <span className="navbar-text">
-                        {number && (
-                            <HeaderField
-                                caption={number.caption}
-                                value={number.value}
-                            />
-                        )}
-                        {date && (
-                            <HeaderField
-                                caption={date.caption}
-                                value={headerDate}
-                            />
-                        )}
-                    </span>
-                </form>
-            </div>
-        </nav>
+        <header className="row">
+            <nav className="navbar" data-bs-theme={`${theme}`}>
+                <div className="container-fluid">
+                    <a className="navbar-brand">
+                        <i className={`bi ${iconName} me-2`}></i>
+                        {t("title")}
+                    </a>
+                    {handleExtend && (
+                        <ul className="navbar-nav me-auto">
+                            <li className="nav-item">
+                                <ExtendControl
+                                    handleExtend={handleExtend}
+                                    showExtendedData={showExtendedData}
+                                />
+                            </li>
+                        </ul>
+                    )}
+                    <form className="d-flex">
+                        <span className="navbar-text">
+                            {number && (
+                                <HeaderField
+                                    caption={number.caption}
+                                    value={number.value}
+                                />
+                            )}
+                            {date && (
+                                <HeaderField
+                                    caption={date.caption}
+                                    value={headerDate}
+                                />
+                            )}
+                        </span>
+                    </form>
+                </div>
+            </nav>
+        </header>
     );
 
     function HeaderField({ caption, value }: PanelHeaderFieldProps) {

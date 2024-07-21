@@ -16,7 +16,7 @@ const ReportList = () => {
     }));
 
     return (
-        <div className="container-fluid mb-3">
+        <section className="container-fluid mb-3">
             <div
                 className={classNames(
                     `row panel ${theme} pt-2 rounded-bottom`,
@@ -25,12 +25,10 @@ const ReportList = () => {
                 )}
             >
                 <div className="col">
-                    <div className="row">
-                        <PanelHeader
-                            iconName={"bi-card-list"}
-                            nameSpaces={["report_list"]}
-                        />
-                    </div>
+                    <PanelHeader
+                        iconName={"bi-card-list"}
+                        nameSpaces={["report_list"]}
+                    />
                     <div className="row">
                         <div className="col">
                             <Table
@@ -47,7 +45,7 @@ const ReportList = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

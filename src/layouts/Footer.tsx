@@ -9,9 +9,9 @@ const Footer = () => {
     return (
         <footer className={`footer flex-wrap bg-${theme} mt-auto py-2`}>
             <div className="container-fluid d-flex align-items-center">
-                <span className="col-5 text-secondary">
-                    v4.5.1 © 2024 Artem Denisov
-                </span>
+                <p className="col-5 text-secondary m-0">
+                    v4.5.2 © 2024 Artem Denisov
+                </p>
                 <NavLink
                     className="col-2 d-flex justify-content-center"
                     reloadDocument

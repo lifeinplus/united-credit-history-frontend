@@ -17,7 +17,7 @@ const CreditHistory: FC<CreditHistoryProps> = ({
     const theme = useTheme();
 
     return (
-        <div className="container-fluid mb-3">
+        <section className="container-fluid mb-3">
             <div
                 className={classNames(
                     `row panel ${theme} rounded`,
@@ -26,22 +26,20 @@ const CreditHistory: FC<CreditHistoryProps> = ({
                 )}
             >
                 <div className="col">
-                    <div className="row">
-                        <PanelHeader
-                            date={{
-                                caption: "report_date",
-                                value: reportCreationDate,
-                            }}
-                            handleExtend={handleExtend}
-                            iconName={"bi-credit-card-2-front"}
-                            nameSpaces={["credit_history"]}
-                            number={{
-                                caption: "number_of_accounts",
-                                value: String(loans?.length),
-                            }}
-                            showExtendedData={showExtendedData}
-                        />
-                    </div>
+                    <PanelHeader
+                        date={{
+                            caption: "report_date",
+                            value: reportCreationDate,
+                        }}
+                        handleExtend={handleExtend}
+                        iconName={"bi-credit-card-2-front"}
+                        nameSpaces={["credit_history"]}
+                        number={{
+                            caption: "number_of_accounts",
+                            value: String(loans?.length),
+                        }}
+                        showExtendedData={showExtendedData}
+                    />
                     <PaymentAmounts
                         data={commons}
                         showExtendedData={showExtendedData}
@@ -57,7 +55,7 @@ const CreditHistory: FC<CreditHistoryProps> = ({
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

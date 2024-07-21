@@ -100,12 +100,14 @@ const Table = ({
                 </table>
             </div>
             {pagination && (
-                <Pagination
-                    isPlaceholderData={isPlaceholderData}
-                    page={page}
-                    setPage={setPage}
-                    totalPages={totalPages}
-                />
+                <footer>
+                    <Pagination
+                        isPlaceholderData={isPlaceholderData}
+                        page={page}
+                        setPage={setPage}
+                        totalPages={totalPages}
+                    />
+                </footer>
             )}
         </>
     );

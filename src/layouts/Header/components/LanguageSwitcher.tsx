@@ -14,7 +14,7 @@ const LanguageSwitcher = () => {
     const theme = useTheme();
 
     return (
-        <div className="dropdown me-2">
+        <div className="dropdown">
             <button
                 className={classNames(
                     "btn",
@@ -27,7 +27,7 @@ const LanguageSwitcher = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
             >
-                <span className={`fi fi-${countryCode} me-2`}></span>
+                <figure className={`fi fi-${countryCode} mb-0 me-2`}></figure>
                 {nativeName}
             </button>
             <ul
@@ -46,9 +46,9 @@ const LanguageSwitcher = () => {
                                 onClick={() => changeLanguage(key)}
                                 type="button"
                             >
-                                <span
-                                    className={`fi fi-${countryCode} me-2`}
-                                ></span>
+                                <figure
+                                    className={`fi fi-${countryCode} mb-0 me-2`}
+                                ></figure>
                                 {nativeName}
                             </button>
                         </li>

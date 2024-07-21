@@ -34,14 +34,14 @@ const Header = () => {
                         reloadDocument
                         to="/"
                     >
-                        <span className="f-w-5 d-block me-2">
+                        <figure className="d-block mb-0 me-2 f-w-5">
                             <img
                                 alt="logo_color"
                                 className="w-100 align-text-top"
                                 src="/logo_color.png"
                             />
-                        </span>
-                        <span>{t("title")}</span>
+                        </figure>
+                        {t("title")}
                     </NavLink>
                     <button
                         className="navbar-toggler"
@@ -58,7 +58,7 @@ const Header = () => {
                         className="collapse navbar-collapse justify-content-end"
                         id="navbarSupportedContent"
                     >
-                        <form className="d-flex">
+                        <form className="d-flex gap-2">
                             <ThemeSwitcher />
                             <LanguageSwitcher />
                             <Account />

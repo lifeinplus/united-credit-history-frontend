@@ -18,7 +18,7 @@ const ScrollButtons = ({
     return (
         <>
             {wrapperRef.current && (
-                <div
+                <aside
                     className={`btn-group btn-group-sm uch-btn-group-scroll ${theme}`}
                     role="group"
                 >
@@ -34,7 +34,7 @@ const ScrollButtons = ({
                             <i className={`bi ${icon}`}></i>
                         </button>
                     ))}
-                </div>
+                </aside>
             )}
         </>
     );

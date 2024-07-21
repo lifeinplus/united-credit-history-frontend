@@ -76,17 +76,12 @@ const Auth = ({ buttonText, question, submit, title }: AuthProps) => {
                     />
                     <label htmlFor="floatingPassword">{t("password")}</label>
                 </div>
-                <div className="my-3">
-                    <label className="form-label">
-                        {question.text}{" "}
-                        <Link
-                            className={`uch-link ${theme}`}
-                            to={question.link}
-                        >
-                            {question.linkText}
-                        </Link>
-                    </label>
-                </div>
+                <label className="form-label my-3">
+                    {question.text}{" "}
+                    <Link className={`uch-link ${theme}`} to={question.link}>
+                        {question.linkText}
+                    </Link>
+                </label>
                 <button className="btn btn-primary w-100 py-2" type="submit">
                     {buttonText}
                 </button>
