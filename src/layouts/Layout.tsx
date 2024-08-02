@@ -2,13 +2,13 @@ import { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
 
 import { ModalDelete, ModalEdit } from "../components";
-import { useTheme } from "../contexts";
+import { useTheme } from "../hooks";
 
 import Footer from "./Footer";
 import Header from "./Header";
 
 const Layout = () => {
-    const theme = useTheme();
+    const { theme } = useTheme();
 
     return (
         <>

@@ -2,12 +2,12 @@ import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
 import { PanelHeader, Table } from "../../components";
-import { useTheme } from "../../contexts";
+import { useTheme } from "../../hooks";
 
 import { tableColumns } from "./utils";
 
 const UserList = () => {
-    const theme = useTheme();
+    const { theme } = useTheme();
     const { t } = useTranslation(["user_list"]);
 
     const columns = tableColumns.map((item) => ({

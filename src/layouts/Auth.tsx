@@ -5,12 +5,11 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import { axiosPrivate } from "../api/axios";
-import { useTheme } from "../contexts";
-import { useInput } from "../hooks";
+import { useInput, useTheme } from "../hooks";
 import { AuthProps, SubmitHandler } from "../types/Auth";
 
 const Auth = ({ buttonText, question, submit, title }: AuthProps) => {
-    const theme = useTheme();
+    const { theme } = useTheme();
     const { t } = useTranslation(["auth"]);
     const userNameRef = useRef<HTMLInputElement>(null);
     const [validated, setValidated] = useState(false);

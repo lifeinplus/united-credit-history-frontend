@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 
-import { useTheme } from "../../contexts";
+import { useTheme } from "../../hooks";
 
 import Account from "./components/Account";
 import LanguageSwitcher from "./components/LanguageSwitcher";
@@ -11,7 +11,7 @@ import ThemeSwitcher from "./components/ThemeSwitcher";
 
 const Header = () => {
     const { t } = useTranslation(["header"]);
-    const theme = useTheme();
+    const { theme } = useTheme();
 
     useEffect(() => {
         document.title = t("title");

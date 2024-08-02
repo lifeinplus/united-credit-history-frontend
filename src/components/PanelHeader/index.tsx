@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { useTheme } from "../../contexts";
+import { useTheme } from "../../hooks";
 import {
     PanelHeaderProps,
     PanelHeaderFieldProps,
@@ -18,7 +18,7 @@ const PanelHeader = ({
     showExtendedData,
 }: PanelHeaderProps) => {
     const { i18n, t } = useTranslation(nameSpaces);
-    const theme = useTheme();
+    const { theme } = useTheme();
 
     const headerDate = date && date.value && getHeaderDate(date.value);
 

@@ -1,7 +1,8 @@
 import classNames from "classnames";
 import { useEffect } from "react";
 
-import { useModalData, useTheme } from "../../contexts";
+import { useModalData } from "../../contexts";
+import { useTheme } from "../../hooks";
 import { Table } from "../../types/Table";
 
 import { Body, Head, Pagination, ScrollButtons } from "./components";
@@ -23,7 +24,7 @@ const Table = ({
     textDifference = false,
     tooltips = false,
 }: Table) => {
-    const theme = useTheme();
+    const { theme } = useTheme();
 
     const {
         requestSortClass,

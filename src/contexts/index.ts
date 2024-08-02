@@ -1,6 +1,6 @@
 import AuthProvider, { useAuth } from "./AuthProvider";
 import ModalDataProvider, { useModalData } from "./ModalDataProvider";
-import ThemeProvider, { useTheme, useThemeUpdate } from "./ThemeProvider";
+import ThemeProvider from "./ThemeProvider";
 
 export {
     AuthProvider,
@@ -8,6 +8,4 @@ export {
     ModalDataProvider,
     useModalData,
     ThemeProvider,
-    useTheme,
-    useThemeUpdate,
 };

@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
-import { useTheme } from "../../contexts";
+import { useTheme } from "../../hooks";
 import {
     AmountContextField,
     GroupProps,
@@ -75,7 +75,7 @@ const PaymentAmounts = ({ data, showExtendedData }: PaymentAmountsProps) => {
     }
 
     function Group({ amounts, justify }: GroupProps) {
-        const theme = useTheme();
+        const { theme } = useTheme();
 
         return (
             <ul

@@ -1,31 +1,53 @@
-import {
-    PropsWithChildren,
-    createContext,
-    useContext,
-    useEffect,
-    useState,
-} from "react";
+import { PropsWithChildren, createContext, useEffect, useReducer } from "react";
 
-const ThemeContext = createContext("light");
-const ThemeUpdateContext = createContext(() => {});
-
-export function useTheme() {
-    return useContext(ThemeContext);
+interface InitState {
+    theme: string;
 }
 
-export function useThemeUpdate() {
-    return useContext(ThemeUpdateContext);
+const initState: InitState = {
+    theme: localStorage.getItem("theme") || "light",
+};
+
+const enum REDUCER_ACTION_KIND {
+    TOGGLE_THEME,
 }
 
-const ThemeProvider = ({ children }: PropsWithChildren<{}>) => {
-    const [theme, setTheme] = useState(
-        localStorage.getItem("theme") || "light"
-    );
+interface ReducerAction {
+    type: REDUCER_ACTION_KIND;
+}
+
+const themeReducer = (state: InitState, action: ReducerAction): InitState => {
+    switch (action.type) {
+        case REDUCER_ACTION_KIND.TOGGLE_THEME:
+            return {
+                ...state,
+                theme: state.theme === "light" ? "dark" : "light",
+            };
+        default:
+            throw new Error("Unknown reducer action: " + action.type);
+    }
+};
+
+const useThemeContext = () => {
+    const [state, dispatch] = useReducer(themeReducer, initState);
 
     const toggleTheme = () => {
-        const newTheme = theme === "light" ? "dark" : "light";
-        setTheme(newTheme);
+        return dispatch({ type: REDUCER_ACTION_KIND.TOGGLE_THEME });
     };
+
+    return { state, toggleTheme };
+};
+
+type ThemeContextType = ReturnType<typeof useThemeContext>;
+
+export const ThemeContext = createContext<ThemeContextType>({
+    state: initState,
+    toggleTheme: () => {},
+});
+
+const ThemeProvider = ({ children }: PropsWithChildren) => {
+    const themeContext = useThemeContext();
+    const { theme } = themeContext.state;
 
     useEffect(() => {
         localStorage.setItem("theme", theme);
@@ -34,10 +56,8 @@ const ThemeProvider = ({ children }: PropsWithChildren<{}>) => {
     }, [theme]);
 
     return (
-        <ThemeContext.Provider value={theme}>
-            <ThemeUpdateContext.Provider value={toggleTheme}>
-                {children}
-            </ThemeUpdateContext.Provider>
+        <ThemeContext.Provider value={themeContext}>
+            {children}
         </ThemeContext.Provider>
     );
 };

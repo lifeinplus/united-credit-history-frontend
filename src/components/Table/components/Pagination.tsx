@@ -1,6 +1,6 @@
 import classNames from "classnames";
 
-import { useTheme } from "../../../contexts";
+import { useTheme } from "../../../hooks";
 import { PageItemProps, PaginationProps } from "../../../types/Pagination";
 
 const Pagination = ({
@@ -9,7 +9,7 @@ const Pagination = ({
     setPage,
     totalPages,
 }: PaginationProps) => {
-    const theme = useTheme();
+    const { theme } = useTheme();
 
     const pagesArray = Array(totalPages)
         .fill(undefined)

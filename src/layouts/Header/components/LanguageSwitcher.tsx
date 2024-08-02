@@ -2,7 +2,7 @@ import "/node_modules/flag-icons/css/flag-icons.min.css";
 import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
-import { useTheme } from "../../../contexts";
+import { useTheme } from "../../../hooks";
 import { langs } from "../../../utils";
 
 const LanguageSwitcher = () => {
@@ -11,7 +11,7 @@ const LanguageSwitcher = () => {
     const { countryCode, nativeName } = langs[resolvedLanguage ?? "en"];
     const keys = Object.keys(langs).filter((key) => key !== resolvedLanguage);
 
-    const theme = useTheme();
+    const { theme } = useTheme();
 
     return (
         <div className="dropdown">

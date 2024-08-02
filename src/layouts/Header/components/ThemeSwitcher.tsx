@@ -1,8 +1,7 @@
-import { useTheme, useThemeUpdate } from "../../../contexts";
+import { useTheme } from "../../../hooks";
 
 const ThemeSwitcher = () => {
-    const theme = useTheme();
-    const toggleTheme = useThemeUpdate();
+    const { theme, toggleTheme } = useTheme();
 
     return (
         <button
