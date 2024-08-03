@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { forwardRef } from "react";
 
-import { useTheme } from "../../../contexts";
+import { useTheme } from "../../../hooks";
 import { TableHead, TableHeaderCell } from "../../../types/Table";
 
 import { useTooltip } from "../hooks";
@@ -12,7 +12,7 @@ const Head = forwardRef<HTMLTableSectionElement, TableHead>(
         const { columns, actions, requestSort, requestSortClass, tooltips } =
             props;
 
-        const theme = useTheme();
+        const { theme } = useTheme();
         useTooltip(tooltips, columns);
 
         return (

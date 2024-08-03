@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { FC } from "react";
 
 import { PanelHeader } from "../../components";
-import { useTheme } from "../../contexts";
+import { useTheme } from "../../hooks";
 import { CreditHistoryProps } from "../../types/CreditHistory";
 
 import Loans from "./Loans";
@@ -14,7 +14,7 @@ const CreditHistory: FC<CreditHistoryProps> = ({
     showExtendedData,
 }) => {
     const { commons, loans, reportCreationDate } = data || {};
-    const theme = useTheme();
+    const { theme } = useTheme();
 
     return (
         <section className="container-fluid mb-3">

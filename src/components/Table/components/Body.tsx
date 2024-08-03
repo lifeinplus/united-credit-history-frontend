@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import { useModalData, useTheme } from "../../../contexts";
+import { useModalData } from "../../../contexts";
+import { useTheme } from "../../../hooks";
 import {
     TableBody,
     TableDataCell,
@@ -21,7 +22,7 @@ const Body = ({
     rowActive,
     textDifference,
 }: TableBody) => {
-    const theme = useTheme();
+    const { theme } = useTheme();
     const { modalData, setModalData } = useModalData();
     const [activeRowId, setActiveRowId] = useState<string | undefined>(
         undefined

@@ -1,4 +1,4 @@
-import { useTheme } from "../../../contexts";
+import { useTheme } from "../../../hooks";
 import { TableScrollButtons } from "../../../types/Table";
 
 const ScrollButtons = ({
@@ -6,7 +6,7 @@ const ScrollButtons = ({
     handleScroll,
     wrapperRef,
 }: TableScrollButtons) => {
-    const theme = useTheme();
+    const { theme } = useTheme();
 
     const buttons = [
         { id: "btnStart", ref: "btnStartRef", icon: "bi-chevron-bar-left" },

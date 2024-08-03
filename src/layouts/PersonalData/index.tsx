@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { FC } from "react";
 
 import { PanelHeader } from "../../components";
-import { useTheme } from "../../contexts";
+import { useTheme } from "../../hooks";
 import { PersonalDataProps } from "../../types/PersonalData";
 
 import Persons from "./Persons";
@@ -12,7 +12,7 @@ const PersonalData: FC<PersonalDataProps> = ({ data }) => {
     const { appCreationDate, appNumber, commons, persons, requestCounts } =
         data || {};
 
-    const theme = useTheme();
+    const { theme } = useTheme();
 
     return (
         <section className="container-fluid mb-3">

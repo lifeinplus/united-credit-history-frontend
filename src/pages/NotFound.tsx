@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import { useTheme } from "../contexts";
+import { useTheme } from "../hooks";
 
 const NotFound = () => {
-    const theme = useTheme();
+    const { theme } = useTheme();
     const textClass = theme === "light" ? "text-dark" : "text-light";
 
     return (

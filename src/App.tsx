@@ -3,9 +3,8 @@ import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 import Cookies from "universal-cookie";
 
-import { useThemeUpdate } from "./contexts";
+import { useTheme } from "./hooks";
 import { Layout, PersistLogin, RequireAuth } from "./layouts";
-
 import {
     About,
     Login,
@@ -16,12 +15,11 @@ import {
     Unauthorized,
     Users,
 } from "./pages";
-
 import { langs } from "./utils";
 
 const App = () => {
     const { i18n } = useTranslation();
-    const toggleTheme = useThemeUpdate();
+    const { toggleTheme } = useTheme();
 
     const cookies = new Cookies();
     const extended_data = cookies.get("extended_data") || "no";
