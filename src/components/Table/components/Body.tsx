@@ -3,8 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import { useModalData } from "../../../contexts";
-import { useTheme } from "../../../hooks";
+import { useModal, useTheme } from "../../../hooks";
 import {
     TableBody,
     TableDataCell,
@@ -13,6 +12,9 @@ import {
     TableRow,
 } from "../../../types/Table";
 import { getDateFormat, langs } from "../../../utils";
+
+import ModalEdit from "../../Modal/ModalEdit";
+import ModalDelete from "../../Modal/ModalDelete";
 
 const Body = ({
     actions,
@@ -23,7 +25,7 @@ const Body = ({
     textDifference,
 }: TableBody) => {
     const { theme } = useTheme();
-    const { modalData, setModalData } = useModalData();
+    const { showModalEdit, showModalDelete } = useModal();
     const [activeRowId, setActiveRowId] = useState<string | undefined>(
         undefined
     );
@@ -44,11 +46,15 @@ const Body = ({
     };
 
     return (
-        <tbody>
-            {data?.map((element) => (
-                <Row key={element._id} data={element} />
-            ))}
-        </tbody>
+        <>
+            <ModalEdit />
+            <ModalDelete />
+            <tbody>
+                {data?.map((element) => (
+                    <Row key={element._id} data={element} />
+                ))}
+            </tbody>
+        </>
     );
 
     function Row({ data }: TableRow) {
@@ -114,9 +120,7 @@ const Body = ({
                             `uch-btn-outline-primary ${theme}`,
                             "btn-sm"
                         )}
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalEdit"
-                        onClick={() => setModalData(data)}
+                        onClick={() => showModalEdit(data)}
                         type="button"
                     >
                         <i className="bi bi-pencil-square"></i>
@@ -128,9 +132,7 @@ const Body = ({
                             `uch-btn-outline-primary ${theme}`,
                             "btn-sm"
                         )}
-                        onClick={() => setModalData(data)}
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalDelete"
+                        onClick={() => showModalDelete(data)}
                         type="button"
                     >
                         <i className="bi bi-trash"></i>

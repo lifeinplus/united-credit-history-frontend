@@ -21,8 +21,6 @@ const Layout = () => {
                     },
                 }}
             />
-            <ModalDelete />
-            <ModalEdit />
             <Header />
             <main className="container-fluid">
                 <Outlet />

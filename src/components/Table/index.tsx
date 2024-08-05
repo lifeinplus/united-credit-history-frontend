@@ -1,8 +1,7 @@
 import classNames from "classnames";
 import { useEffect } from "react";
 
-import { useModalData } from "../../contexts";
-import { useTheme } from "../../hooks";
+import { useModal, useTheme } from "../../hooks";
 import { Table } from "../../types/Table";
 
 import { Body, Head, Pagination, ScrollButtons } from "./components";
@@ -38,12 +37,11 @@ const Table = ({
         totalPages,
     } = useTableData(methodParams, pagination, rowActive, sorting, data);
 
-    const { modalData, setModalData } = useModalData();
-    const { closingRefresh } = modalData;
+    const { closingRefresh, setClosingRefresh } = useModal();
 
     useEffect(() => {
-        if (closingRefresh === "yes") {
-            setModalData((prev) => ({ ...prev, closingRefresh: "no" }));
+        if (closingRefresh) {
+            setClosingRefresh(false);
             pagination ? refetch() : requestRefresh();
         }
     }, [closingRefresh]);
