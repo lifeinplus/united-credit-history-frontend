@@ -1,11 +1,6 @@
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 
-import {
-    MethodParams,
-    TableData,
-    TableSortClass,
-    TableSortConfig,
-} from "../../../types/Table";
+import { MethodParams, TableData, TableSortConfig } from "../../../types/Table";
 
 import {
     useData,
@@ -17,8 +12,8 @@ import {
 
 const useTableData = (
     methodParams: MethodParams,
-    pagination: boolean,
-    rowActive: boolean,
+    isPagination: boolean,
+    isRowActive: boolean,
     sorting: TableSortConfig,
     data?: TableData[]
 ) => {
@@ -31,8 +26,8 @@ const useTableData = (
     const { options } = methodParams;
 
     const [methodData, requestRefresh] = options
-        ? useDataByParams(methodParams, pagination)
-        : useData(methodParams, pagination);
+        ? useDataByParams(methodParams, isPagination)
+        : useData(methodParams, isPagination);
 
     useEffect(() => {
         setTableData(methodData);
@@ -45,24 +40,16 @@ const useTableData = (
         refetch,
         setPage,
         totalPages,
-    } = useDataByPage(methodParams, pagination);
+    } = useDataByPage(methodParams, isPagination);
 
     useEffect(() => {
         setTableData(dataByPage);
     }, [dataByPage]);
 
-    const rowActiveData = useRowActive(rowActive, tableData);
+    const rowActiveData = useRowActive(isRowActive, tableData);
 
-    const [sortedData, requestSort, sortConfig] = useSortableData(
-        rowActiveData,
-        sorting
-    );
-
-    const requestSortClass: TableSortClass = (sysName) => {
-        return sortConfig && sortConfig.sysName === sysName
-            ? sortConfig.direction
-            : undefined;
-    };
+    const [sortedData, requestSort, sortDirection, sortSysName] =
+        useSortableData(rowActiveData, sorting);
 
     return {
         isPlaceholderData,
@@ -70,9 +57,10 @@ const useTableData = (
         refetch,
         requestRefresh,
         requestSort,
-        requestSortClass,
         setPage,
         setTableData,
+        sortDirection,
+        sortSysName,
         tableData: sortedData,
         totalPages,
     };

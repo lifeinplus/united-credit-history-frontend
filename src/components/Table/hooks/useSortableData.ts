@@ -64,7 +64,12 @@ const useSortableData = (data: TableData[] = [], config: TableSortConfig) => {
         setSortConfig({ ...column, direction });
     };
 
-    return [sortedData, requestSort, sortConfig] as const;
+    return [
+        sortedData,
+        requestSort,
+        sortConfig.direction,
+        sortConfig.sysName,
+    ] as const;
 };
 
 function getCompareFunction(type: string) {

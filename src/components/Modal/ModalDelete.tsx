@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
@@ -44,4 +45,4 @@ const ModalDelete = () => {
     );
 };
 
-export default ModalDelete;
+export default memo(ModalDelete);

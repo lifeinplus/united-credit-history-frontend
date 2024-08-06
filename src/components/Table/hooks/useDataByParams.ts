@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAxiosPrivate } from "../../../hooks";
 import { MethodParams, TableData } from "../../../types/Table";
 
-const useDataByParams = (methodParams: MethodParams, pagination: boolean) => {
+const useDataByParams = (methodParams: MethodParams, isPagination: boolean) => {
     const [data, setData] = useState<TableData[]>();
     const [refresh, setRefresh] = useState(false);
 
@@ -20,7 +20,7 @@ const useDataByParams = (methodParams: MethodParams, pagination: boolean) => {
         const controller = new AbortController();
 
         if (
-            !pagination &&
+            !isPagination &&
             url &&
             options?.reportId &&
             effectRan.current === true

@@ -7,7 +7,7 @@ import {
 } from "../../types/PanelHeader";
 import { getDateFormat, langs } from "../../utils";
 
-import ExtendControl from "./components/ExtendControl";
+import ExtendControl from "./ExtendControl";
 
 const PanelHeader = ({
     date,

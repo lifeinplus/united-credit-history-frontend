@@ -21,16 +21,16 @@ const Loans: FC<LoansProps> = ({
             id={"ch"}
             columns={columns}
             data={loans}
-            rowActive={true}
-            rowHover={true}
-            scrolling={true}
+            isRowActive={true}
+            isRowHover={true}
+            isScrolling={true}
             sorting={{
                 dataType: "amount",
                 sysName: "chbPayment",
                 sysNameStatus: "chbPaymentStatus",
             }}
-            stickyHeader={true}
-            tooltips={true}
+            isStickyHeader={true}
+            isTooltips={true}
         />
     );
 

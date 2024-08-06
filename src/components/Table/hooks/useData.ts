@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAxiosPrivate } from "../../../hooks";
 import { MethodParams, TableData } from "../../../types/Table";
 
-const useData = (methodParams: MethodParams, pagination: boolean) => {
+const useData = (methodParams: MethodParams, isPagination: boolean) => {
     const [data, setData] = useState<TableData[]>();
     const [refresh, setRefresh] = useState(false);
 
@@ -19,7 +19,7 @@ const useData = (methodParams: MethodParams, pagination: boolean) => {
         const { url } = methodParams;
         let isMounted = true;
 
-        if (!pagination && url && effectRan.current) {
+        if (!isPagination && url && effectRan.current) {
             axiosPrivate
                 .get(url, {
                     signal: controller.signal,

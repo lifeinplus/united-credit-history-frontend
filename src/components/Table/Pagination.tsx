@@ -1,7 +1,8 @@
 import classNames from "classnames";
 
-import { useTheme } from "../../../hooks";
-import { PageItemProps, PaginationProps } from "../../../types/Pagination";
+import { useTheme } from "../../hooks";
+import { PageItemProps, PaginationProps } from "../../types/Pagination";
+import { memo } from "react";
 
 const Pagination = ({
     isPlaceholderData,
@@ -72,4 +73,25 @@ const Pagination = ({
     }
 };
 
-export default Pagination;
+function propsAreEqual(
+    {
+        isPlaceholderData: prevIsPlaceholderData,
+        page: prevPage,
+        totalPages: prevTotalPages,
+    }: Readonly<PaginationProps>,
+    {
+        isPlaceholderData: nextIsPlaceholderData,
+        page: nextPage,
+        totalPages: nextTotalPages,
+    }: Readonly<PaginationProps>
+): boolean {
+    return (
+        prevIsPlaceholderData === nextIsPlaceholderData &&
+        prevPage === nextPage &&
+        prevTotalPages === nextTotalPages
+    );
+}
+
+const MemoizedPagination = memo(Pagination, propsAreEqual);
+
+export default MemoizedPagination;

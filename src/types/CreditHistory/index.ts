@@ -12,11 +12,6 @@ export interface CreditHistoryProps {
     showExtendedData: boolean;
 }
 
-export interface ExtendControlProps {
-    handleExtend?: () => void;
-    showExtendedData?: boolean;
-}
-
 export interface LoansProps {
     loans?: Loan[];
     reportCreationDate?: string;

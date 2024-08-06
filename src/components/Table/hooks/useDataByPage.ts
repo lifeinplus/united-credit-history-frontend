@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAxiosPrivate } from "../../../hooks";
 import { MethodParams } from "../../../types/Table";
 
-const useDataByPage = (methodParams: MethodParams, pagination: boolean) => {
+const useDataByPage = (methodParams: MethodParams, isPagination: boolean) => {
     const location = useLocation();
     const navigate = useNavigate();
     const [page, setPage] = useState(1);
@@ -15,7 +15,7 @@ const useDataByPage = (methodParams: MethodParams, pagination: boolean) => {
     const { limit, url } = methodParams;
 
     const getReportsByPage = async (page = 1) => {
-        if (!url || !pagination) return {};
+        if (!url || !isPagination) return {};
 
         return await axiosPrivate
             .get(`${url}?page=${page}&limit=${limit}`)
