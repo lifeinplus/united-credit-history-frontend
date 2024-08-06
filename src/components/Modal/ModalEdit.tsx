@@ -1,122 +1,75 @@
-import { useEffect, useRef, useState } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { useModalData } from "../../contexts";
-import { useAxiosPrivate } from "../../hooks";
+import { useAxiosPrivate, useModal } from "../../hooks";
 
 const ModalEdit = () => {
-    const effectRan = useRef(false);
-    const closeRef = useRef<HTMLButtonElement>(null);
-
-    const [activeSave, setActiveSave] = useState(false);
     const { t } = useTranslation("modal");
-
     const axiosPrivate = useAxiosPrivate();
-    const { modalData, setModalData } = useModalData();
+
+    const {
+        isModalEdit,
+        modalData,
+        hideModalEdit,
+        setClosingRefresh,
+        setModalData,
+    } = useModal();
+
     const { _id, userName, roles } = modalData;
 
-    useEffect(() => {
-        if (_id && activeSave && effectRan.current === true) {
-            setActiveSave(false);
+    const handleSave = () => {
+        if (!_id) return;
 
-            axiosPrivate
-                .put(`/users/updateById`, { id: _id, roles })
-                .then(() => {
-                    setModalData((prev) => ({
-                        ...prev,
-                        closingRefresh: "yes",
-                    }));
-                    closeRef.current?.click();
-                })
-                .catch((error) => console.log(error.message));
-        }
-
-        return () => {
-            effectRan.current = true;
-        };
-    }, [_id, activeSave]);
+        axiosPrivate
+            .put(`/users/updateById`, { id: _id, roles })
+            .then(() => {
+                setClosingRefresh(true);
+                hideModalEdit();
+            })
+            .catch((error) => console.log(error.message));
+    };
 
     return (
-        <div
-            className="modal fade"
-            id="modalEdit"
-            tabIndex={-1}
-            aria-labelledby="modalEditLabel"
-            aria-hidden="true"
-        >
-            <div className="modal-dialog modal-dialog-centered">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h1 className="modal-title fs-5" id="modalEditLabel">
-                            {t("title.edit")}
-                        </h1>
-                        <button
-                            aria-label="Close"
-                            data-bs-dismiss="modal"
-                            className="btn-close"
-                            ref={closeRef}
-                            type="button"
-                        ></button>
-                    </div>
-                    <div className="modal-body">
-                        <form>
-                            <div className="mb-3">
-                                <label
-                                    htmlFor="recipient-name"
-                                    className="col-form-label"
-                                >
-                                    {t("label.userName")}:
-                                </label>
-                                <input
-                                    id="recipient-name"
-                                    className="form-control"
-                                    disabled
-                                    type="text"
-                                    defaultValue={userName}
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label
-                                    htmlFor="message-text"
-                                    className="col-form-label"
-                                >
-                                    {t("label.roles")}:
-                                </label>
-                                <textarea
-                                    id="message-text"
-                                    className="form-control"
-                                    onChange={(e) => {
-                                        setModalData((prev) => ({
-                                            ...prev,
-                                            roles: e.target.value,
-                                        }));
-                                    }}
-                                    value={roles}
-                                ></textarea>
-                            </div>
-                        </form>
-                    </div>
-                    <div className="modal-footer">
-                        <button
-                            className="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                            type="button"
-                        >
-                            {t("button.cancel")}
-                        </button>
-                        <button
-                            className="btn btn-primary"
-                            onClick={() => {
-                                setActiveSave(true);
-                            }}
-                            type="button"
-                        >
-                            {t("button.save")}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <Modal show={isModalEdit} onHide={hideModalEdit} centered>
+            <Modal.Header closeButton>
+                <Modal.Title>{t("title.edit")}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Group className="mb-3">
+                        <Form.Label>{t("label.userName")}:</Form.Label>
+                        <Form.Control
+                            type="text"
+                            disabled
+                            defaultValue={userName}
+                        ></Form.Control>
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                        <Form.Label>{t("label.roles")}:</Form.Label>
+                        <Form.Control
+                            as="textarea"
+                            autoFocus
+                            onChange={(e) =>
+                                setModalData({
+                                    ...modalData,
+                                    roles: e.target.value,
+                                })
+                            }
+                            rows={3}
+                            value={roles}
+                        ></Form.Control>
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={hideModalEdit} variant="secondary">
+                    {t("button.cancel")}
+                </Button>
+                <Button onClick={handleSave} variant="primary">
+                    {t("button.save")}
+                </Button>
+            </Modal.Footer>
+        </Modal>
     );
 };
 
