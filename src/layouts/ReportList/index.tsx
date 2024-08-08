@@ -34,12 +34,12 @@ const ReportList = () => {
                             <Table
                                 id={"rl"}
                                 columns={columns}
+                                isPagination={true}
+                                isRowHover={true}
                                 methodParams={{
                                     limit: 2,
                                     url: "reports/getPaginated",
                                 }}
-                                pagination={true}
-                                rowHover={true}
                             />
                         </div>
                     </div>

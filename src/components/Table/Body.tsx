@@ -1,28 +1,28 @@
 import classNames from "classnames";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import { useModal, useTheme } from "../../../hooks";
+import { useModal, useTheme } from "../../hooks";
 import {
     TableBody,
     TableDataCell,
     TableDiff,
     TableDiffBadges,
     TableRow,
-} from "../../../types/Table";
-import { getDateFormat, langs } from "../../../utils";
+} from "../../types/Table";
+import { getDateFormat, langs } from "../../utils";
 
-import ModalEdit from "../../Modal/ModalEdit";
-import ModalDelete from "../../Modal/ModalDelete";
+import ModalEdit from "../Modal/ModalEdit";
+import ModalDelete from "../Modal/ModalDelete";
 
 const Body = ({
-    actions,
     columns,
     data,
-    mobileView,
-    rowActive,
-    textDifference,
+    isActions,
+    isMobileView,
+    isRowActive,
+    isTextDifference,
 }: TableBody) => {
     const { theme } = useTheme();
     const { showModalEdit, showModalDelete } = useModal();
@@ -40,15 +40,15 @@ const Body = ({
     const firstDataItem = data && data[0];
 
     const handleClick = ({ currentTarget }: { currentTarget: HTMLElement }) => {
-        if (!rowActive) return;
+        if (!isRowActive) return;
         const id = currentTarget?.id;
         setActiveRowId(id !== activeRowId ? id : undefined);
     };
 
     return (
         <>
-            <ModalEdit />
             <ModalDelete />
+            <ModalEdit />
             <tbody>
                 {data?.map((element) => (
                     <Row key={element._id} data={element} />
@@ -58,13 +58,13 @@ const Body = ({
     );
 
     function Row({ data }: TableRow) {
-        const { activeId, _id } = data;
+        const { _id, activeId } = data;
 
         return (
             <tr
                 id={String(activeId)}
                 className={
-                    rowActive && activeId === activeRowId
+                    isRowActive && activeId === activeRowId
                         ? `uch-table ${theme} active`
                         : undefined
                 }
@@ -76,7 +76,7 @@ const Body = ({
                         <Cell key={key} id={key} column={element} data={data} />
                     );
                 })}
-                {actions && <CellActions data={data} />}
+                {isActions && <CellActions data={data} />}
             </tr>
         );
     }
@@ -88,7 +88,7 @@ const Body = ({
         const { cell, badge, diffData, value } =
             type === "status" ? getStatusData(params) : getCommonData(params);
 
-        const label = mobileView ? name : undefined;
+        const label = isMobileView ? name : undefined;
 
         const linkValue = isLink && (
             <Link className={`uch-link ${theme}`} to={`/reports/${data._id}`}>
@@ -99,7 +99,7 @@ const Body = ({
         return (
             <td className={cell} data-label={label}>
                 <span className={badge}>
-                    {textDifference ? (
+                    {isTextDifference ? (
                         <DiffBadges id={id} data={diffData} />
                     ) : (
                         linkValue || value
@@ -181,7 +181,7 @@ const Body = ({
                 ? `uch-badge uch-text-bg-${badgeType}`
                 : undefined;
 
-        const diffData = textDifference
+        const diffData = isTextDifference
             ? compare(firstValue, currentValue)
             : undefined;
 
@@ -282,4 +282,23 @@ const Body = ({
     }
 };
 
-export default Body;
+function propsAreEqual(
+    { columns: prevColumns, data: prevData }: Readonly<TableBody>,
+    { columns: nextColumns, data: nextData }: Readonly<TableBody>
+): boolean {
+    const areColumnsEqual = prevColumns.length === nextColumns.length;
+
+    const isDataEqual =
+        prevData &&
+        nextData &&
+        prevData.length === nextData.length &&
+        prevData.every((item, i) =>
+            Object.keys(item).every((key) => item[key] === nextData[i][key])
+        );
+
+    return areColumnsEqual && Boolean(isDataEqual);
+}
+
+const MemoizedBody = memo(Body, propsAreEqual);
+
+export default MemoizedBody;

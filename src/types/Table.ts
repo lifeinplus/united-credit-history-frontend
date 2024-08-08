@@ -32,36 +32,37 @@ export interface MethodParams {
 
 export interface Table {
     id: string;
-    actions?: boolean;
     columns: TableColumn[];
     data?: TableData[];
+    isActions?: boolean;
+    isMobileView?: boolean;
+    isPagination?: boolean;
+    isRowActive?: boolean;
+    isRowHover?: boolean;
+    isScrolling?: boolean;
+    isStickyHeader?: boolean;
+    isTextDifference?: boolean;
+    isTooltips?: boolean;
     methodParams?: MethodParams;
-    mobileView?: boolean;
-    pagination?: boolean;
-    rowActive?: boolean;
-    rowHover?: boolean;
-    scrolling?: boolean;
     sorting?: TableSortConfig;
-    stickyHeader?: boolean;
-    textDifference?: boolean;
-    tooltips?: boolean;
 }
 
 export interface TableHead {
-    actions: boolean;
     columns: TableColumn[];
+    isActions: boolean;
+    isTooltips: boolean;
     requestSort: TableSortFunc;
-    requestSortClass: TableSortClass;
-    tooltips: boolean;
+    sortSysName?: string;
+    sortDirection?: string;
 }
 
 export interface TableBody {
-    actions: boolean;
     columns: TableColumn[];
     data?: TableData[];
-    mobileView: boolean;
-    rowActive: boolean;
-    textDifference: boolean;
+    isActions: boolean;
+    isMobileView: boolean;
+    isRowActive: boolean;
+    isTextDifference: boolean;
 }
 
 export interface TableRow {
@@ -71,7 +72,8 @@ export interface TableRow {
 export interface TableHeaderCell {
     column: TableColumn;
     requestSort: TableSortFunc;
-    requestSortClass: TableSortClass;
+    sortDirection?: string;
+    sortSysName?: string;
     theme: string;
 }
 
@@ -93,10 +95,6 @@ export interface TableDiffBadges {
 
 export interface TableRefreshFunc {
     (): void;
-}
-
-export interface TableSortClass {
-    (sysName?: string): string | undefined;
 }
 
 export interface TableSortConfig {
@@ -130,5 +128,4 @@ export interface TableScrollButtons {
         [key: string]: RefObject<HTMLButtonElement>;
     };
     handleScroll: (arg0: MouseEvent<HTMLButtonElement>) => void;
-    wrapperRef: RefObject<HTMLDivElement>;
 }

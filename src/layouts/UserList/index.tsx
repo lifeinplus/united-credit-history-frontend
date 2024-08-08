@@ -33,14 +33,14 @@ const UserList = () => {
                         <div className="col">
                             <Table
                                 id={"ul"}
-                                actions={true}
                                 columns={columns}
+                                isActions={true}
+                                isPagination={true}
+                                isRowHover={true}
                                 methodParams={{
                                     limit: 5,
                                     url: "users/getPaginated",
                                 }}
-                                pagination={true}
-                                rowHover={true}
                                 sorting={{ sysName: "creationDate" }}
                             />
                         </div>

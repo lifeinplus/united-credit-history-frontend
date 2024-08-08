@@ -1,6 +1,6 @@
 import { MouseEvent, RefObject, useCallback, useEffect, useRef } from "react";
 
-const useTableScroll = (scrolling: boolean) => {
+const useTableScroll = (isScrolling: boolean) => {
     const scrollWrapperRef = useRef<HTMLDivElement | null>(null);
 
     const btnStartRef = useRef<HTMLButtonElement>(null);
@@ -12,7 +12,7 @@ const useTableScroll = (scrolling: boolean) => {
         ({ currentTarget, type }: MouseEvent<HTMLButtonElement>) => {
             const wrapper = scrollWrapperRef.current;
 
-            if (!wrapper || !scrolling) return;
+            if (!wrapper || !isScrolling) return;
 
             const button =
                 type === "click"
@@ -24,14 +24,14 @@ const useTableScroll = (scrolling: boolean) => {
             if (button?.id === "btnRight") scrollRight(btnRightRef, wrapper);
             if (button?.id === "btnEnd") scrollEnd(btnEndRef, wrapper);
         },
-        [scrolling]
+        [isScrolling]
     );
 
     const handleKeyDown = useCallback(
         ({ altKey, key }: KeyboardEvent) => {
             const wrapper = scrollWrapperRef.current;
 
-            if (!wrapper || !scrolling) return;
+            if (!wrapper || !isScrolling) return;
 
             if (altKey && key === "ArrowLeft") {
                 scrollStart(btnStartRef, wrapper);
@@ -49,7 +49,7 @@ const useTableScroll = (scrolling: boolean) => {
                 scrollEnd(btnEndRef, wrapper);
             }
         },
-        [scrolling]
+        [isScrolling]
     );
 
     const handleKeyUp = useCallback(function ({ altKey, key }: KeyboardEvent) {

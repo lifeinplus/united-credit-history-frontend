@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
@@ -73,4 +74,4 @@ const ModalEdit = () => {
     );
 };
 
-export default ModalEdit;
+export default memo(ModalEdit);

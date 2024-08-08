@@ -1,15 +1,15 @@
 import { useMemo } from "react";
 import { TableData } from "../../../types/Table";
 
-const useRowActive = (rowActive: boolean, data: TableData[] = []) => {
+const useRowActive = (isRowActive: boolean, data: TableData[] = []) => {
     return useMemo(() => {
-        return rowActive
+        return isRowActive
             ? data.map((element, index) => ({
                   ...element,
                   activeId: String(index),
               }))
             : data;
-    }, [rowActive, data]);
+    }, [isRowActive, data]);
 };
 
 export default useRowActive;

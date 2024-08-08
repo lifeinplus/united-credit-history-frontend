@@ -19,8 +19,8 @@ const Persons: FC<PersonsProps> = ({ persons }) => {
             id={"pd"}
             columns={columns}
             data={persons}
-            mobileView={true}
-            textDifference={true}
+            isMobileView={true}
+            isTextDifference={true}
         />
     );
 };

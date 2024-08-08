@@ -3,9 +3,9 @@ import { useEffect } from "react";
 
 import { TableColumn } from "../../../types/Table";
 
-const useTooltip = (tooltips: boolean, columns: TableColumn[]) => {
+const useTooltip = (isTooltips: boolean, columns: TableColumn[]) => {
     useEffect(() => {
-        if (!tooltips) return;
+        if (!isTooltips) return;
 
         const tooltipTriggerList = document.querySelectorAll(
             '[data-bs-toggle="tooltip"]'
@@ -20,7 +20,7 @@ const useTooltip = (tooltips: boolean, columns: TableColumn[]) => {
                 element.hide();
             });
         };
-    }, [tooltips, columns]);
+    }, [isTooltips, columns]);
 };
 
 export default useTooltip;

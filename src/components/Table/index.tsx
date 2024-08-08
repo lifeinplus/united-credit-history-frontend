@@ -4,50 +4,55 @@ import { useEffect } from "react";
 import { useModal, useTheme } from "../../hooks";
 import { Table } from "../../types/Table";
 
-import { Body, Head, Pagination, ScrollButtons } from "./components";
 import { useStickyHeader, useTableData, useTableScroll } from "./hooks";
+import Body from "./Body";
+import Head from "./Head";
+import Pagination from "./Pagination";
+import ScrollButtons from "./ScrollButtons";
 
 const Table = ({
     id,
-    actions = false,
     columns,
     data,
+    isActions = false,
+    isMobileView = false,
+    isPagination = false,
+    isRowActive = false,
+    isRowHover = false,
+    isScrolling = false,
+    isStickyHeader = false,
+    isTextDifference = false,
+    isTooltips = false,
     methodParams = {},
-    mobileView = false,
-    pagination = false,
-    rowActive = false,
-    rowHover = false,
-    scrolling = false,
     sorting = {},
-    stickyHeader = false,
-    textDifference = false,
-    tooltips = false,
 }: Table) => {
     const { theme } = useTheme();
 
     const {
-        requestSortClass,
         isPlaceholderData,
         page,
         refetch,
         requestRefresh,
         requestSort,
         setPage,
+        sortDirection,
+        sortSysName,
         tableData,
         totalPages,
-    } = useTableData(methodParams, pagination, rowActive, sorting, data);
+    } = useTableData(methodParams, isPagination, isRowActive, sorting, data);
 
     const { closingRefresh, setClosingRefresh } = useModal();
 
     useEffect(() => {
         if (closingRefresh) {
             setClosingRefresh(false);
-            pagination ? refetch() : requestRefresh();
+            isPagination ? refetch() : requestRefresh();
         }
     }, [closingRefresh]);
 
-    const [tableWrapperRef, headerRef] = useStickyHeader(stickyHeader);
-    const [scrollWrapperRef, btnRefs, handleScroll] = useTableScroll(scrolling);
+    const [tableWrapperRef, headerRef] = useStickyHeader(isStickyHeader);
+    const [scrollWrapperRef, btnRefs, handleScroll] =
+        useTableScroll(isScrolling);
 
     return (
         <>
@@ -63,11 +68,10 @@ const Table = ({
                     scrollWrapperRef.current = node;
                 }}
             >
-                {scrolling && (
+                {isScrolling && !!scrollWrapperRef.current && (
                     <ScrollButtons
                         btnRefs={btnRefs}
                         handleScroll={handleScroll}
-                        wrapperRef={scrollWrapperRef}
                     />
                 )}
                 <table
@@ -75,30 +79,31 @@ const Table = ({
                         "table",
                         `table-${theme}`,
                         `uch-table ${theme}`,
-                        rowHover && `table-hover`,
+                        isRowHover && `table-hover`,
                         "table-striped align-middle mb-0",
-                        mobileView && "table-mobile"
+                        isMobileView && "table-mobile"
                     )}
                 >
                     <Head
-                        actions={actions}
                         columns={columns}
+                        isActions={isActions}
+                        isTooltips={isTooltips}
                         ref={headerRef}
-                        requestSortClass={requestSortClass}
                         requestSort={requestSort}
-                        tooltips={tooltips}
+                        sortDirection={sortDirection}
+                        sortSysName={sortSysName}
                     />
                     <Body
-                        actions={actions}
                         columns={columns}
                         data={tableData}
-                        mobileView={mobileView}
-                        rowActive={rowActive}
-                        textDifference={textDifference}
+                        isActions={isActions}
+                        isMobileView={isMobileView}
+                        isRowActive={isRowActive}
+                        isTextDifference={isTextDifference}
                     />
                 </table>
             </div>
-            {pagination && (
+            {isPagination && (
                 <footer>
                     <Pagination
                         isPlaceholderData={isPlaceholderData}

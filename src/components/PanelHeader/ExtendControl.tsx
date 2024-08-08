@@ -1,5 +1,10 @@
+import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { ExtendControlProps } from "../../../types/CreditHistory";
+
+interface ExtendControlProps {
+    handleExtend?: () => void;
+    showExtendedData?: boolean;
+}
 
 const ExtendControl = ({
     handleExtend,
@@ -29,4 +34,4 @@ const ExtendControl = ({
     );
 };
 
-export default ExtendControl;
+export default memo(ExtendControl);
