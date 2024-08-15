@@ -5,7 +5,6 @@ import useInput from "./useInput";
 import useLocalStorage from "./useLocalStorage";
 import useModal from "./useModal";
 import useRefreshAuth from "./useRefreshAuth";
-import useTheme from "./useTheme";
 
 export {
     useAxiosPrivate,
@@ -15,5 +14,4 @@ export {
     useLocalStorage,
     useModal,
     useRefreshAuth,
-    useTheme,
 };

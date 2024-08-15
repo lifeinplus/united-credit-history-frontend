@@ -1,7 +1,8 @@
 import classNames from "classnames";
 import { useEffect } from "react";
 
-import { useModal, useTheme } from "../../hooks";
+import { useAppSelector } from "../../app/hooks";
+import { useModal } from "../../hooks";
 import { Table } from "../../types/Table";
 
 import { useStickyHeader, useTableData, useTableScroll } from "./hooks";
@@ -26,7 +27,7 @@ const Table = ({
     methodParams = {},
     sorting = {},
 }: Table) => {
-    const { theme } = useTheme();
+    const theme = useAppSelector((state) => state.theme.theme);
 
     const {
         isPlaceholderData,

@@ -1,13 +1,15 @@
-import { useTheme } from "../../../hooks";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { toggleTheme } from "../../../features/theme/themeSlice";
 
 const ThemeSwitcher = () => {
-    const { theme, toggleTheme } = useTheme();
+    const theme = useAppSelector((state) => state.theme.theme);
+    const dispatch = useAppDispatch();
 
     return (
         <button
             type="button"
             className={`btn btn-sm uch-btn-theme ${theme}`}
-            onClick={toggleTheme}
+            onClick={() => dispatch(toggleTheme())}
         ></button>
     );
 };

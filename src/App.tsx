@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 import Cookies from "universal-cookie";
 
-import { useTheme } from "./hooks";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
+import { toggleTheme } from "./features/theme/themeSlice";
 import { Layout, PersistLogin, RequireAuth } from "./layouts";
 import {
     About,
@@ -19,7 +20,14 @@ import { langs } from "./utils";
 
 const App = () => {
     const { i18n } = useTranslation();
-    const { toggleTheme } = useTheme();
+    const dispatch = useAppDispatch();
+    const theme = useAppSelector((state) => state.theme.theme);
+
+    useEffect(() => {
+        localStorage.setItem("theme", theme);
+        document.documentElement.setAttribute("data-bs-theme", theme);
+        document.body.className = theme;
+    }, [theme]);
 
     const cookies = new Cookies();
     const extended_data = cookies.get("extended_data") || "no";
@@ -39,7 +47,7 @@ const App = () => {
         }
 
         if (code === "KeyT") {
-            toggleTheme();
+            dispatch(toggleTheme());
         }
     };
 

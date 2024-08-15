@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { FC } from "react";
 
+import { useAppSelector } from "../../app/hooks";
 import { PanelHeader } from "../../components";
-import { useTheme } from "../../hooks";
 import { CreditHistoryProps } from "../../types/CreditHistory";
 
 import Loans from "./Loans";
@@ -14,7 +14,7 @@ const CreditHistory: FC<CreditHistoryProps> = ({
     showExtendedData,
 }) => {
     const { commons, loans, reportCreationDate } = data || {};
-    const { theme } = useTheme();
+    const theme = useAppSelector((state) => state.theme.theme);
 
     return (
         <section className="container-fluid mb-3">

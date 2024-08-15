@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
+import { useAppSelector } from "../app/hooks";
 import { PanelHeader } from "../components";
-import { useTheme } from "../hooks";
 import { LegendProps, TaskProps, TitleProps } from "../types/About";
 
 const About = () => {
-    const { theme } = useTheme();
+    const theme = useAppSelector((state) => state.theme.theme);
     const { t } = useTranslation(["about"]);
     const textTheme = theme === "light" ? "text-dark" : "text-light";
 

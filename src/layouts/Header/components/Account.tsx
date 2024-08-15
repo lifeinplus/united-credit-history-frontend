@@ -3,13 +3,13 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import { axiosPrivate } from "../../../api/axios";
+import { useAppSelector } from "../../../app/hooks";
 import { useAuth } from "../../../contexts";
-import { useTheme } from "../../../hooks";
 
 const Account = () => {
     const { auth, setAuth } = useAuth();
     const navigate = useNavigate();
-    const { theme } = useTheme();
+    const theme = useAppSelector((state) => state.theme.theme);
     const { t } = useTranslation("header");
 
     return auth?.userName ? <Out /> : <In />;

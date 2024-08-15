@@ -1,8 +1,8 @@
 import classNames from "classnames";
 import { FC } from "react";
 
+import { useAppSelector } from "../../app/hooks";
 import { PanelHeader } from "../../components";
-import { useTheme } from "../../hooks";
 import { PersonalDataProps } from "../../types/PersonalData";
 
 import Persons from "./Persons";
@@ -12,7 +12,7 @@ const PersonalData: FC<PersonalDataProps> = ({ data }) => {
     const { appCreationDate, appNumber, commons, persons, requestCounts } =
         data || {};
 
-    const { theme } = useTheme();
+    const theme = useAppSelector((state) => state.theme.theme);
 
     return (
         <section className="container-fluid mb-3">
