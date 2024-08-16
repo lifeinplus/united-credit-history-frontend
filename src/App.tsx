@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Cookies from "universal-cookie";
 
 import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { toggleTheme } from "./features/theme/themeSlice";
+import { selectTheme, toggleTheme } from "./features/theme/themeSlice";
 import { Layout, PersistLogin, RequireAuth } from "./layouts";
 import {
     About,
@@ -21,7 +21,7 @@ import { langs } from "./utils";
 const App = () => {
     const { i18n } = useTranslation();
     const dispatch = useAppDispatch();
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
 
     useEffect(() => {
         localStorage.setItem("theme", theme);

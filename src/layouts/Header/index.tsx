@@ -4,14 +4,15 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 
 import { useAppSelector } from "../../app/hooks";
+import { selectTheme } from "../../features/theme/themeSlice";
+import ThemeSwitcher from "../../features/theme/ThemeSwitcher";
 
-import Account from "./components/Account";
-import LanguageSwitcher from "./components/LanguageSwitcher";
-import ThemeSwitcher from "./components/ThemeSwitcher";
+import Account from "./Account";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const Header = () => {
     const { t } = useTranslation(["header"]);
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
 
     useEffect(() => {
         document.title = t("title");

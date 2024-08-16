@@ -3,11 +3,12 @@ import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../app/hooks";
 import { PanelHeader, Table } from "../../components";
+import { selectTheme } from "../../features/theme/themeSlice";
 
 import { tableColumns } from "./utils";
 
 const UserList = () => {
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
     const { t } = useTranslation(["user_list"]);
 
     const columns = tableColumns.map((item) => ({

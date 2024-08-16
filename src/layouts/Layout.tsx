@@ -2,12 +2,13 @@ import { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
 
 import { useAppSelector } from "../app/hooks";
+import { selectTheme } from "../features/theme/themeSlice";
 
 import Footer from "./Footer";
 import Header from "./Header";
 
 const Layout = () => {
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
 
     return (
         <>

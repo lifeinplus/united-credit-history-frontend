@@ -2,10 +2,12 @@ import classNames from "classnames";
 import { useEffect } from "react";
 
 import { useAppSelector } from "../../app/hooks";
+import { selectTheme } from "../../features/theme/themeSlice";
 import { useModal } from "../../hooks";
 import { Table } from "../../types/Table";
 
 import { useStickyHeader, useTableData, useTableScroll } from "./hooks";
+
 import Body from "./Body";
 import Head from "./Head";
 import Pagination from "./Pagination";
@@ -27,7 +29,7 @@ const Table = ({
     methodParams = {},
     sorting = {},
 }: Table) => {
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
 
     const {
         isPlaceholderData,

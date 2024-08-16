@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../app/hooks";
+import { selectTheme } from "../../features/theme/themeSlice";
 import {
     PanelHeaderProps,
     PanelHeaderFieldProps,
@@ -18,7 +19,7 @@ const PanelHeader = ({
     showExtendedData,
 }: PanelHeaderProps) => {
     const { i18n, t } = useTranslation(nameSpaces);
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
 
     const headerDate = date && date.value && getHeaderDate(date.value);
 

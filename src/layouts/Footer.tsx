@@ -1,10 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
+
 import { useAppSelector } from "../app/hooks";
+import { selectTheme } from "../features/theme/themeSlice";
 
 const Footer = () => {
     const { t } = useTranslation(["footer"]);
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
 
     return (
         <footer className={`footer flex-wrap bg-${theme} mt-auto py-2`}>

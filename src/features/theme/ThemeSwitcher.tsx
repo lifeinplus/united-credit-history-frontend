@@ -1,8 +1,8 @@
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { toggleTheme } from "../../../features/theme/themeSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectTheme, toggleTheme } from "./themeSlice";
 
 const ThemeSwitcher = () => {
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
     const dispatch = useAppDispatch();
 
     return (

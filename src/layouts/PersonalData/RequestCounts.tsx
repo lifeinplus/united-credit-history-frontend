@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../app/hooks";
+import { selectTheme } from "../../features/theme/themeSlice";
 import {
     RequestCountsCard,
     RequestCountsItem,
@@ -12,7 +13,7 @@ import { listFields, scoreStyles } from "./utils";
 
 const RequestCounts = ({ requestCounts: data, score }: RequestCountsProps) => {
     const { t } = useTranslation(["personal_data"]);
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
 
     return (
         <div className="card-group">
