@@ -3,7 +3,8 @@ import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import { useModal, useTheme } from "../../hooks";
+import { useAppSelector } from "../../app/hooks";
+import { useModal } from "../../hooks";
 import {
     TableBody,
     TableDataCell,
@@ -24,7 +25,7 @@ const Body = ({
     isRowActive,
     isTextDifference,
 }: TableBody) => {
-    const { theme } = useTheme();
+    const theme = useAppSelector((state) => state.theme.theme);
     const { showModalEdit, showModalDelete } = useModal();
     const [activeRowId, setActiveRowId] = useState<string | undefined>(
         undefined

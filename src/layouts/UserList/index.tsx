@@ -1,13 +1,13 @@
 import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
+import { useAppSelector } from "../../app/hooks";
 import { PanelHeader, Table } from "../../components";
-import { useTheme } from "../../hooks";
 
 import { tableColumns } from "./utils";
 
 const UserList = () => {
-    const { theme } = useTheme();
+    const theme = useAppSelector((state) => state.theme.theme);
     const { t } = useTranslation(["user_list"]);
 
     const columns = tableColumns.map((item) => ({

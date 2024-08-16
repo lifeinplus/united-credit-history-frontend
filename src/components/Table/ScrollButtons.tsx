@@ -1,9 +1,9 @@
 import { memo } from "react";
-import { useTheme } from "../../hooks";
+import { useAppSelector } from "../../app/hooks";
 import { TableScrollButtons } from "../../types/Table";
 
 const ScrollButtons = ({ btnRefs, handleScroll }: TableScrollButtons) => {
-    const { theme } = useTheme();
+    const theme = useAppSelector((state) => state.theme.theme);
 
     const buttons = [
         { id: "btnStart", ref: "btnStartRef", icon: "bi-chevron-bar-left" },
