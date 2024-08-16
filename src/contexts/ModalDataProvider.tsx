@@ -16,7 +16,7 @@ const initState: InitState = {
     modalData: {},
 };
 
-const enum REDUCER_ACTION_KIND {
+enum REDUCER_ACTION_KIND {
     HIDE_DELETE,
     HIDE_EDIT,
     SET_DATA,

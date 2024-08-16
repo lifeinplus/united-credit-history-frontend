@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { forwardRef, memo } from "react";
 
-import { useTheme } from "../../hooks";
+import { useAppSelector } from "../../app/hooks";
 import { TableHead, TableHeaderCell } from "../../types/Table";
 
 import { useTooltip } from "./hooks";
@@ -17,7 +17,7 @@ const Head = forwardRef<HTMLTableSectionElement, TableHead>((props, ref) => {
         sortSysName,
     } = props;
 
-    const { theme } = useTheme();
+    const theme = useAppSelector((state) => state.theme.theme);
     useTooltip(isTooltips, columns);
 
     return (

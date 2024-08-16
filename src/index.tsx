@@ -2,6 +2,7 @@ import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -9,8 +10,9 @@ import "./assets/scss/main.scss";
 import "./assets/js/main";
 
 import App from "./App";
+import { store } from "./app/store";
 import Spinner from "./components/Spinner";
-import { AuthProvider, ModalDataProvider, ThemeProvider } from "./contexts";
+import { AuthProvider, ModalDataProvider } from "./contexts";
 
 if (process.env.NODE_ENV === "production") {
     disableReactDevTools();
@@ -23,9 +25,9 @@ const queryClient = new QueryClient();
 root.render(
     <StrictMode>
         <Suspense fallback={<Spinner />}>
-            <AuthProvider>
-                <ModalDataProvider>
-                    <ThemeProvider>
+            <Provider store={store}>
+                <AuthProvider>
+                    <ModalDataProvider>
                         <QueryClientProvider client={queryClient}>
                             <BrowserRouter>
                                 <Routes>
@@ -33,9 +35,9 @@ root.render(
                                 </Routes>
                             </BrowserRouter>
                         </QueryClientProvider>
-                    </ThemeProvider>
-                </ModalDataProvider>
-            </AuthProvider>
+                    </ModalDataProvider>
+                </AuthProvider>
+            </Provider>
         </Suspense>
     </StrictMode>
 );

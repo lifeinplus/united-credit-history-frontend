@@ -1,8 +1,8 @@
 import classNames from "classnames";
-import { useTheme } from "../hooks";
+import { useAppSelector } from "../app/hooks";
 
 const NotFound = () => {
-    const { theme } = useTheme();
+    const theme = useAppSelector((state) => state.theme.theme);
     const textClass = theme === "light" ? "text-dark" : "text-light";
 
     return (
