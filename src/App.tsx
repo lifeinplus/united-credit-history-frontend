@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
-import Cookies from "universal-cookie";
 
 import { useAppDispatch, useAppSelector } from "./app/hooks";
+import { toggleExtendedData } from "./features/extendedData/extendedDataSlice";
 import { selectTheme, toggleTheme } from "./features/theme/themeSlice";
 import { Layout, PersistLogin, RequireAuth } from "./layouts";
 import {
@@ -29,17 +29,11 @@ const App = () => {
         document.body.className = theme;
     }, [theme]);
 
-    const cookies = new Cookies();
-    const extended_data = cookies.get("extended_data") || "no";
-    const [showExtendedData, setShowExtendedData] = useState(
-        extended_data === "yes" ? true : false
-    );
-
     document.onkeydown = ({ altKey, code, shiftKey }) => {
         if (!altKey) return;
 
         if (code === "KeyE") {
-            handleExtend();
+            dispatch(toggleExtendedData());
         }
 
         if (code === "KeyL") {
@@ -69,12 +63,6 @@ const App = () => {
         i18n.changeLanguage(keys[nextIndex]);
     }
 
-    function handleExtend() {
-        const value = !showExtendedData;
-        setShowExtendedData(value);
-        cookies.set("extended_data", value ? "yes" : "no");
-    }
-
     return (
         <Routes>
             <Route path="/" element={<Layout />}>
@@ -87,15 +75,7 @@ const App = () => {
                     <Route element={<RequireAuth allowedRoles={[2020]} />}>
                         <Route path="/reports">
                             <Route index element={<Reports />} />
-                            <Route
-                                path=":reportId"
-                                element={
-                                    <Report
-                                        handleExtend={handleExtend}
-                                        showExtendedData={showExtendedData}
-                                    />
-                                }
-                            />
+                            <Route path=":reportId" element={<Report />} />
                         </Route>
                         <Route element={<RequireAuth allowedRoles={[1010]} />}>
                             <Route path="/users" element={<Users />} />

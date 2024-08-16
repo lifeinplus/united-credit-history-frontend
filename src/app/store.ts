@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import extendedDataReducer from "../features/extendedData/extendedDataSlice";
 import themeReducer from "../features/theme/themeSlice";
 
 export const store = configureStore({
     reducer: {
+        extendedData: extendedDataReducer,
         theme: themeReducer,
     },
 });

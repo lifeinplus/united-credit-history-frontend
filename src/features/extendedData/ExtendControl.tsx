@@ -1,16 +1,15 @@
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+    selectShowExtendedData,
+    toggleExtendedData,
+} from "./extendedDataSlice";
 
-interface ExtendControlProps {
-    handleExtend?: () => void;
-    showExtendedData?: boolean;
-}
-
-const ExtendControl = ({
-    handleExtend,
-    showExtendedData,
-}: ExtendControlProps) => {
+const ExtendControl = () => {
     const { t } = useTranslation(["credit_history"]);
+    const dispatch = useAppDispatch();
+    const showExtendedData = useAppSelector(selectShowExtendedData);
 
     return (
         <div>
@@ -19,7 +18,7 @@ const ExtendControl = ({
                     id="switchExtendedData"
                     checked={showExtendedData}
                     className="form-check-input"
-                    onChange={handleExtend}
+                    onChange={() => dispatch(toggleExtendedData())}
                     role="switch"
                     type="checkbox"
                 />

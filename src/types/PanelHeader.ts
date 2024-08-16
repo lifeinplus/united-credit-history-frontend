@@ -1,10 +1,9 @@
 export interface PanelHeaderProps {
     date?: PanelHeaderFieldProps;
-    handleExtend?: () => void;
     iconName: string;
+    isExtendControl?: boolean;
     nameSpaces: string[];
     number?: PanelHeaderFieldProps;
-    showExtendedData?: boolean;
 }
 
 export interface PanelHeaderFieldProps {

@@ -1,5 +1,4 @@
 import classNames from "classnames";
-import { FC } from "react";
 
 import { useAppSelector } from "../../app/hooks";
 import { PanelHeader } from "../../components";
@@ -9,7 +8,7 @@ import { PersonalDataProps } from "../../types/PersonalData";
 import Persons from "./Persons";
 import RequestCounts from "./RequestCounts";
 
-const PersonalData: FC<PersonalDataProps> = ({ data }) => {
+const PersonalData = ({ data }: PersonalDataProps) => {
     const { appCreationDate, appNumber, commons, persons, requestCounts } =
         data || {};
 

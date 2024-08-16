@@ -1,8 +1,3 @@
-export interface ReportProps {
-    handleExtend: () => void;
-    showExtendedData: boolean;
-}
-
 export interface Commons extends Record<string, string | number> {
     reportId: string;
     chbCreditCardsAmountGbp: number;

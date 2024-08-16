@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../app/hooks";
+import { selectShowExtendedData } from "../../features/extendedData/extendedDataSlice";
 import { selectTheme } from "../../features/theme/themeSlice";
 import {
     AmountContextField,
@@ -12,11 +13,13 @@ import { langs } from "../../utils";
 
 import { obligationFields, paymentFields } from "./utils";
 
-const PaymentAmounts = ({ data, showExtendedData }: PaymentAmountsProps) => {
+const PaymentAmounts = ({ data }: PaymentAmountsProps) => {
     const { i18n, t } = useTranslation(["credit_history"]);
     const resolvedLanguage = i18n.resolvedLanguage ?? "en";
     const lang = langs[resolvedLanguage];
     const numberFormat = new Intl.NumberFormat(lang.locale);
+
+    const showExtendedData = useAppSelector(selectShowExtendedData);
 
     const obligationLangSysNames = obligationFields.reduce((result, item) => {
         return item.country === lang.countryCode

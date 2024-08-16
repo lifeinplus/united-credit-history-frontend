@@ -26,5 +26,4 @@ export interface GroupProps {
 
 export interface PaymentAmountsProps {
     data?: Commons;
-    showExtendedData: boolean;
 }

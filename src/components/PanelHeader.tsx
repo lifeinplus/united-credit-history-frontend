@@ -1,22 +1,17 @@
 import { useTranslation } from "react-i18next";
 
-import { useAppSelector } from "../../app/hooks";
-import { selectTheme } from "../../features/theme/themeSlice";
-import {
-    PanelHeaderProps,
-    PanelHeaderFieldProps,
-} from "../../types/PanelHeader";
-import { getDateFormat, langs } from "../../utils";
-
-import ExtendControl from "./ExtendControl";
+import { useAppSelector } from "../app/hooks";
+import ExtendControl from "../features/extendedData/ExtendControl";
+import { selectTheme } from "../features/theme/themeSlice";
+import { PanelHeaderProps, PanelHeaderFieldProps } from "../types/PanelHeader";
+import { getDateFormat, langs } from "../utils";
 
 const PanelHeader = ({
     date,
-    handleExtend,
     iconName,
+    isExtendControl = false,
     nameSpaces,
     number,
-    showExtendedData,
 }: PanelHeaderProps) => {
     const { i18n, t } = useTranslation(nameSpaces);
     const theme = useAppSelector(selectTheme);
@@ -31,13 +26,10 @@ const PanelHeader = ({
                         <i className={`bi ${iconName} me-2`}></i>
                         {t("title")}
                     </a>
-                    {handleExtend && (
+                    {isExtendControl && (
                         <ul className="navbar-nav me-auto">
                             <li className="nav-item">
-                                <ExtendControl
-                                    handleExtend={handleExtend}
-                                    showExtendedData={showExtendedData}
-                                />
+                                <ExtendControl />
                             </li>
                         </ul>
                     )}
