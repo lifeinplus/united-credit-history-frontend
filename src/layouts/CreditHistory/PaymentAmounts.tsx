@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../app/hooks";
+import { selectTheme } from "../../features/theme/themeSlice";
 import {
     AmountContextField,
     GroupProps,
@@ -75,7 +76,7 @@ const PaymentAmounts = ({ data, showExtendedData }: PaymentAmountsProps) => {
     }
 
     function Group({ amounts, justify }: GroupProps) {
-        const theme = useAppSelector((state) => state.theme.theme);
+        const theme = useAppSelector(selectTheme);
 
         return (
             <ul

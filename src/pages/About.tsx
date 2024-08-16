@@ -3,10 +3,11 @@ import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../app/hooks";
 import { PanelHeader } from "../components";
+import { selectTheme } from "../features/theme/themeSlice";
 import { LegendProps, TaskProps, TitleProps } from "../types/About";
 
 const About = () => {
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
     const { t } = useTranslation(["about"]);
     const textTheme = theme === "light" ? "text-dark" : "text-light";
 

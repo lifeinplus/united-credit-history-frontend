@@ -1,8 +1,9 @@
 import classNames from "classnames";
+import { memo } from "react";
 
 import { useAppSelector } from "../../app/hooks";
+import { selectTheme } from "../../features/theme/themeSlice";
 import { PageItemProps, PaginationProps } from "../../types/Pagination";
-import { memo } from "react";
 
 const Pagination = ({
     isPlaceholderData,
@@ -10,7 +11,7 @@ const Pagination = ({
     setPage,
     totalPages,
 }: PaginationProps) => {
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
 
     const pagesArray = Array(totalPages)
         .fill(undefined)

@@ -1,11 +1,12 @@
 import classNames from "classnames";
 import { forwardRef, memo } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../app/hooks";
+import { selectTheme } from "../../features/theme/themeSlice";
 import { TableHead, TableHeaderCell } from "../../types/Table";
 
 import { useTooltip } from "./hooks";
-import { useTranslation } from "react-i18next";
 
 const Head = forwardRef<HTMLTableSectionElement, TableHead>((props, ref) => {
     const {
@@ -17,7 +18,7 @@ const Head = forwardRef<HTMLTableSectionElement, TableHead>((props, ref) => {
         sortSysName,
     } = props;
 
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
     useTooltip(isTooltips, columns);
 
     return (

@@ -1,8 +1,9 @@
 import classNames from "classnames";
 import { useAppSelector } from "../app/hooks";
+import { selectTheme } from "../features/theme/themeSlice";
 
 const NotFound = () => {
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
     const textClass = theme === "light" ? "text-dark" : "text-light";
 
     return (

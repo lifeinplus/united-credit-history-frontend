@@ -2,14 +2,15 @@ import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-import { axiosPrivate } from "../../../api/axios";
-import { useAppSelector } from "../../../app/hooks";
-import { useAuth } from "../../../contexts";
+import { axiosPrivate } from "../../api/axios";
+import { useAppSelector } from "../../app/hooks";
+import { useAuth } from "../../contexts";
+import { selectTheme } from "../../features/theme/themeSlice";
 
 const Account = () => {
     const { auth, setAuth } = useAuth();
     const navigate = useNavigate();
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
     const { t } = useTranslation("header");
 
     return auth?.userName ? <Out /> : <In />;

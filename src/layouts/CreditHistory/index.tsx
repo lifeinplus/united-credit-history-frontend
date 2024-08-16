@@ -3,6 +3,7 @@ import { FC } from "react";
 
 import { useAppSelector } from "../../app/hooks";
 import { PanelHeader } from "../../components";
+import { selectTheme } from "../../features/theme/themeSlice";
 import { CreditHistoryProps } from "../../types/CreditHistory";
 
 import Loans from "./Loans";
@@ -14,7 +15,7 @@ const CreditHistory: FC<CreditHistoryProps> = ({
     showExtendedData,
 }) => {
     const { commons, loans, reportCreationDate } = data || {};
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
 
     return (
         <section className="container-fluid mb-3">

@@ -3,6 +3,7 @@ import { FC } from "react";
 
 import { useAppSelector } from "../../app/hooks";
 import { PanelHeader } from "../../components";
+import { selectTheme } from "../../features/theme/themeSlice";
 import { PersonalDataProps } from "../../types/PersonalData";
 
 import Persons from "./Persons";
@@ -12,7 +13,7 @@ const PersonalData: FC<PersonalDataProps> = ({ data }) => {
     const { appCreationDate, appNumber, commons, persons, requestCounts } =
         data || {};
 
-    const theme = useAppSelector((state) => state.theme.theme);
+    const theme = useAppSelector(selectTheme);
 
     return (
         <section className="container-fluid mb-3">
