@@ -1,12 +1,9 @@
-import { FC } from "react";
 import { useTranslation } from "react-i18next";
-
 import { Table } from "../../components";
 import { PersonsProps } from "../../types/PersonalData";
-
 import { tableColumns } from "./utils";
 
-const Persons: FC<PersonsProps> = ({ persons }) => {
+const Persons = ({ persons }: PersonsProps) => {
     const { t } = useTranslation(["personal_data"]);
 
     const columns = tableColumns.map((item) => ({

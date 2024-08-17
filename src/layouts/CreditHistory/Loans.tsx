@@ -1,18 +1,16 @@
-import { FC } from "react";
 import { useTranslation } from "react-i18next";
 
+import { useAppSelector } from "../../app/hooks";
 import { Table } from "../../components";
+import { selectShowExtendedData } from "../../features/extendedData/extendedDataSlice";
 import { LoansProps } from "../../types/CreditHistory";
 import { getDateFormat } from "../../utils";
 
 import { tableColumns, TimePeriod } from "./utils";
 
-const Loans: FC<LoansProps> = ({
-    loans,
-    reportCreationDate,
-    showExtendedData,
-}) => {
+const Loans = ({ loans, reportCreationDate }: LoansProps) => {
     const { t } = useTranslation(["credit_history"]);
+    const showExtendedData = useAppSelector(selectShowExtendedData);
     const dateFormat = getDateFormat("ru", "status");
     const columns = defineColumns();
 
