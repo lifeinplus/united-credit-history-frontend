@@ -1,9 +1,12 @@
 import classNames from "classnames";
 import { useEffect } from "react";
 
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+    selectClosingRefresh,
+    setClosingRefresh,
+} from "../../features/modalData/modalDataSlice";
 import { selectTheme } from "../../features/theme/themeSlice";
-import { useModal } from "../../hooks";
 import { Table } from "../../types/Table";
 
 import { useStickyHeader, useTableData, useTableScroll } from "./hooks";
@@ -29,6 +32,8 @@ const Table = ({
     methodParams = {},
     sorting = {},
 }: Table) => {
+    const dispatch = useAppDispatch();
+    const closingRefresh = useAppSelector(selectClosingRefresh);
     const theme = useAppSelector(selectTheme);
 
     const {
@@ -44,11 +49,9 @@ const Table = ({
         totalPages,
     } = useTableData(methodParams, isPagination, isRowActive, sorting, data);
 
-    const { closingRefresh, setClosingRefresh } = useModal();
-
     useEffect(() => {
         if (closingRefresh) {
-            setClosingRefresh(false);
+            dispatch(setClosingRefresh(false));
             isPagination ? refetch() : requestRefresh();
         }
     }, [closingRefresh]);

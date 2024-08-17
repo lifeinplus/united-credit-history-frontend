@@ -3,7 +3,6 @@ import useDataById from "./useDataById";
 import useDataByIds from "./useDataByIds";
 import useInput from "./useInput";
 import useLocalStorage from "./useLocalStorage";
-import useModal from "./useModal";
 import useRefreshAuth from "./useRefreshAuth";
 
 export {
@@ -12,6 +11,5 @@ export {
     useDataByIds,
     useInput,
     useLocalStorage,
-    useModal,
     useRefreshAuth,
 };

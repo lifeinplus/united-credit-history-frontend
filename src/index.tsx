@@ -12,7 +12,7 @@ import "./assets/js/main";
 import App from "./App";
 import { store } from "./app/store";
 import Spinner from "./components/Spinner";
-import { AuthProvider, ModalDataProvider } from "./contexts";
+import { AuthProvider } from "./contexts";
 
 if (process.env.NODE_ENV === "production") {
     disableReactDevTools();
@@ -27,15 +27,13 @@ root.render(
         <Suspense fallback={<Spinner />}>
             <Provider store={store}>
                 <AuthProvider>
-                    <ModalDataProvider>
-                        <QueryClientProvider client={queryClient}>
-                            <BrowserRouter>
-                                <Routes>
-                                    <Route path="/*" element={<App />} />
-                                </Routes>
-                            </BrowserRouter>
-                        </QueryClientProvider>
-                    </ModalDataProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <BrowserRouter>
+                            <Routes>
+                                <Route path="/*" element={<App />} />
+                            </Routes>
+                        </BrowserRouter>
+                    </QueryClientProvider>
                 </AuthProvider>
             </Provider>
         </Suspense>

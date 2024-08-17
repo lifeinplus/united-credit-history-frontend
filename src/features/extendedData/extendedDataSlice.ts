@@ -22,11 +22,13 @@ const extendedDataSlice = createSlice({
             cookies.set("extended_data", show ? "yes" : "no");
         },
     },
+    selectors: {
+        selectShowExtendedData: (state) => state.show,
+    },
 });
 
-export const selectShowExtendedData = (state: RootState) =>
-    state.extendedData.show;
-
 export const { toggleExtendedData } = extendedDataSlice.actions;
+
+export const { selectShowExtendedData } = extendedDataSlice.selectors;
 
 export default extendedDataSlice.reducer;

@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
 interface ThemeState {
-    value: string;
+    theme: string;
 }
 
 const initialState: ThemeState = {
-    value: localStorage.getItem("theme") || "light",
+    theme: localStorage.getItem("theme") || "light",
 };
 
 const themeSlice = createSlice({
@@ -14,13 +14,16 @@ const themeSlice = createSlice({
     initialState,
     reducers: {
         toggleTheme: (state) => {
-            state.value = state.value === "light" ? "dark" : "light";
+            state.theme = state.theme === "light" ? "dark" : "light";
         },
+    },
+    selectors: {
+        selectTheme: (state) => state.theme,
     },
 });
 
-export const selectTheme = (state: RootState) => state.theme.value;
-
 export const { toggleTheme } = themeSlice.actions;
+
+export const { selectTheme } = themeSlice.selectors;
 
 export default themeSlice.reducer;
