@@ -2,24 +2,31 @@ import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-import { axiosPrivate } from "../../api/axios";
-import { useAppSelector } from "../../app/hooks";
-import { useAuth } from "../../contexts";
+import { axiosPrivate } from "../../app/api/axios";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+    logOut,
+    selectRoles,
+    selectUserName,
+} from "../../features/auth/authSlice";
 import { selectTheme } from "../../features/theme/themeSlice";
 
 const Account = () => {
-    const { auth, setAuth } = useAuth();
     const navigate = useNavigate();
-    const theme = useAppSelector(selectTheme);
     const { t } = useTranslation("header");
 
-    return auth?.userName ? <Out /> : <In />;
+    const dispatch = useAppDispatch();
+    const theme = useAppSelector(selectTheme);
+    const userName = useAppSelector(selectUserName);
+    const roles = useAppSelector(selectRoles);
+
+    return userName ? <Out /> : <In />;
 
     function Out() {
         const handleLogout = async () => {
             await axiosPrivate("/auth/logout")
                 .then(() => {
-                    setAuth({});
+                    dispatch(logOut());
                     navigate("/login");
                 })
                 .catch((error) => console.error(error));
@@ -44,7 +51,7 @@ const Account = () => {
                     aria-expanded="false"
                 >
                     <i className="bi bi-person-circle me-2"></i>
-                    {auth?.userName}
+                    {userName}
                 </button>
                 <ul
                     className={classNames(
@@ -53,7 +60,7 @@ const Account = () => {
                         theme === "dark" && "dropdown-menu-dark"
                     )}
                 >
-                    {auth?.roles?.find((role) => role === 1010) && (
+                    {roles?.find((role) => role === 1010) && (
                         <li>
                             <button
                                 className="dropdown-item"

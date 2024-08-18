@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
 
-import Spinner from "../components/Spinner";
-import { useAuth } from "../contexts";
-import { useRefreshAuth } from "../hooks";
+import { useAppSelector } from "../../app/hooks";
+import Spinner from "../../components/Spinner";
+import { selectAccessToken } from "./authSlice";
+import { useRefreshAuth } from "../../hooks";
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
     const effectRan = useRef(false);
 
-    const { auth } = useAuth();
+    const accessToken = useAppSelector(selectAccessToken);
     const refreshAuth = useRefreshAuth();
 
     useEffect(() => {
@@ -23,7 +24,7 @@ const PersistLogin = () => {
                 .finally(() => isMounted && setIsLoading(false));
         };
 
-        !auth.accessToken ? verifyRefreshAuth() : setIsLoading(false);
+        !accessToken ? verifyRefreshAuth() : setIsLoading(false);
 
         return () => {
             effectRan.current = true;

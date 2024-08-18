@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { axiosPrivate } from "../../app/api/axios";
 import { User } from "../../types/User";
-import { axiosPrivate } from "../../api/axios";
 
 type ModalData = { id?: string } & Partial<User>;
 

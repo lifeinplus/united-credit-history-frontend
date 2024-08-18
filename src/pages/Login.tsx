@@ -1,38 +1,50 @@
+import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import { useAuth } from "../contexts";
-import { Auth } from "../layouts";
-import { SubmitCallback } from "../types/Auth";
+import { useAppDispatch } from "../app/hooks";
+import Auth from "../features/auth/Auth";
+import { useLoginMutation } from "../features/auth/authApiSlice";
+import { setCredentials } from "../features/auth/authSlice";
+import { isDataMessageError, isFetchBaseQueryError } from "../services/helpers";
+import type { AuthSubmitHandler } from "../types/Auth";
 
 const Login = () => {
-    const { setAuth } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
     const { t } = useTranslation(["login"]);
 
+    const dispatch = useAppDispatch();
+    const [login] = useLoginMutation();
+
     const from = location.state?.from?.pathname || "/reports";
 
-    const submitCallback: SubmitCallback = ({ data, status }, userName) => {
-        const { accessToken, roles } = data;
-
-        if (status === 200) {
-            setAuth({ accessToken, roles, userName });
+    const handleSubmit: AuthSubmitHandler = async (userName, password) => {
+        try {
+            const response = await login({ userName, password }).unwrap();
+            dispatch(setCredentials({ ...response, userName }));
             navigate(from, { replace: true });
+        } catch (err) {
+            if (isDataMessageError(err)) {
+                toast.error(err.data.message);
+            } else if (isFetchBaseQueryError(err)) {
+                const errMsg =
+                    "error" in err ? err.error : JSON.stringify(err.data);
+                toast.error(errMsg);
+            } else {
+                console.error(err);
+            }
         }
     };
 
     return (
         <Auth
             buttonText={t("buttonText")}
+            handleSubmit={handleSubmit}
             question={{
                 link: "/register",
                 linkText: t("linkText"),
                 text: t("questionText"),
-            }}
-            submit={{
-                callback: submitCallback,
-                url: "/auth/login",
             }}
             title={t("title")}
         />

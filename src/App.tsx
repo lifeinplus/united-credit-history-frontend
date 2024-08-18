@@ -3,9 +3,11 @@ import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "./app/hooks";
+import PersistLogin from "./features/auth/PersistLogin";
+import RequireAuth from "./features/auth/RequireAuth";
 import { toggleExtendedData } from "./features/extendedData/extendedDataSlice";
 import { selectTheme, toggleTheme } from "./features/theme/themeSlice";
-import { Layout, PersistLogin, RequireAuth } from "./layouts";
+import { Layout } from "./layouts";
 import {
     About,
     Login,

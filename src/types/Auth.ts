@@ -1,20 +1,11 @@
-import { AxiosResponse } from "axios";
-import { Dispatch, FormEvent, SetStateAction } from "react";
-
-export interface Auth {
-    userName?: string;
-    accessToken?: string;
-    roles?: number[];
-}
-
-export interface AuthContext {
-    auth: Auth;
-    setAuth: Dispatch<SetStateAction<Auth>>;
+export interface AuthLoginResult {
+    accessToken: string;
+    roles: number[];
 }
 
 export interface AuthProps {
     buttonText: string;
-    submit: { callback: SubmitCallback; url: string };
+    handleSubmit: AuthSubmitHandler;
     question: {
         link: string;
         linkText: string;
@@ -23,14 +14,25 @@ export interface AuthProps {
     title: string;
 }
 
-export interface RequireAuthProps {
+export interface AuthQueryArg {
+    userName: string;
+    password: string;
+}
+
+export interface AuthRegisterResult {
+    message: string;
+}
+
+export interface AuthRequireProps {
     allowedRoles: number[];
 }
 
-export interface SubmitCallback {
-    (response: AxiosResponse, userName: string): void;
+export interface AuthState {
+    accessToken?: string;
+    roles?: number[];
+    userName?: string;
 }
 
-export interface SubmitHandler {
-    (e: FormEvent<HTMLFormElement>): void;
+export interface AuthSubmitHandler {
+    (userName: string, password: string): void;
 }
