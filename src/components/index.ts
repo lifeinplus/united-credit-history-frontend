@@ -1,5 +1,5 @@
-import ModalDelete from "./Modal/ModalDelete";
-import ModalEdit from "./Modal/ModalEdit";
+import ModalDelete from "../features/modalData/ModalDelete";
+import ModalEdit from "../features/modalData/ModalEdit";
 import PanelHeader from "./PanelHeader";
 import Table from "./Table";
 

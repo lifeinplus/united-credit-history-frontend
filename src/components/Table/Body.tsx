@@ -3,9 +3,14 @@ import { memo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+    showModalDelete,
+    showModalEdit,
+} from "../../features/modalData/modalDataSlice";
+import ModalDelete from "../../features/modalData/ModalDelete";
+import ModalEdit from "../../features/modalData/ModalEdit";
 import { selectTheme } from "../../features/theme/themeSlice";
-import { useModal } from "../../hooks";
 import {
     TableBody,
     TableDataCell,
@@ -15,9 +20,6 @@ import {
 } from "../../types/Table";
 import { getDateFormat, langs } from "../../utils";
 
-import ModalEdit from "../Modal/ModalEdit";
-import ModalDelete from "../Modal/ModalDelete";
-
 const Body = ({
     columns,
     data,
@@ -26,8 +28,9 @@ const Body = ({
     isRowActive,
     isTextDifference,
 }: TableBody) => {
+    const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
-    const { showModalEdit, showModalDelete } = useModal();
+
     const [activeRowId, setActiveRowId] = useState<string | undefined>(
         undefined
     );
@@ -122,7 +125,7 @@ const Body = ({
                             `uch-btn-outline-primary ${theme}`,
                             "btn-sm"
                         )}
-                        onClick={() => showModalEdit(data)}
+                        onClick={() => dispatch(showModalEdit(data))}
                         type="button"
                     >
                         <i className="bi bi-pencil-square"></i>
@@ -134,7 +137,7 @@ const Body = ({
                             `uch-btn-outline-primary ${theme}`,
                             "btn-sm"
                         )}
-                        onClick={() => showModalDelete(data)}
+                        onClick={() => dispatch(showModalDelete(data))}
                         type="button"
                     >
                         <i className="bi bi-trash"></i>

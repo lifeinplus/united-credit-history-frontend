@@ -2,36 +2,37 @@ import { memo } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { useAxiosPrivate, useModal } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+
+import {
+    hideModalEdit,
+    selectIsModalEdit,
+    selectModalData,
+    setModalData,
+    updateUser,
+} from "./modalDataSlice";
 
 const ModalEdit = () => {
     const { t } = useTranslation("modal");
-    const axiosPrivate = useAxiosPrivate();
 
-    const {
-        isModalEdit,
-        modalData,
-        hideModalEdit,
-        setClosingRefresh,
-        setModalData,
-    } = useModal();
+    const dispatch = useAppDispatch();
+    const isModalEdit = useAppSelector(selectIsModalEdit);
+    const modalData = useAppSelector(selectModalData);
 
     const { _id, userName, roles } = modalData;
 
     const handleSave = () => {
-        if (!_id) return;
-
-        axiosPrivate
-            .put(`/users/updateById`, { id: _id, roles })
-            .then(() => {
-                setClosingRefresh(true);
-                hideModalEdit();
-            })
-            .catch((error) => console.log(error.message));
+        if (_id) {
+            dispatch(updateUser({ id: _id, roles }));
+        }
     };
 
     return (
-        <Modal show={isModalEdit} onHide={hideModalEdit} centered>
+        <Modal
+            show={isModalEdit}
+            onHide={() => dispatch(hideModalEdit())}
+            centered
+        >
             <Modal.Header closeButton>
                 <Modal.Title>{t("title.edit")}</Modal.Title>
             </Modal.Header>
@@ -51,10 +52,11 @@ const ModalEdit = () => {
                             as="textarea"
                             autoFocus
                             onChange={(e) =>
-                                setModalData({
-                                    ...modalData,
-                                    roles: e.target.value,
-                                })
+                                dispatch(
+                                    setModalData({
+                                        roles: e.target.value,
+                                    })
+                                )
                             }
                             rows={3}
                             value={roles}
@@ -63,7 +65,10 @@ const ModalEdit = () => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={hideModalEdit} variant="secondary">
+                <Button
+                    onClick={() => dispatch(hideModalEdit())}
+                    variant="secondary"
+                >
                     {t("button.cancel")}
                 </Button>
                 <Button onClick={handleSave} variant="primary">
