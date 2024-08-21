@@ -2,15 +2,14 @@ import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import toast from "react-hot-toast";
 
-import { axiosPrivate } from "../api/axios";
-import { useAppSelector } from "../app/hooks";
-import { selectTheme } from "../features/theme/themeSlice";
-import { useInput } from "../hooks";
-import { AuthProps, SubmitHandler } from "../types/Auth";
+import { useAppSelector } from "../../app/hooks";
+import { useInput } from "../../hooks";
+import type { AuthProps } from "../../types/Auth";
 
-const Auth = ({ buttonText, question, submit, title }: AuthProps) => {
+import { selectTheme } from "../theme/themeSlice";
+
+const Auth = ({ buttonText, handleSubmit, question, title }: AuthProps) => {
     const theme = useAppSelector(selectTheme);
     const { t } = useTranslation(["auth"]);
     const userNameRef = useRef<HTMLInputElement>(null);
@@ -23,34 +22,17 @@ const Auth = ({ buttonText, question, submit, title }: AuthProps) => {
         userNameRef.current?.focus();
     }, []);
 
-    const handleSubmit: SubmitHandler = (e) => {
-        e.preventDefault();
-        setValidated(true);
-
-        axiosPrivate
-            .post(submit.url, { userName, password })
-            .then((response) => submit.callback(response, userName))
-            .catch((error) => {
-                console.error(error);
-                const { message, response } = error;
-
-                if (!response) {
-                    toast.error(message);
-                    return;
-                }
-
-                const { data } = response;
-                toast.error(data.message || message);
-            });
-    };
-
     return (
         <section className={classNames("uch-auth", "my-10", "m-auto")}>
             <h1 className="h3 mb-3 fw-normal">{title}</h1>
             <form
                 className={validated ? "was-validated" : undefined}
                 noValidate
-                onSubmit={handleSubmit}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    setValidated(true);
+                    handleSubmit(userName, password);
+                }}
             >
                 <div className="form-floating">
                     <input

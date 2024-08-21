@@ -1,15 +1,16 @@
-import { axiosPrivate } from "../api/axios";
-import { useAuth } from "../contexts";
+import { axiosPrivate } from "../app/api/axios";
+import { useAppDispatch } from "../app/hooks";
+import { setCredentials } from "../features/auth/authSlice";
 
 const useRefreshAuth = () => {
-    const { setAuth } = useAuth();
+    const dispatch = useAppDispatch();
 
     return async () => {
         const { accessToken, roles, userName } = await axiosPrivate
             .get("auth/refresh")
             .then((response) => response.data);
 
-        setAuth((prev) => ({ ...prev, accessToken, roles, userName }));
+        dispatch(setCredentials({ accessToken, roles, userName }));
 
         return accessToken;
     };
