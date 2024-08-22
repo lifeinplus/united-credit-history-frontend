@@ -1,4 +1,5 @@
-import { DateOptions, Lang } from "../types";
+import type { DateOptions, Lang } from "../types";
+import type { TableColumn } from "../types/Table";
 
 export const langs: Record<string, Lang> = {
     en: { countryCode: "gb", locale: "en-GB", nativeName: "English" },
@@ -38,3 +39,51 @@ export function getDateFormat(locale: string, type: keyof DateOptions) {
     const options = dateOptions[type];
     return new Intl.DateTimeFormat(locale, options);
 }
+
+export const reportListColumns: TableColumn[] = [
+    {
+        alignment: "text-start",
+        dataType: "numeric",
+        sysName: "appNumber",
+    },
+    {
+        alignment: "text-center",
+        dataType: "dateTime",
+        sysName: "appCreationDate",
+    },
+    {
+        alignment: "text-start",
+        dataType: "text",
+        isLink: true,
+        sysName: "clientName",
+    },
+    {
+        alignment: "text-end",
+        dataType: "numeric",
+        sysName: "documentSeries",
+    },
+    {
+        alignment: "text-end",
+        dataType: "numeric",
+        sysName: "documentNumber",
+    },
+];
+
+export const userListColumns: TableColumn[] = [
+    {
+        alignment: "text-center",
+        dataType: "dateTime",
+        sortable: true,
+        sysName: "creationDate",
+    },
+    {
+        alignment: "text-start",
+        dataType: "text",
+        sysName: "userName",
+    },
+    {
+        alignment: "text-start",
+        dataType: "text",
+        sysName: "roles",
+    },
+];

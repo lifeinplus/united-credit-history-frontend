@@ -1,15 +1,15 @@
 import classNames from "classnames";
-import { useEffect } from "react";
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-    selectClosingRefresh,
-    setClosingRefresh,
-} from "../../features/modalData/modalDataSlice";
+import { useAppSelector } from "../../app/hooks";
 import { selectTheme } from "../../features/theme/themeSlice";
-import { Table } from "../../types/Table";
+import type { TableProps } from "../../types/Table";
 
-import { useStickyHeader, useTableData, useTableScroll } from "./hooks";
+import {
+    useRowActive,
+    useSortableData,
+    useStickyHeader,
+    useTableScroll,
+} from "./hooks";
 
 import Body from "./Body";
 import Head from "./Head";
@@ -29,32 +29,15 @@ const Table = ({
     isStickyHeader = false,
     isTextDifference = false,
     isTooltips = false,
-    methodParams = {},
+    paginationParams = {},
     sorting = {},
-}: Table) => {
-    const dispatch = useAppDispatch();
-    const closingRefresh = useAppSelector(selectClosingRefresh);
+}: TableProps) => {
     const theme = useAppSelector(selectTheme);
 
-    const {
-        isPlaceholderData,
-        page,
-        refetch,
-        requestRefresh,
-        requestSort,
-        setPage,
-        sortDirection,
-        sortSysName,
-        tableData,
-        totalPages,
-    } = useTableData(methodParams, isPagination, isRowActive, sorting, data);
+    const rowActiveData = useRowActive(isRowActive, data);
 
-    useEffect(() => {
-        if (closingRefresh) {
-            dispatch(setClosingRefresh(false));
-            isPagination ? refetch() : requestRefresh();
-        }
-    }, [closingRefresh]);
+    const [sortedData, requestSort, sortDirection, sortSysName] =
+        useSortableData(rowActiveData, sorting);
 
     const [tableWrapperRef, headerRef] = useStickyHeader(isStickyHeader);
     const [scrollWrapperRef, btnRefs, handleScroll] =
@@ -101,7 +84,7 @@ const Table = ({
                     />
                     <Body
                         columns={columns}
-                        data={tableData}
+                        data={sortedData}
                         isActions={isActions}
                         isMobileView={isMobileView}
                         isRowActive={isRowActive}
@@ -112,10 +95,10 @@ const Table = ({
             {isPagination && (
                 <footer>
                     <Pagination
-                        isPlaceholderData={isPlaceholderData}
-                        page={page}
-                        setPage={setPage}
-                        totalPages={totalPages}
+                        isFetching={paginationParams.isFetching}
+                        page={paginationParams.page}
+                        setPage={paginationParams.setPage}
+                        totalPages={paginationParams.totalPages}
                     />
                 </footer>
             )}

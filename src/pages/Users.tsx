@@ -1,4 +1,4 @@
-import UserList from "../layouts/UserList";
+import UserList from "../features/users/UserList";
 
 const Users = () => {
     return <UserList />;

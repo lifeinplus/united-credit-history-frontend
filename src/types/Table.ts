@@ -1,7 +1,8 @@
 import { MouseEvent, RefObject } from "react";
 
-import { Loan, Person, ReportRecord } from "./Report";
-import { User } from "./User";
+import type { PaginationProps } from "./Pagination";
+import type { Loan, Person, ReportRecord } from "./Report";
+import type { User } from "./User";
 
 export type TableData = Loan | Person | ReportRecord | User;
 
@@ -22,15 +23,7 @@ export interface TableColumn {
     type?: string;
 }
 
-export interface MethodParams {
-    limit?: number;
-    options?: {
-        reportId?: string;
-    };
-    url?: string;
-}
-
-export interface Table {
+export interface TableProps {
     id: string;
     columns: TableColumn[];
     data?: TableData[];
@@ -43,7 +36,7 @@ export interface Table {
     isStickyHeader?: boolean;
     isTextDifference?: boolean;
     isTooltips?: boolean;
-    methodParams?: MethodParams;
+    paginationParams?: PaginationProps;
     sorting?: TableSortConfig;
 }
 

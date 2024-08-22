@@ -6,10 +6,10 @@ import { selectTheme } from "../../features/theme/themeSlice";
 import { PageItemProps, PaginationProps } from "../../types/Pagination";
 
 const Pagination = ({
-    isPlaceholderData,
-    page,
-    setPage,
-    totalPages,
+    isFetching = false,
+    page = 1,
+    setPage = () => {},
+    totalPages = 1,
 }: PaginationProps) => {
     const theme = useAppSelector(selectTheme);
 
@@ -21,7 +21,7 @@ const Pagination = ({
         <nav aria-label="Pages">
             <ul className="pagination justify-content-end">
                 <PageItem
-                    disabled={isPlaceholderData || page === 1}
+                    disabled={isFetching || page === 1}
                     page={page - 1}
                     pageText={"<"}
                     setPage={setPage}
@@ -30,13 +30,13 @@ const Pagination = ({
                     <PageItem
                         key={item}
                         active={item === page}
-                        disabled={isPlaceholderData}
+                        disabled={isFetching}
                         page={item}
                         setPage={setPage}
                     />
                 ))}
                 <PageItem
-                    disabled={isPlaceholderData || page === totalPages}
+                    disabled={isFetching || page === totalPages}
                     page={page + 1}
                     pageText={">"}
                     setPage={setPage}
@@ -76,18 +76,18 @@ const Pagination = ({
 
 function propsAreEqual(
     {
-        isPlaceholderData: prevIsPlaceholderData,
+        isFetching: prevIsFetching,
         page: prevPage,
         totalPages: prevTotalPages,
     }: Readonly<PaginationProps>,
     {
-        isPlaceholderData: nextIsPlaceholderData,
+        isFetching: nextIsFetching,
         page: nextPage,
         totalPages: nextTotalPages,
     }: Readonly<PaginationProps>
 ): boolean {
     return (
-        prevIsPlaceholderData === nextIsPlaceholderData &&
+        prevIsFetching === nextIsFetching &&
         prevPage === nextPage &&
         prevTotalPages === nextTotalPages
     );

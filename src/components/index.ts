@@ -1,6 +1,19 @@
-import ModalDelete from "../features/modalData/ModalDelete";
-import ModalEdit from "../features/modalData/ModalEdit";
+import CreditHistory from "./CreditHistory";
+import Footer from "./Footer";
+import Header from "./Header";
+import Layout from "./Layout";
 import PanelHeader from "./PanelHeader";
+import PersonalData from "./PersonalData";
+import Spinner from "./Spinner";
 import Table from "./Table";
 
-export { ModalDelete, ModalEdit, PanelHeader, Table };
+export {
+    CreditHistory,
+    Footer,
+    Header,
+    Layout,
+    PanelHeader,
+    PersonalData,
+    Spinner,
+    Table,
+};

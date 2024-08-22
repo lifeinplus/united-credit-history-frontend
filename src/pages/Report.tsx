@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 
+import { CreditHistory, PersonalData } from "../components";
 import { useDataById } from "../hooks";
-import { CreditHistory, PersonalData } from "../layouts";
 import { ReportFull } from "../types/Report";
 
 const Report = () => {

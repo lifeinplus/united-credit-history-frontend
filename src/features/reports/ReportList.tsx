@@ -1,20 +1,36 @@
 import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PanelHeader, Table } from "../../components";
-import { selectTheme } from "../../features/theme/themeSlice";
+import type { HandleSetPage } from "../../types/Pagination";
+import { reportListColumns } from "../../utils";
 
-import { tableColumns } from "./utils";
+import { selectTheme } from "../theme/themeSlice";
+
+import { useGetReportsQuery } from "./reportsApiSlice";
+import { selectLimit, selectPage, setPage } from "./reportsSlice";
 
 const ReportList = () => {
-    const theme = useAppSelector(selectTheme);
     const { t } = useTranslation(["report_list"]);
 
-    const columns = tableColumns.map((item) => ({
+    const dispatch = useAppDispatch();
+    const theme = useAppSelector(selectTheme);
+    const page = useAppSelector(selectPage);
+    const limit = useAppSelector(selectLimit);
+
+    const { data, isFetching } = useGetReportsQuery({ limit, page });
+    const reports = data?.results;
+    const totalPages = data?.totalPages;
+
+    const columns = reportListColumns.map((item) => ({
         ...item,
         name: t(`table.${item.sysName}`),
     }));
+
+    const handleSetPage: HandleSetPage = (page) => {
+        dispatch(setPage(page));
+    };
 
     return (
         <section className="container-fluid mb-3">
@@ -35,11 +51,14 @@ const ReportList = () => {
                             <Table
                                 id={"rl"}
                                 columns={columns}
+                                data={reports}
                                 isPagination={true}
                                 isRowHover={true}
-                                methodParams={{
-                                    limit: 2,
-                                    url: "reports/getPaginated",
+                                paginationParams={{
+                                    isFetching,
+                                    page,
+                                    setPage: handleSetPage,
+                                    totalPages,
                                 }}
                             />
                         </div>

@@ -4,8 +4,7 @@ import { Outlet } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
 import { selectTheme } from "../features/theme/themeSlice";
 
-import Footer from "./Footer";
-import Header from "./Header";
+import { Footer, Header } from ".";
 
 const Layout = () => {
     const theme = useAppSelector(selectTheme);
