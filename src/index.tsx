@@ -9,9 +9,9 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "./assets/scss/main.scss";
 import "./assets/js/main";
 
-import App from "./App";
 import { store } from "./app/store";
-import Spinner from "./components/Spinner";
+import { Spinner } from "./components";
+import App from "./App";
 
 if (process.env.NODE_ENV === "production") {
     disableReactDevTools();

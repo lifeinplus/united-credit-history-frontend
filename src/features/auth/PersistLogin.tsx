@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
 
 import { useAppSelector } from "../../app/hooks";
-import Spinner from "../../components/Spinner";
-import { selectAccessToken } from "./authSlice";
+import { Spinner } from "../../components";
 import { useRefreshAuth } from "../../hooks";
+
+import { selectAccessToken } from "./authSlice";
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);

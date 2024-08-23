@@ -1,5 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { axiosPrivate } from "../../app/api/axios";
+import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types/User";
 
 type ModalData = { id?: string } & Partial<User>;
@@ -17,35 +16,6 @@ const initialState: ModalDataState = {
     isModalEdit: false,
     modalData: {},
 };
-
-export const deleteUser = createAsyncThunk(
-    "modalData/deleteUser",
-    async ({ id }: ModalData) => {
-        try {
-            const response = await axiosPrivate.delete(
-                `/users/deleteById/${id}`
-            );
-            return response.data;
-        } catch (error) {
-            console.error(error);
-        }
-    }
-);
-
-export const updateUser = createAsyncThunk(
-    "modalData/update",
-    async ({ id, roles }: ModalData) => {
-        try {
-            const response = await axiosPrivate.put(`/users/updateById`, {
-                id,
-                roles,
-            });
-            return response.data;
-        } catch (error) {
-            console.error(error);
-        }
-    }
-);
 
 const modalDataSlice = createSlice({
     name: "modalData",
@@ -76,16 +46,6 @@ const modalDataSlice = createSlice({
             state.modalData = action.payload ?? {};
             state.isModalEdit = true;
         },
-    },
-    extraReducers(builder) {
-        builder.addCase(updateUser.fulfilled, (state) => {
-            state.closingRefresh = true;
-            state.isModalEdit = false;
-        });
-        builder.addCase(deleteUser.fulfilled, (state) => {
-            state.closingRefresh = true;
-            state.isModalDelete = false;
-        });
     },
     selectors: {
         selectClosingRefresh: (state) => state.closingRefresh,
