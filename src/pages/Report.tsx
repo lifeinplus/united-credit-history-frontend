@@ -1,14 +1,15 @@
 import { useParams } from "react-router-dom";
 
-import { CreditHistory, PersonalData } from "../components";
-import { useDataById } from "../hooks";
-import { ReportFull } from "../types/Report";
+import { CreditHistory, PersonalData, Spinner } from "../components";
+import { useGetFullByIdQuery } from "../features/reports/reportsApiSlice";
 
 const Report = () => {
     const { reportId } = useParams();
-    const report = useDataById<ReportFull>("reports/getFullById", reportId);
+    const { data: report, isLoading } = useGetFullByIdQuery({ id: reportId });
 
-    return (
+    return isLoading ? (
+        <Spinner />
+    ) : (
         <>
             <PersonalData data={report} />
             <CreditHistory data={report} />

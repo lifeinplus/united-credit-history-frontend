@@ -1,9 +1,14 @@
-import { apiSlice } from "../../app/api/apiSlice";
+import { apiSlice } from "../api/apiSlice";
 
 import type {
     PaginationQueryArg,
     PaginationResult,
 } from "../../types/Pagination";
+import type { ReportFull } from "../../types/Report";
+
+interface ReportFullQueryArg {
+    id?: string;
+}
 
 const reportsApiSlice = apiSlice.injectEndpoints({
     endpoints: (build) => ({
@@ -11,8 +16,12 @@ const reportsApiSlice = apiSlice.injectEndpoints({
             query: ({ limit, page }) =>
                 `reports/getPaginated?page=${page}&limit=${limit}`,
             keepUnusedDataFor: 5,
+            providesTags: ["Reports"],
+        }),
+        getFullById: build.query<ReportFull, ReportFullQueryArg>({
+            query: ({ id }) => `reports/getFullById/${id}`,
         }),
     }),
 });
 
-export const { useGetReportsQuery } = reportsApiSlice;
+export const { useGetFullByIdQuery, useGetReportsQuery } = reportsApiSlice;

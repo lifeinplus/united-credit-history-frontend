@@ -2,8 +2,8 @@ import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-import { axiosPrivate } from "../../app/api/axios";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { axiosPrivate } from "../../features/api/axios";
 import {
     logOut,
     selectRoles,

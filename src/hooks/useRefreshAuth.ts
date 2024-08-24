@@ -1,5 +1,5 @@
-import { axiosPrivate } from "../app/api/axios";
 import { useAppDispatch } from "../app/hooks";
+import { axiosPrivate } from "../features/api/axios";
 import { setCredentials } from "../features/auth/authSlice";
 
 const useRefreshAuth = () => {
