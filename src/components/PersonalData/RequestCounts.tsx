@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../app/hooks";
 import { selectTheme } from "../../features/theme/themeSlice";
-import {
+import type {
     RequestCountsCard,
     RequestCountsItem,
     RequestCountsProps,

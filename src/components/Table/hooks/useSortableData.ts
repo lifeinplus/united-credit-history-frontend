@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
-import {
+
+import type {
     TableSortConfig,
     TableColumn,
     TableData,

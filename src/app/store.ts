@@ -1,23 +1,25 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineSlices, configureStore } from "@reduxjs/toolkit";
 
 import { apiSlice } from "../features/api/apiSlice";
-import authReducer from "../features/auth/authSlice";
-import extendedDataReducer from "../features/extendedData/extendedDataSlice";
-import modalDataReducer from "../features/modalData/modalDataSlice";
-import reportsReducer from "../features/reports/reportsSlice";
-import themeReducer from "../features/theme/themeSlice";
-import usersReducer from "../features/users/usersSlice";
+import { authSlice } from "../features/auth/authSlice";
+import { extendedDataSlice } from "../features/extendedData/extendedDataSlice";
+import { modalDataSlice } from "../features/modalData/modalDataSlice";
+import { reportsSlice } from "../features/reports/reportsSlice";
+import { themeSlice } from "../features/theme/themeSlice";
+import { usersSlice } from "../features/users/usersSlice";
+
+const rootReducer = combineSlices(
+    apiSlice,
+    authSlice,
+    extendedDataSlice,
+    modalDataSlice,
+    reportsSlice,
+    themeSlice,
+    usersSlice
+);
 
 export const store = configureStore({
-    reducer: {
-        [apiSlice.reducerPath]: apiSlice.reducer,
-        auth: authReducer,
-        extendedData: extendedDataReducer,
-        modalData: modalDataReducer,
-        reports: reportsReducer,
-        theme: themeReducer,
-        users: usersReducer,
-    },
+    reducer: rootReducer,
     middleware: (getDefaultMiddlware) =>
         getDefaultMiddlware().concat(apiSlice.middleware),
     devTools: true,

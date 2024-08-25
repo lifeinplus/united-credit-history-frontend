@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../app/hooks";
 import { Table } from "../../components";
 import { selectShowExtendedData } from "../../features/extendedData/extendedDataSlice";
-import { LoansProps } from "../../types/CreditHistory";
+import type { LoansProps } from "../../types/CreditHistory";
 import { getDateFormat } from "../../utils";
 
 import { tableColumns, TimePeriod } from "./utils";

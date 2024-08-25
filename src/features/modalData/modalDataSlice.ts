@@ -15,7 +15,7 @@ const initialState: ModalDataState = {
     modalData: {},
 };
 
-const modalDataSlice = createSlice({
+export const modalDataSlice = createSlice({
     name: "modalData",
     initialState,
     reducers: {
@@ -59,5 +59,3 @@ export const {
 
 export const { selectIsModalDelete, selectIsModalEdit, selectModalData } =
     modalDataSlice.selectors;
-
-export default modalDataSlice.reducer;

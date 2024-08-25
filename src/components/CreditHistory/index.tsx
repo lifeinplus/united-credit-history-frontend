@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useAppSelector } from "../../app/hooks";
 import { PanelHeader } from "../../components";
 import { selectTheme } from "../../features/theme/themeSlice";
-import { CreditHistoryProps } from "../../types/CreditHistory";
+import type { CreditHistoryProps } from "../../types/CreditHistory";
 
 import Loans from "./Loans";
 import PaymentAmounts from "./PaymentAmounts";

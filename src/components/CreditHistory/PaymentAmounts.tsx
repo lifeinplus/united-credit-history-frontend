@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../../app/hooks";
 import { selectShowExtendedData } from "../../features/extendedData/extendedDataSlice";
 import { selectTheme } from "../../features/theme/themeSlice";
-import {
+import type {
     AmountContextField,
     GroupProps,
     PaymentAmountsProps,

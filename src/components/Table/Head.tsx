@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../app/hooks";
 import { selectTheme } from "../../features/theme/themeSlice";
-import { TableHead, TableHeaderCell } from "../../types/Table";
+import type { TableHead, TableHeaderCell } from "../../types/Table";
 
 import { useTooltip } from "./hooks";
 

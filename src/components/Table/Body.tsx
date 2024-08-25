@@ -11,7 +11,7 @@ import {
 import ModalDelete from "../../features/modalData/ModalDelete";
 import ModalEdit from "../../features/modalData/ModalEdit";
 import { selectTheme } from "../../features/theme/themeSlice";
-import {
+import type {
     TableBody,
     TableDataCell,
     TableDiff,
