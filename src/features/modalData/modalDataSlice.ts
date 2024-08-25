@@ -4,14 +4,12 @@ import { User } from "../../types/User";
 type ModalData = { id?: string } & Partial<User>;
 
 interface ModalDataState {
-    closingRefresh: boolean;
     isModalDelete: boolean;
     isModalEdit: boolean;
     modalData: ModalData;
 }
 
 const initialState: ModalDataState = {
-    closingRefresh: false,
     isModalDelete: false,
     isModalEdit: false,
     modalData: {},
@@ -35,9 +33,6 @@ const modalDataSlice = createSlice({
                 };
             }
         },
-        setClosingRefresh: (state, action) => {
-            state.closingRefresh = action.payload ?? false;
-        },
         showModalDelete: (state, action) => {
             state.modalData = action.payload ?? {};
             state.isModalDelete = true;
@@ -48,7 +43,6 @@ const modalDataSlice = createSlice({
         },
     },
     selectors: {
-        selectClosingRefresh: (state) => state.closingRefresh,
         selectIsModalDelete: (state) => state.isModalDelete,
         selectIsModalEdit: (state) => state.isModalEdit,
         selectModalData: (state) => state.modalData,
@@ -58,17 +52,12 @@ const modalDataSlice = createSlice({
 export const {
     hideModalDelete,
     hideModalEdit,
-    setClosingRefresh,
     setModalData,
     showModalDelete,
     showModalEdit,
 } = modalDataSlice.actions;
 
-export const {
-    selectClosingRefresh,
-    selectIsModalDelete,
-    selectIsModalEdit,
-    selectModalData,
-} = modalDataSlice.selectors;
+export const { selectIsModalDelete, selectIsModalEdit, selectModalData } =
+    modalDataSlice.selectors;
 
 export default modalDataSlice.reducer;

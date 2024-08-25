@@ -4,7 +4,7 @@ import {
     fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
 
-import { logOut, setCredentials } from "../../features/auth/authSlice";
+import { logOut, setCredentials } from "../auth/authSlice";
 import type { AuthState } from "../../types/Auth";
 
 const baseQuery = fetchBaseQuery({
@@ -23,11 +23,8 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
 
     if (result.error?.status === 403) {
-        console.log("sending refresh token");
-
         // send refresh token to get new access token
         const refreshResult = await baseQuery("/refresh", api, extraOptions);
-        console.log(refreshResult);
 
         if (refreshResult.data) {
             const { auth } = api.getState() as { auth: AuthState };
@@ -51,6 +48,8 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
 };
 
 export const apiSlice = createApi({
+    reducerPath: "api",
     baseQuery: baseQueryWithReauth,
+    tagTypes: ["Reports", "Users"],
     endpoints: (builder) => ({}),
 });

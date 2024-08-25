@@ -1,13 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import { apiSlice } from "../features/api/apiSlice";
 import authReducer from "../features/auth/authSlice";
 import extendedDataReducer from "../features/extendedData/extendedDataSlice";
 import modalDataReducer from "../features/modalData/modalDataSlice";
 import reportsReducer from "../features/reports/reportsSlice";
 import themeReducer from "../features/theme/themeSlice";
 import usersReducer from "../features/users/usersSlice";
-
-import { apiSlice } from "./api/apiSlice";
 
 export const store = configureStore({
     reducer: {

@@ -1,4 +1,4 @@
-import { apiSlice } from "../../app/api/apiSlice";
+import { apiSlice } from "../api/apiSlice";
 
 import type {
     PaginationQueryArg,
@@ -16,6 +16,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
             query: ({ limit, page }) =>
                 `users/getPaginated?page=${page}&limit=${limit}`,
             keepUnusedDataFor: 5,
+            providesTags: ["Users"],
         }),
         updateUser: build.mutation<void, UsersQueryArg>({
             query: (arg) => ({
@@ -23,12 +24,14 @@ const usersApiSlice = apiSlice.injectEndpoints({
                 method: "PUT",
                 body: { ...arg },
             }),
+            invalidatesTags: ["Users"],
         }),
         deleteUser: build.mutation<void, UsersQueryArg>({
             query: ({ id }) => ({
                 url: `users/deleteById/${id}`,
                 method: "DELETE",
             }),
+            invalidatesTags: ["Users"],
         }),
     }),
 });

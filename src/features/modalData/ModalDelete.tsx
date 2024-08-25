@@ -5,11 +5,11 @@ import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 import { useDeleteUserMutation } from "../users/usersApiSlice";
+
 import {
     hideModalDelete,
     selectIsModalDelete,
     selectModalData,
-    setClosingRefresh,
 } from "./modalDataSlice";
 
 const ModalDelete = () => {
@@ -28,7 +28,6 @@ const ModalDelete = () => {
 
         try {
             await deleteUser({ id: _id }).unwrap();
-            dispatch(setClosingRefresh(true));
             dispatch(hideModalDelete());
         } catch (error) {
             console.error(error);

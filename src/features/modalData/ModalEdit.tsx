@@ -5,11 +5,11 @@ import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 import { useUpdateUserMutation } from "../users/usersApiSlice";
+
 import {
     hideModalEdit,
     selectIsModalEdit,
     selectModalData,
-    setClosingRefresh,
     setModalData,
 } from "./modalDataSlice";
 
@@ -29,7 +29,6 @@ const ModalEdit = () => {
 
         try {
             await updateUser({ id: _id, roles }).unwrap();
-            dispatch(setClosingRefresh(true));
             dispatch(hideModalEdit());
         } catch (error) {
             console.error(error);
