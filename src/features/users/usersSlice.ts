@@ -6,7 +6,7 @@ const initialState: PaginationState = {
     page: 1,
 };
 
-const usersSlice = createSlice({
+export const usersSlice = createSlice({
     name: "users",
     initialState,
     reducers: {
@@ -22,5 +22,3 @@ const usersSlice = createSlice({
 
 export const { setPage } = usersSlice.actions;
 export const { selectLimit, selectPage } = usersSlice.selectors;
-
-export default usersSlice.reducer;

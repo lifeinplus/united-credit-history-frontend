@@ -3,7 +3,12 @@ import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../app/hooks";
 import ExtendControl from "../features/extendedData/ExtendControl";
 import { selectTheme } from "../features/theme/themeSlice";
-import { PanelHeaderProps, PanelHeaderFieldProps } from "../types/PanelHeader";
+
+import type {
+    PanelHeaderProps,
+    PanelHeaderFieldProps,
+} from "../types/PanelHeader";
+
 import { getDateFormat, langs } from "../utils";
 
 const PanelHeader = ({

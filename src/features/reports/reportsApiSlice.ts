@@ -4,6 +4,7 @@ import type {
     PaginationQueryArg,
     PaginationResult,
 } from "../../types/Pagination";
+
 import type { ReportFull } from "../../types/Report";
 
 interface ReportFullQueryArg {

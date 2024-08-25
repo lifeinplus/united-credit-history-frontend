@@ -1,6 +1,9 @@
-import { AmountContextField, AmountField } from "../../types/CreditHistory";
-import { Loan } from "../../types/Report";
-import { TableColumn } from "../../types/Table";
+import type {
+    AmountContextField,
+    AmountField,
+} from "../../types/CreditHistory";
+import type { Loan } from "../../types/Report";
+import type { TableColumn } from "../../types/Table";
 import { getDateFormat } from "../../utils";
 
 export class TimePeriod {

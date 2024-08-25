@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Table } from "../../components";
-import { PersonsProps } from "../../types/PersonalData";
+import type { PersonsProps } from "../../types/PersonalData";
 import { tableColumns } from "./utils";
 
 const Persons = ({ persons }: PersonsProps) => {

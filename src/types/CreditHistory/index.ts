@@ -1,10 +1,11 @@
-import {
+import type {
     AmountField,
     AmountContextField,
     GroupProps,
     PaymentAmountsProps,
 } from "./PaymentAmounts";
-import { ReportFull, Loan } from "../Report";
+
+import type { ReportFull, Loan } from "../Report";
 
 export interface CreditHistoryProps {
     data?: ReportFull;

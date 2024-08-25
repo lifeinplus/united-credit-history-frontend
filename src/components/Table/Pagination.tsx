@@ -3,7 +3,7 @@ import { memo } from "react";
 
 import { useAppSelector } from "../../app/hooks";
 import { selectTheme } from "../../features/theme/themeSlice";
-import { PageItemProps, PaginationProps } from "../../types/Pagination";
+import type { PageItemProps, PaginationProps } from "../../types/Pagination";
 
 const Pagination = ({
     isFetching = false,

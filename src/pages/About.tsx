@@ -4,11 +4,12 @@ import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../app/hooks";
 import { PanelHeader } from "../components";
 import { selectTheme } from "../features/theme/themeSlice";
-import { LegendProps, TaskProps, TitleProps } from "../types/About";
+import type { LegendProps, TaskProps, TitleProps } from "../types/About";
 
 const About = () => {
-    const theme = useAppSelector(selectTheme);
     const { t } = useTranslation(["about"]);
+
+    const theme = useAppSelector(selectTheme);
     const textTheme = theme === "light" ? "text-dark" : "text-light";
 
     const tasks = ["t1", "t2", "t3", "t4", "t5", "t6", "t7"].map((task) => {

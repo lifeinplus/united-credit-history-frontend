@@ -3,7 +3,7 @@ import type { AuthState } from "../../types/Auth";
 
 const initialState: AuthState = {};
 
-const authSlice = createSlice({
+export const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
@@ -30,5 +30,3 @@ export const { logOut, setCredentials } = authSlice.actions;
 
 export const { selectAccessToken, selectRoles, selectUserName } =
     authSlice.selectors;
-
-export default authSlice.reducer;

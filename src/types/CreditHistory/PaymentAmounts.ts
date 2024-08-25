@@ -1,4 +1,4 @@
-import { Commons } from "../Report";
+import type { Commons } from "../Report";
 
 export interface AmountField {
     sysName: string;

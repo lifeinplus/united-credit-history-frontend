@@ -1,6 +1,6 @@
-import { ListField } from "../../types/List";
-import { ScoreStyle } from "../../types/PersonalData";
-import { TableColumn } from "../../types/Table";
+import type { ListField } from "../../types/List";
+import type { ScoreStyle } from "../../types/PersonalData";
+import type { TableColumn } from "../../types/Table";
 
 export const listFields: ListField[] = [
     {

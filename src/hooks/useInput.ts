@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import type { ChangeEvent } from "react";
 import useLocalStorage from "./useLocalStorage";
 
 const useInput = (key: string, initValue: string) => {

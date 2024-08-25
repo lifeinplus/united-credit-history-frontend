@@ -1,5 +1,6 @@
 import { apiSlice } from "../api/apiSlice";
-import {
+
+import type {
     AuthLoginResult,
     AuthQueryArg,
     AuthRegisterResult,

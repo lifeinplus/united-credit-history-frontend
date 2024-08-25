@@ -1,4 +1,4 @@
-import { MouseEvent, RefObject } from "react";
+import type { MouseEvent, RefObject } from "react";
 
 import type { PaginationProps } from "./Pagination";
 import type { Loan, Person, ReportRecord } from "./Report";

@@ -8,6 +8,7 @@ import PersistLogin from "./features/auth/PersistLogin";
 import RequireAuth from "./features/auth/RequireAuth";
 import { toggleExtendedData } from "./features/extendedData/extendedDataSlice";
 import { selectTheme, toggleTheme } from "./features/theme/themeSlice";
+
 import {
     About,
     Login,
@@ -18,10 +19,12 @@ import {
     Unauthorized,
     Users,
 } from "./pages";
+
 import { langs } from "./utils";
 
 const App = () => {
     const { i18n } = useTranslation();
+
     const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
 

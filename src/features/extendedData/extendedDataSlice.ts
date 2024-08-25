@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
@@ -12,7 +11,7 @@ const initialState: ExtendedDataState = {
     show: cookies.get("extended_data") === "yes",
 };
 
-const extendedDataSlice = createSlice({
+export const extendedDataSlice = createSlice({
     name: "extendedData",
     initialState,
     reducers: {
@@ -28,7 +27,4 @@ const extendedDataSlice = createSlice({
 });
 
 export const { toggleExtendedData } = extendedDataSlice.actions;
-
 export const { selectShowExtendedData } = extendedDataSlice.selectors;
-
-export default extendedDataSlice.reducer;

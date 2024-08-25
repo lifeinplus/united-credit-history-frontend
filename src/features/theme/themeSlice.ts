@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../app/store";
 
 interface ThemeState {
     theme: string;
@@ -9,7 +8,7 @@ const initialState: ThemeState = {
     theme: localStorage.getItem("theme") || "light",
 };
 
-const themeSlice = createSlice({
+export const themeSlice = createSlice({
     name: "theme",
     initialState,
     reducers: {
@@ -23,7 +22,4 @@ const themeSlice = createSlice({
 });
 
 export const { toggleTheme } = themeSlice.actions;
-
 export const { selectTheme } = themeSlice.selectors;
-
-export default themeSlice.reducer;

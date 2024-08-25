@@ -1,7 +1,7 @@
 import { Tooltip } from "bootstrap";
 import { useEffect } from "react";
 
-import { TableColumn } from "../../../types/Table";
+import type { TableColumn } from "../../../types/Table";
 
 const useTooltip = (isTooltips: boolean, columns: TableColumn[]) => {
     useEffect(() => {

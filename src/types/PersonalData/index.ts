@@ -1,5 +1,6 @@
-import { Person, ReportFull } from "../Report";
-import {
+import type { Person, ReportFull } from "../Report";
+
+import type {
     RequestCountsCard,
     RequestCountsItem,
     RequestCountsProps,

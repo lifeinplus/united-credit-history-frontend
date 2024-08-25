@@ -1,4 +1,4 @@
-import { RequestCounts } from "../Report";
+import type { RequestCounts } from "../Report";
 
 export interface RequestCountsProps {
     requestCounts?: RequestCounts;

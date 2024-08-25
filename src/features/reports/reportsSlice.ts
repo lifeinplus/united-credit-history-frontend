@@ -6,7 +6,7 @@ const initialState: PaginationState = {
     page: 1,
 };
 
-const reportsSlice = createSlice({
+export const reportsSlice = createSlice({
     name: "reports",
     initialState,
     reducers: {
@@ -22,5 +22,3 @@ const reportsSlice = createSlice({
 
 export const { setPage } = reportsSlice.actions;
 export const { selectLimit, selectPage } = reportsSlice.selectors;
-
-export default reportsSlice.reducer;
