@@ -40,7 +40,7 @@ export interface TableProps {
     sorting?: TableSortConfig;
 }
 
-export interface TableHead {
+export interface TableHeadProps {
     columns: TableColumn[];
     isActions: boolean;
     isTooltips: boolean;
@@ -49,7 +49,7 @@ export interface TableHead {
     sortDirection?: string;
 }
 
-export interface TableBody {
+export interface TableBodyProps {
     columns: TableColumn[];
     data?: TableData[];
     isActions: boolean;
@@ -58,36 +58,18 @@ export interface TableBody {
     isTextDifference: boolean;
 }
 
-export interface TableRow {
+export interface TableRowProps {
     data: TableData;
 }
 
-export interface TableHeaderCell {
-    column: TableColumn;
-    requestSort: TableSortFunc;
-    sortDirection?: string;
-    sortSysName?: string;
-    theme: string;
-}
-
-export interface TableDataCell {
+export interface TableDiffBadgesProps {
     id: string;
-    column: TableColumn;
-    data: TableData;
+    data?: TableDiffData[];
 }
 
-export interface TableDiff {
+export interface TableDiffData {
     text?: string;
     spanText?: string;
-}
-
-export interface TableDiffBadges {
-    id: string;
-    data?: TableDiff[];
-}
-
-export interface TableRefreshFunc {
-    (): void;
 }
 
 export interface TableSortConfig {
