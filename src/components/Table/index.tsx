@@ -57,7 +57,7 @@ const Table = ({
                     scrollWrapperRef.current = node;
                 }}
             >
-                {isScrolling && !!scrollWrapperRef.current && (
+                {isScrolling && (
                     <ScrollButtons
                         btnRefs={btnRefs}
                         handleScroll={handleScroll}
