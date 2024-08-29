@@ -60,6 +60,7 @@ const Body = ({
                     // (the difference is almost twice – from 55ms to 30ms)
                     return (
                         <tr
+                            key={dataItem._id}
                             id={String(activeId)}
                             className={
                                 isRowActive && activeId === activeRowId

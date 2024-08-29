@@ -58,6 +58,7 @@ const Head = forwardRef<HTMLTableSectionElement, TableHeadProps>(
 
                         return (
                             <th
+                                key={column.sysName || column.name}
                                 className={classNames(
                                     alignment,
                                     extendedClass,
