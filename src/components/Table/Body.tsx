@@ -8,15 +8,14 @@ import {
     showModalDelete,
     showModalEdit,
 } from "../../features/modalData/modalDataSlice";
-import ModalDelete from "../../features/modalData/ModalDelete";
-import ModalEdit from "../../features/modalData/ModalEdit";
 import { selectTheme } from "../../features/theme/themeSlice";
 import type {
-    TableBody,
-    TableDataCell,
-    TableDiff,
-    TableDiffBadges,
-    TableRow,
+    TableBodyProps,
+    TableColumn,
+    TableData,
+    TableDiffData,
+    TableDiffBadgesProps,
+    TableRowProps,
 } from "../../types/Table";
 import { getDateFormat, langs } from "../../utils";
 
@@ -27,7 +26,7 @@ const Body = ({
     isMobileView,
     isRowActive,
     isTextDifference,
-}: TableBody) => {
+}: TableBodyProps) => {
     const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
 
@@ -52,69 +51,72 @@ const Body = ({
 
     return (
         <>
-            <ModalDelete />
-            <ModalEdit />
             <tbody>
-                {data?.map((element) => (
-                    <Row key={element._id} data={element} />
-                ))}
+                {data?.map((dataItem) => {
+                    const { _id, activeId } = dataItem;
+
+                    // I decided not to create rows and cells in individual components,
+                    // since with a large number of them the table renders noticeably slower
+                    // (the difference is almost twice – from 55ms to 30ms)
+                    return (
+                        <tr
+                            id={String(activeId)}
+                            className={
+                                isRowActive && activeId === activeRowId
+                                    ? `uch-table ${theme} active`
+                                    : undefined
+                            }
+                            onClick={handleClick}
+                        >
+                            {columns.map((column, index) => {
+                                const key = `${_id}-${index}`;
+
+                                const { isLink, name, type } = column;
+
+                                const { cell, badge, diffData, value } =
+                                    type === "status"
+                                        ? getStatusData(column, dataItem)
+                                        : getCommonData(column, dataItem);
+
+                                const label = isMobileView ? name : undefined;
+
+                                const linkValue = isLink && (
+                                    <Link
+                                        className={`uch-link ${theme}`}
+                                        to={`/reports/${dataItem._id}`}
+                                    >
+                                        {value}
+                                    </Link>
+                                );
+
+                                return (
+                                    <td
+                                        key={key}
+                                        className={cell}
+                                        data-label={label}
+                                    >
+                                        <span className={badge}>
+                                            {isTextDifference ? (
+                                                <DiffBadges
+                                                    id={key}
+                                                    data={diffData}
+                                                />
+                                            ) : (
+                                                linkValue || value
+                                            )}
+                                        </span>
+                                    </td>
+                                );
+                            })}
+                            {isActions && <CellActions data={dataItem} />}
+                        </tr>
+                    );
+                })}
             </tbody>
         </>
     );
 
-    function Row({ data }: TableRow) {
-        const { _id, activeId } = data;
-
-        return (
-            <tr
-                id={String(activeId)}
-                className={
-                    isRowActive && activeId === activeRowId
-                        ? `uch-table ${theme} active`
-                        : undefined
-                }
-                onClick={handleClick}
-            >
-                {columns.map((element, index) => {
-                    const key = `${_id}-${index}`;
-                    return (
-                        <Cell key={key} id={key} column={element} data={data} />
-                    );
-                })}
-                {isActions && <CellActions data={data} />}
-            </tr>
-        );
-    }
-
-    function Cell(params: TableDataCell) {
-        const { id, column, data } = params;
-        const { isLink, name, type } = column;
-
-        const { cell, badge, diffData, value } =
-            type === "status" ? getStatusData(params) : getCommonData(params);
-
-        const label = isMobileView ? name : undefined;
-
-        const linkValue = isLink && (
-            <Link className={`uch-link ${theme}`} to={`/reports/${data._id}`}>
-                {value}
-            </Link>
-        );
-
-        return (
-            <td className={cell} data-label={label}>
-                <span className={badge}>
-                    {isTextDifference ? (
-                        <DiffBadges id={id} data={diffData} />
-                    ) : (
-                        linkValue || value
-                    )}
-                </span>
-            </td>
-        );
-    }
-
-    function CellActions({ data }: TableRow) {
+    function CellActions({ data }: TableRowProps) {
         return (
             <td className={"text-end"}>
                 <div className="btn-group" role="group">
@@ -147,7 +149,7 @@ const Body = ({
         );
     }
 
-    function DiffBadges({ id, data }: TableDiffBadges) {
+    function DiffBadges({ id, data }: TableDiffBadgesProps) {
         return data?.map((element, index) => {
             const { spanText, text } = element;
             const key = `${id}-span${index}`;
@@ -162,7 +164,7 @@ const Body = ({
         });
     }
 
-    function getCommonData({ column, data }: TableDataCell) {
+    function getCommonData(column: TableColumn, data: TableData) {
         const {
             alignment,
             badgeEqual,
@@ -174,7 +176,10 @@ const Body = ({
         } = column;
 
         const firstSource = firstDataItem && firstDataItem[sysName];
-        const firstValue = firstSource && prepare(firstSource, dataType);
+        const firstValue =
+            isTextDifference && firstSource
+                ? prepare(firstSource, dataType)
+                : "";
 
         const currentStatusSource = data[sysNameStatus || ""];
         const currentSource = currentStatusSource ?? data[sysName] ?? "";
@@ -193,7 +198,7 @@ const Body = ({
         return { cell: alignment, badge, diffData, value: currentValue };
     }
 
-    function getStatusData({ column, data }: TableDataCell) {
+    function getStatusData(column: TableColumn, data: TableData) {
         const { name } = column;
 
         const value = data[name || ""];
@@ -228,7 +233,7 @@ const Body = ({
         valueA: string | number = "",
         valueB: string | number = ""
     ) {
-        let result: TableDiff[] = [];
+        let result: TableDiffData[] = [];
 
         const arrayA = String(valueA).split(" ");
         const arrayB = String(valueB).split(" ");
@@ -288,8 +293,8 @@ const Body = ({
 };
 
 function propsAreEqual(
-    { columns: prevColumns, data: prevData }: Readonly<TableBody>,
-    { columns: nextColumns, data: nextData }: Readonly<TableBody>
+    { columns: prevColumns, data: prevData }: Readonly<TableBodyProps>,
+    { columns: nextColumns, data: nextData }: Readonly<TableBodyProps>
 ): boolean {
     const areColumnsEqual = prevColumns.length === nextColumns.length;
 
