@@ -13,14 +13,15 @@ import {
 
 import Body from "./Body";
 import Head from "./Head";
-import Pagination from "./Pagination";
+import Pagination from "../../features/pagination/Pagination";
 import ScrollButtons from "./ScrollButtons";
 
 const Table = ({
     id,
     columns,
-    data,
+    data = [],
     isActions = false,
+    isFetching = true,
     isMobileView = false,
     isPagination = false,
     isRowActive = false,
@@ -29,8 +30,8 @@ const Table = ({
     isStickyHeader = false,
     isTextDifference = false,
     isTooltips = false,
-    paginationParams = {},
     sorting = {},
+    totalPages = 1,
 }: TableProps) => {
     const theme = useAppSelector(selectTheme);
 
@@ -68,7 +69,7 @@ const Table = ({
                         "table",
                         `table-${theme}`,
                         `uch-table ${theme}`,
-                        isRowHover && `table-hover`,
+                        isRowHover && data.length && `table-hover`,
                         "table-striped align-middle mb-0",
                         isMobileView && "table-mobile"
                     )}
@@ -95,10 +96,8 @@ const Table = ({
             {isPagination && (
                 <footer>
                     <Pagination
-                        isFetching={paginationParams.isFetching}
-                        page={paginationParams.page}
-                        setPage={paginationParams.setPage}
-                        totalPages={paginationParams.totalPages}
+                        isFetching={isFetching}
+                        totalPages={totalPages}
                     />
                 </footer>
             )}

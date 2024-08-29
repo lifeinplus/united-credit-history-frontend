@@ -1,1 +1,4 @@
-{ "actions": "Actions" }
+{
+    "actions": "Actions",
+    "noData": "No data found"
+}

@@ -1,25 +1,29 @@
 import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../app/hooks";
 import { PanelHeader, Table } from "../../components";
-import type { HandleSetPage } from "../../types/Pagination";
 import { reportListColumns } from "../../utils";
 
+import { selectActivePage } from "../pagination/paginationSlice";
+import { selectSearch } from "../search/searchSlice";
 import { selectTheme } from "../theme/themeSlice";
 
 import { useGetReportsQuery } from "./reportsApiSlice";
-import { selectLimit, selectPage, setPage } from "./reportsSlice";
 
 const ReportList = () => {
     const { t } = useTranslation(["report_list"]);
 
-    const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
-    const page = useAppSelector(selectPage);
-    const limit = useAppSelector(selectLimit);
+    const search = useAppSelector(selectSearch);
+    const page = useAppSelector(selectActivePage);
 
-    const { data, isFetching } = useGetReportsQuery({ limit, page });
+    const { data, isFetching } = useGetReportsQuery({
+        limit: 2,
+        page,
+        search,
+    });
+
     const reports = data?.results;
     const totalPages = data?.totalPages;
 
@@ -27,10 +31,6 @@ const ReportList = () => {
         ...item,
         name: t(`table.${item.sysName}`),
     }));
-
-    const handleSetPage: HandleSetPage = (page) => {
-        dispatch(setPage(page));
-    };
 
     return (
         <section className="container-fluid mb-3">
@@ -44,6 +44,7 @@ const ReportList = () => {
                 <div className="col">
                     <PanelHeader
                         iconName={"bi-card-list"}
+                        isSearch={true}
                         nameSpaces={["report_list"]}
                     />
                     <div className="row">
@@ -52,14 +53,10 @@ const ReportList = () => {
                                 id={"rl"}
                                 columns={columns}
                                 data={reports}
+                                isFetching={isFetching}
                                 isPagination={true}
                                 isRowHover={true}
-                                paginationParams={{
-                                    isFetching,
-                                    page,
-                                    setPage: handleSetPage,
-                                    totalPages,
-                                }}
+                                totalPages={totalPages}
                             />
                         </div>
                     </div>

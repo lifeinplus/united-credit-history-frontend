@@ -4,18 +4,18 @@ import { apiSlice } from "../features/api/apiSlice";
 import { authSlice } from "../features/auth/authSlice";
 import { extendedDataSlice } from "../features/extendedData/extendedDataSlice";
 import { modalDataSlice } from "../features/modalData/modalDataSlice";
-import { reportsSlice } from "../features/reports/reportsSlice";
+import { paginationSlice } from "../features/pagination/paginationSlice";
+import { searchSlice } from "../features/search/searchSlice";
 import { themeSlice } from "../features/theme/themeSlice";
-import { usersSlice } from "../features/users/usersSlice";
 
 const rootReducer = combineSlices(
     apiSlice,
     authSlice,
     extendedDataSlice,
     modalDataSlice,
-    reportsSlice,
-    themeSlice,
-    usersSlice
+    paginationSlice,
+    searchSlice,
+    themeSlice
 );
 
 export const store = configureStore({

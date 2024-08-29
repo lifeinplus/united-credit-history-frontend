@@ -1,26 +1,28 @@
 import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../app/hooks";
 import { PanelHeader, Table } from "../../components";
-import type { HandleSetPage } from "../../types/Pagination";
 import { userListColumns } from "../../utils";
 
+import { selectActivePage } from "../pagination/paginationSlice";
+import { selectSearch } from "../search/searchSlice";
 import { selectTheme } from "../theme/themeSlice";
 
 import { useGetUsersQuery } from "./usersApiSlice";
-import { selectLimit, selectPage, setPage } from "./usersSlice";
 
 const UserList = () => {
     const { t } = useTranslation(["user_list"]);
 
-    const dispatch = useAppDispatch();
-
-    const limit = useAppSelector(selectLimit);
-    const page = useAppSelector(selectPage);
     const theme = useAppSelector(selectTheme);
+    const search = useAppSelector(selectSearch);
+    const page = useAppSelector(selectActivePage);
 
-    const { data, isFetching } = useGetUsersQuery({ limit, page });
+    const { data, isFetching } = useGetUsersQuery({
+        limit: 10,
+        page,
+        search,
+    });
 
     const users = data?.results;
     const totalPages = data?.totalPages;
@@ -29,10 +31,6 @@ const UserList = () => {
         ...item,
         name: t(`table.${item.sysName}`),
     }));
-
-    const handleSetPage: HandleSetPage = (page) => {
-        dispatch(setPage(page));
-    };
 
     return (
         <section className="container-fluid mb-3">
@@ -46,6 +44,7 @@ const UserList = () => {
                 <div className="col">
                     <PanelHeader
                         iconName={"bi bi-people"}
+                        isSearch={true}
                         nameSpaces={["user_list"]}
                     />
                     <div className="row">
@@ -55,15 +54,11 @@ const UserList = () => {
                                 columns={columns}
                                 data={users}
                                 isActions={true}
+                                isFetching={isFetching}
                                 isPagination={true}
                                 isRowHover={true}
-                                paginationParams={{
-                                    isFetching,
-                                    page,
-                                    setPage: handleSetPage,
-                                    totalPages,
-                                }}
                                 sorting={{ sysName: "creationDate" }}
+                                totalPages={totalPages}
                             />
                         </div>
                     </div>

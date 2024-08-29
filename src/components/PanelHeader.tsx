@@ -1,8 +1,9 @@
+import classNames from "classnames";
+import { Container, Form, Navbar } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import { useAppSelector } from "../app/hooks";
 import ExtendControl from "../features/extendedData/ExtendControl";
-import { selectTheme } from "../features/theme/themeSlice";
+import SearchControl from "../features/search/SearchControl";
 
 import type {
     PanelHeaderProps,
@@ -15,22 +16,22 @@ const PanelHeader = ({
     date,
     iconName,
     isExtendControl = false,
+    isSearch = false,
     nameSpaces,
     number,
 }: PanelHeaderProps) => {
     const { i18n, t } = useTranslation(nameSpaces);
-    const theme = useAppSelector(selectTheme);
 
     const headerDate = date && date.value && getHeaderDate(date.value);
 
     return (
         <header className="row">
-            <nav className="navbar" data-bs-theme={`${theme}`}>
-                <div className="container-fluid">
-                    <a className="navbar-brand">
+            <Navbar>
+                <Container className={classNames(isSearch && "mb-2")} fluid>
+                    <Navbar.Brand>
                         <i className={`bi ${iconName} me-2`}></i>
                         {t("title")}
-                    </a>
+                    </Navbar.Brand>
                     {isExtendControl && (
                         <ul className="navbar-nav me-auto">
                             <li className="nav-item">
@@ -38,8 +39,8 @@ const PanelHeader = ({
                             </li>
                         </ul>
                     )}
-                    <form className="d-flex">
-                        <span className="navbar-text">
+                    <Form className="d-flex">
+                        <Navbar.Text>
                             {number && (
                                 <HeaderField
                                     caption={number.caption}
@@ -52,10 +53,11 @@ const PanelHeader = ({
                                     value={headerDate}
                                 />
                             )}
-                        </span>
-                    </form>
-                </div>
-            </nav>
+                        </Navbar.Text>
+                        {isSearch && <SearchControl />}
+                    </Form>
+                </Container>
+            </Navbar>
         </header>
     );
 

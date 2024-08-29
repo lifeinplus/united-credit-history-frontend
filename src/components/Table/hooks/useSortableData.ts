@@ -7,7 +7,7 @@ import type {
     TableSortCompare,
 } from "../../../types/Table";
 
-const useSortableData = (data: TableData[] = [], config: TableSortConfig) => {
+const useSortableData = (data: TableData[], config: TableSortConfig) => {
     const { dataType, direction } = config;
 
     if (!dataType) config.dataType = "date";
