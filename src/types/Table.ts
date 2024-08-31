@@ -1,6 +1,5 @@
 import type { MouseEvent, RefObject } from "react";
 
-import type { PaginationProps } from "./Pagination";
 import type { Loan, Person, ReportRecord } from "./Report";
 import type { User } from "./User";
 
@@ -28,6 +27,7 @@ export interface TableProps {
     columns: TableColumn[];
     data?: TableData[];
     isActions?: boolean;
+    isFetching?: boolean;
     isMobileView?: boolean;
     isPagination?: boolean;
     isRowActive?: boolean;
@@ -36,8 +36,8 @@ export interface TableProps {
     isStickyHeader?: boolean;
     isTextDifference?: boolean;
     isTooltips?: boolean;
-    paginationParams?: PaginationProps;
     sorting?: TableSortConfig;
+    totalPages?: number;
 }
 
 export interface TableHeadProps {
@@ -51,7 +51,7 @@ export interface TableHeadProps {
 
 export interface TableBodyProps {
     columns: TableColumn[];
-    data?: TableData[];
+    data: TableData[];
     isActions: boolean;
     isMobileView: boolean;
     isRowActive: boolean;

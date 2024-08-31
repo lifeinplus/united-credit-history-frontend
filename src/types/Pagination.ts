@@ -4,13 +4,13 @@ import type { User } from "./User";
 export type HandleSetPage = (page: number) => void;
 
 export interface PaginationState {
-    limit: number;
-    page: number;
+    activePage: number;
 }
 
 export interface PaginationQueryArg {
     limit: number;
     page: number;
+    search: string;
 }
 
 export interface PaginationResult {
@@ -21,10 +21,8 @@ export interface PaginationResult {
 }
 
 export interface PaginationProps {
-    isFetching?: boolean;
-    page?: number;
-    setPage?: HandleSetPage;
-    totalPages?: number;
+    isFetching: boolean;
+    totalPages: number;
 }
 
 export interface PageItemProps {
@@ -32,5 +30,4 @@ export interface PageItemProps {
     disabled: boolean;
     page: number;
     pageText?: string;
-    setPage: HandleSetPage;
 }

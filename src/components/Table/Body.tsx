@@ -27,21 +27,23 @@ const Body = ({
     isRowActive,
     isTextDifference,
 }: TableBodyProps) => {
-    const dispatch = useAppDispatch();
-    const theme = useAppSelector(selectTheme);
+    const { t } = useTranslation("table");
 
     const [activeRowId, setActiveRowId] = useState<string | undefined>(
         undefined
     );
 
+    const dispatch = useAppDispatch();
+    const theme = useAppSelector(selectTheme);
+
     const { i18n } = useTranslation();
     const lang = langs[i18n.resolvedLanguage || "en"];
     const numberFormat = new Intl.NumberFormat(lang.locale);
-
     const dateFormat = getDateFormat(lang.locale, "date");
     const timeFormat = getDateFormat(lang.locale, "time");
 
-    const firstDataItem = data && data[0];
+    const firstDataItem = data[0];
+    const noDataColSpan = isActions ? columns.length + 1 : columns.length;
 
     const handleClick = ({ currentTarget }: { currentTarget: HTMLElement }) => {
         if (!isRowActive) return;
@@ -52,67 +54,77 @@ const Body = ({
     return (
         <>
             <tbody>
-                {data?.map((dataItem) => {
-                    const { _id, activeId } = dataItem;
+                {!data.length ? (
+                    <tr>
+                        <td className="text-center" colSpan={noDataColSpan}>
+                            {t("noData")}
+                        </td>
+                    </tr>
+                ) : (
+                    data.map((dataItem) => {
+                        const { _id, activeId } = dataItem;
 
-                    // I decided not to create rows and cells in individual components,
-                    // since with a large number of them the table renders noticeably slower
-                    // (the difference is almost twice – from 55ms to 30ms)
-                    return (
-                        <tr
-                            key={dataItem._id}
-                            id={String(activeId)}
-                            className={
-                                isRowActive && activeId === activeRowId
-                                    ? `uch-table ${theme} active`
-                                    : undefined
-                            }
-                            onClick={handleClick}
-                        >
-                            {columns.map((column, index) => {
-                                const key = `${_id}-${index}`;
+                        // I decided not to create rows and cells in individual components,
+                        // since with a large number of them the table renders noticeably slower
+                        // (the difference is almost twice – from 55ms to 30ms)
+                        return (
+                            <tr
+                                key={dataItem._id}
+                                id={String(activeId)}
+                                className={
+                                    isRowActive && activeId === activeRowId
+                                        ? `uch-table ${theme} active`
+                                        : undefined
+                                }
+                                onClick={handleClick}
+                            >
+                                {columns.map((column, index) => {
+                                    const key = `${_id}-${index}`;
 
-                                const { isLink, name, type } = column;
+                                    const { isLink, name, type } = column;
 
-                                const { cell, badge, diffData, value } =
-                                    type === "status"
-                                        ? getStatusData(column, dataItem)
-                                        : getCommonData(column, dataItem);
+                                    const { cell, badge, diffData, value } =
+                                        type === "status"
+                                            ? getStatusData(column, dataItem)
+                                            : getCommonData(column, dataItem);
 
-                                const label = isMobileView ? name : undefined;
+                                    const label = isMobileView
+                                        ? name
+                                        : undefined;
 
-                                const linkValue = isLink && (
-                                    <Link
-                                        className={`uch-link ${theme}`}
-                                        to={`/reports/${dataItem._id}`}
-                                    >
-                                        {value}
-                                    </Link>
-                                );
+                                    const linkValue = isLink && (
+                                        <Link
+                                            className={`uch-link ${theme}`}
+                                            to={`/reports/${dataItem._id}`}
+                                        >
+                                            {value}
+                                        </Link>
+                                    );
 
-                                return (
-                                    <td
-                                        key={key}
-                                        className={cell}
-                                        data-label={label}
-                                    >
-                                        <span className={badge}>
-                                            {isTextDifference ? (
-                                                <DiffBadges
-                                                    id={key}
-                                                    data={diffData}
-                                                />
-                                            ) : (
-                                                linkValue || value
-                                            )}
-                                        </span>
-                                    </td>
-                                );
-                            })}
-                            {isActions && <CellActions data={dataItem} />}
-                        </tr>
-                    );
-                })}
+                                    return (
+                                        <td
+                                            key={key}
+                                            className={cell}
+                                            data-label={label}
+                                        >
+                                            <span className={badge}>
+                                                {isTextDifference ? (
+                                                    <DiffBadges
+                                                        id={key}
+                                                        data={diffData}
+                                                    />
+                                                ) : (
+                                                    linkValue || value
+                                                )}
+                                            </span>
+                                        </td>
+                                    );
+                                })}
+                                {isActions && <CellActions data={dataItem} />}
+                            </tr>
+                        );
+                    })
+                )}
             </tbody>
         </>
     );
@@ -150,8 +162,8 @@ const Body = ({
         );
     }
 
-    function DiffBadges({ id, data }: TableDiffBadgesProps) {
-        return data?.map((element, index) => {
+    function DiffBadges({ id, data = [] }: TableDiffBadgesProps) {
+        return data.map((element, index) => {
             const { spanText, text } = element;
             const key = `${id}-span${index}`;
 

@@ -1,57 +1,55 @@
 import classNames from "classnames";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 
-import { useAppSelector } from "../../app/hooks";
-import { selectTheme } from "../../features/theme/themeSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectTheme } from "../theme/themeSlice";
 import type { PageItemProps, PaginationProps } from "../../types/Pagination";
+import { selectActivePage, setActivePage } from "./paginationSlice";
 
 const Pagination = ({
     isFetching = false,
-    page = 1,
-    setPage = () => {},
     totalPages = 1,
 }: PaginationProps) => {
+    const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
+    const activePage = useAppSelector(selectActivePage);
 
-    const pagesArray = Array(totalPages)
+    const pages = Array(totalPages)
         .fill(undefined)
         .map((_, index) => index + 1);
+
+    useEffect(() => {
+        return () => {
+            dispatch(setActivePage(1));
+        };
+    }, []);
 
     return (
         <nav aria-label="Pages">
             <ul className="pagination justify-content-end">
                 <PageItem
-                    disabled={isFetching || page === 1}
-                    page={page - 1}
+                    disabled={isFetching || activePage === 1}
+                    page={activePage - 1}
                     pageText={"<"}
-                    setPage={setPage}
                 />
-                {pagesArray.map((item) => (
+                {pages.map((page) => (
                     <PageItem
-                        key={item}
-                        active={item === page}
-                        disabled={isFetching}
-                        page={item}
-                        setPage={setPage}
+                        key={page}
+                        active={page === activePage}
+                        disabled={isFetching || totalPages === 1}
+                        page={page}
                     />
                 ))}
                 <PageItem
-                    disabled={isFetching || page === totalPages}
-                    page={page + 1}
+                    disabled={isFetching || activePage === totalPages}
+                    page={activePage + 1}
                     pageText={">"}
-                    setPage={setPage}
                 />
             </ul>
         </nav>
     );
 
-    function PageItem({
-        active,
-        disabled,
-        page,
-        pageText,
-        setPage,
-    }: PageItemProps) {
+    function PageItem({ active, disabled, page, pageText }: PageItemProps) {
         return (
             <li
                 className={classNames(
@@ -65,7 +63,7 @@ const Pagination = ({
                         "page-link",
                         `uch-page-link ${theme}`
                     )}
-                    onClick={() => setPage(page)}
+                    onClick={() => dispatch(setActivePage(page))}
                 >
                     {pageText || page}
                 </button>
@@ -77,19 +75,15 @@ const Pagination = ({
 function propsAreEqual(
     {
         isFetching: prevIsFetching,
-        page: prevPage,
         totalPages: prevTotalPages,
     }: Readonly<PaginationProps>,
     {
         isFetching: nextIsFetching,
-        page: nextPage,
         totalPages: nextTotalPages,
     }: Readonly<PaginationProps>
 ): boolean {
     return (
-        prevIsFetching === nextIsFetching &&
-        prevPage === nextPage &&
-        prevTotalPages === nextTotalPages
+        prevIsFetching === nextIsFetching && prevTotalPages === nextTotalPages
     );
 }
 

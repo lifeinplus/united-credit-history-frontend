@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import type { TableData } from "../../../types/Table";
 
-const useRowActive = (isRowActive: boolean, data: TableData[] = []) => {
+const useRowActive = (isRowActive: boolean, data: TableData[]) => {
     return useMemo(() => {
         return isRowActive
             ? data.map((element, index) => ({
