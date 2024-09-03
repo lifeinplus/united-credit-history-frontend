@@ -19,7 +19,7 @@ const ReportList = () => {
     const page = useAppSelector(selectActivePage);
 
     const { data, isFetching } = useGetReportsQuery({
-        limit: 2,
+        limit: 10,
         page,
         search,
     });
