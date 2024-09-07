@@ -19,7 +19,7 @@ const UserList = () => {
     const page = useAppSelector(selectActivePage);
 
     const { data, isFetching } = useGetUsersQuery({
-        limit: 10,
+        limit: 9,
         page,
         search,
     });
