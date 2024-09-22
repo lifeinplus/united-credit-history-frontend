@@ -1,24 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types/User";
 
-type ModalData = { id?: string } & Partial<User>;
+type ModalData = {
+    currentPassword: string;
+    newPassword: string;
+    status?: "idle" | "loading" | "failed";
+} & Partial<User>;
 
 interface ModalDataState {
+    isChangePasswordModal: boolean;
     isModalDelete: boolean;
     isModalEdit: boolean;
     modalData: ModalData;
 }
 
 const initialState: ModalDataState = {
+    isChangePasswordModal: false,
     isModalDelete: false,
     isModalEdit: false,
-    modalData: {},
+    modalData: {
+        id: "",
+        currentPassword: "",
+        newPassword: "",
+        status: "idle",
+    },
 };
 
 export const modalDataSlice = createSlice({
     name: "modalData",
     initialState,
     reducers: {
+        hideChangePasswordModal: (state) => {
+            state.isChangePasswordModal = false;
+            state.modalData = initialState.modalData;
+        },
         hideModalDelete: (state) => {
             state.isModalDelete = false;
         },
@@ -26,6 +41,16 @@ export const modalDataSlice = createSlice({
             state.isModalEdit = false;
         },
         setModalData: (state, action) => {
+            if (action.payload) {
+                state.modalData = {
+                    ...state.modalData,
+                    ...action.payload,
+                };
+            }
+        },
+        showChangePasswordModal: (state, action) => {
+            state.isChangePasswordModal = true;
+
             if (action.payload) {
                 state.modalData = {
                     ...state.modalData,
@@ -43,6 +68,7 @@ export const modalDataSlice = createSlice({
         },
     },
     selectors: {
+        selectIsChangePasswordModal: (state) => state.isChangePasswordModal,
         selectIsModalDelete: (state) => state.isModalDelete,
         selectIsModalEdit: (state) => state.isModalEdit,
         selectModalData: (state) => state.modalData,
@@ -50,12 +76,18 @@ export const modalDataSlice = createSlice({
 });
 
 export const {
+    hideChangePasswordModal,
     hideModalDelete,
     hideModalEdit,
     setModalData,
+    showChangePasswordModal,
     showModalDelete,
     showModalEdit,
 } = modalDataSlice.actions;
 
-export const { selectIsModalDelete, selectIsModalEdit, selectModalData } =
-    modalDataSlice.selectors;
+export const {
+    selectIsChangePasswordModal,
+    selectIsModalDelete,
+    selectIsModalEdit,
+    selectModalData,
+} = modalDataSlice.selectors;

@@ -1,11 +1,14 @@
 {
     "title": {
+        "changePassword": "Изменить пароль",
         "delete": "Удалить",
         "edit": "Редактировать"
     },
     "label": {
-        "userName": "Имя пользователя",
-        "roles": "Роли"
+        "currentPassword": "Текущий пароль",
+        "newPassword": "Новый пароль",
+        "roles": "Роли",
+        "userName": "Имя пользователя"
     },
     "message": {
         "delete": "Вы действительно хотите удалить пользователя ({{userName}})?"

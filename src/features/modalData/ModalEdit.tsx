@@ -46,7 +46,7 @@ const ModalEdit = () => {
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Group className="mb-3">
+                    <Form.Group controlId="userName" className="mb-3">
                         <Form.Label>{t("label.userName")}:</Form.Label>
                         <Form.Control
                             type="text"
@@ -54,7 +54,7 @@ const ModalEdit = () => {
                             defaultValue={userName}
                         ></Form.Control>
                     </Form.Group>
-                    <Form.Group className="mb-3">
+                    <Form.Group controlId="roles" className="mb-3">
                         <Form.Label>{t("label.roles")}:</Form.Label>
                         <Form.Control
                             as="textarea"

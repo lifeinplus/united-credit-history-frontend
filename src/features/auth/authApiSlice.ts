@@ -1,21 +1,30 @@
 import { apiSlice } from "../api/apiSlice";
 
 import type {
-    AuthLoginResult,
-    AuthQueryArg,
-    AuthRegisterResult,
+    AuthQuery,
+    AuthQueryChangePassword,
+    AuthResultLogin,
+    AuthResultRegister,
 } from "../../types/Auth";
 
 const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (build) => ({
-        login: build.mutation<AuthLoginResult, AuthQueryArg>({
+        changePassword: build.mutation<void, AuthQueryChangePassword>({
+            query: ({ id, currentPassword, newPassword }) => ({
+                url: `auth/changePassword`,
+                method: "PUT",
+                body: { id, currentPassword, newPassword },
+            }),
+            invalidatesTags: ["Users"],
+        }),
+        login: build.mutation<AuthResultLogin, AuthQuery>({
             query: (credentials) => ({
                 url: "auth/login",
                 method: "POST",
                 body: { ...credentials },
             }),
         }),
-        register: build.mutation<AuthRegisterResult, AuthQueryArg>({
+        register: build.mutation<AuthResultRegister, AuthQuery>({
             query: (credentials) => ({
                 url: "auth/register",
                 method: "POST",
@@ -25,4 +34,8 @@ const authApiSlice = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApiSlice;
+export const {
+    useChangePasswordMutation,
+    useLoginMutation,
+    useRegisterMutation,
+} = authApiSlice;

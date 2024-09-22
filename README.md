@@ -11,6 +11,7 @@ The user can:
 -   Change color themes.
 -   Switch between interface languages.
 -   Display extended data.
+-   Change their password.
 -   Manage user accounts if the user has the administrator role.
 -   View a 401 (Unauthorized) error page if there are not enough roles to view an existing resource.
 -   View a 404 (Not Found) error page if a report doesn’t exist or the URL is incorrect.

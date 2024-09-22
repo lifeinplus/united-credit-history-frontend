@@ -1,11 +1,14 @@
 {
     "title": {
+        "changePassword": "Şifre değiştir",
         "delete": "Silmek",
         "edit": "Düzenlemek"
     },
     "label": {
-        "userName": "Kullanıcı adı",
-        "roles": "Roller"
+        "currentPassword": "Mevcut Şifre",
+        "newPassword": "Yeni Şifre",
+        "roles": "Roller",
+        "userName": "Kullanıcı adı"
     },
     "message": {
         "delete": "Kullanıcıyı silmek istediğinizden emin misiniz ({{userName}})?"

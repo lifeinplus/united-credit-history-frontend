@@ -13,20 +13,24 @@ export const authSlice = createSlice({
             state.userName = undefined;
         },
         setCredentials: (state, action) => {
-            const { accessToken, roles, userName } = action.payload;
+            const { accessToken, roles, userId, userName }: AuthState =
+                action.payload;
+
             state.accessToken = accessToken;
             state.roles = roles;
+            state.userId = userId;
             state.userName = userName;
         },
     },
     selectors: {
         selectAccessToken: (state) => state.accessToken,
         selectRoles: (state) => state.roles,
+        selectUserId: (state) => state.userId,
         selectUserName: (state) => state.userName,
     },
 });
 
 export const { logOut, setCredentials } = authSlice.actions;
 
-export const { selectAccessToken, selectRoles, selectUserName } =
+export const { selectAccessToken, selectRoles, selectUserName, selectUserId } =
     authSlice.selectors;
