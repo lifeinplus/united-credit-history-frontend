@@ -7,8 +7,10 @@ import { axiosPrivate } from "../../features/api/axios";
 import {
     logOut,
     selectRoles,
+    selectUserId,
     selectUserName,
 } from "../../features/auth/authSlice";
+import { showChangePasswordModal } from "../../features/modalData/modalDataSlice";
 import { selectTheme } from "../../features/theme/themeSlice";
 
 const Account = () => {
@@ -18,11 +20,16 @@ const Account = () => {
     const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
     const userName = useAppSelector(selectUserName);
+    const userId = useAppSelector(selectUserId);
     const roles = useAppSelector(selectRoles);
 
     return userName ? <Out /> : <In />;
 
     function Out() {
+        const handleChangePassword = () => {
+            dispatch(showChangePasswordModal({ _id: userId }));
+        };
+
         const handleLogout = async () => {
             await axiosPrivate("/auth/logout")
                 .then(() => {
@@ -71,6 +78,15 @@ const Account = () => {
                             </button>
                         </li>
                     )}
+                    <li>
+                        <button
+                            className="dropdown-item"
+                            onClick={handleChangePassword}
+                            type="button"
+                        >
+                            {t("changePassword")}
+                        </button>
+                    </li>
                     <li>
                         <button
                             className="dropdown-item"

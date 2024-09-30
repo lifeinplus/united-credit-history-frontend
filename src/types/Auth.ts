@@ -1,8 +1,3 @@
-export interface AuthLoginResult {
-    accessToken: string;
-    roles: number[];
-}
-
 export interface AuthProps {
     buttonText: string;
     handleSubmit: AuthSubmitHandler;
@@ -14,12 +9,22 @@ export interface AuthProps {
     title: string;
 }
 
-export interface AuthQueryArg {
+export interface AuthQuery {
     userName: string;
     password: string;
 }
+export interface AuthQueryChangePassword {
+    id: string;
+    currentPassword: string;
+    newPassword: string;
+}
 
-export interface AuthRegisterResult {
+export interface AuthResultLogin {
+    accessToken: string;
+    roles: number[];
+}
+
+export interface AuthResultRegister {
     message: string;
 }
 
@@ -30,6 +35,7 @@ export interface AuthRequireProps {
 export interface AuthState {
     accessToken?: string;
     roles?: number[];
+    userId?: string;
     userName?: string;
 }
 

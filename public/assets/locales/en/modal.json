@@ -1,11 +1,14 @@
 {
     "title": {
+        "changePassword": "Change Password",
         "delete": "Delete",
         "edit": "Edit"
     },
     "label": {
-        "userName": "User Name",
-        "roles": "Roles"
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "roles": "Roles",
+        "userName": "User Name"
     },
     "message": {
         "delete": "Are you sure you want to delete the user ({{userName}})?"

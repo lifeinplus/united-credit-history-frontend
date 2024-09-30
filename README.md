@@ -11,6 +11,7 @@ The user can:
 -   Change color themes.
 -   Switch between interface languages.
 -   Display extended data.
+-   Change their password.
 -   Manage user accounts if the user has the administrator role.
 -   View a 401 (Unauthorized) error page if there are not enough roles to view an existing resource.
 -   View a 404 (Not Found) error page if a report doesn’t exist or the URL is incorrect.
@@ -189,4 +190,4 @@ https://github.com/lifeinplus/united-credit-history-frontend/blob/a0e6bf9a085b6c
 
 ---
 
-v4.15.0 © 2024 Artem Denisov
+v4.16.0 © 2024 Artem Denisov
