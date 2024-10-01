@@ -4,11 +4,11 @@
         "chbLoansAmount": "Krediler - TRY",
         "chbPaymentsAmount": "Ödeme KGB - TRY",
         "chbPaymentsAmountRub": "RUB",
-        "chbPaymentsAmountGbp": "GBP",
+        "chbPaymentsAmountEur": "EUR",
         "chbPaymentsAmountTry": "TRY",
         "flcPaymentsAmount": "Ödeme TKM - TRY",
         "flcPaymentsAmountRub": "RUB",
-        "flcPaymentsAmountGbp": "GBP",
+        "flcPaymentsAmountEur": "EUR",
         "flcPaymentsAmountTry": "TRY"
     },
     "extended_control": "Genişletilmiş",
