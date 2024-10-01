@@ -1,15 +1,15 @@
 export interface Commons extends Record<string, string | number> {
     reportId: string;
-    chbCreditCardsAmountGbp: number;
+    chbCreditCardsAmountEur: number;
     chbCreditCardsAmountRub: number;
     chbCreditCardsAmountTry: number;
-    chbLoansAmountGbp: number;
+    chbLoansAmountEur: number;
     chbLoansAmountRub: number;
     chbLoansAmountTry: number;
-    chbPaymentsAmountGbp: number;
+    chbPaymentsAmountEur: number;
     chbPaymentsAmountRub: number;
     chbPaymentsAmountTry: number;
-    flcPaymentsAmountGbp: number;
+    flcPaymentsAmountEur: number;
     flcPaymentsAmountRub: number;
     flcPaymentsAmountTry: number;
     score: number;

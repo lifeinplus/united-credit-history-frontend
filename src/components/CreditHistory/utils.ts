@@ -62,12 +62,12 @@ export class TimePeriod {
 
 export const obligationFields: AmountField[] = [
     { sysName: "chbLoansAmount", type: "loan" },
-    { sysName: "chbLoansAmountGbp", country: "gb", hide: true, type: "loan" },
+    { sysName: "chbLoansAmountEur", country: "gb", hide: true, type: "loan" },
     { sysName: "chbLoansAmountRub", country: "ru", hide: true, type: "loan" },
     { sysName: "chbLoansAmountTry", country: "tr", hide: true, type: "loan" },
     { sysName: "chbCreditCardsAmount", type: "card" },
     {
-        sysName: "chbCreditCardsAmountGbp",
+        sysName: "chbCreditCardsAmountEur",
         country: "gb",
         hide: true,
         type: "card",
@@ -88,7 +88,7 @@ export const obligationFields: AmountField[] = [
 
 export const paymentFields: AmountContextField[] = [
     { sysName: "chbPaymentsAmount", type: "chb", context: "primary" },
-    { sysName: "chbPaymentsAmountGbp", type: "chb", country: "gb" },
+    { sysName: "chbPaymentsAmountEur", type: "chb", country: "gb" },
     { sysName: "chbPaymentsAmountRub", type: "chb", country: "ru" },
     { sysName: "chbPaymentsAmountTry", type: "chb", country: "tr" },
     {
@@ -98,7 +98,7 @@ export const paymentFields: AmountContextField[] = [
         context: "info",
     },
     {
-        sysName: "flcPaymentsAmountGbp",
+        sysName: "flcPaymentsAmountEur",
         type: "flc",
         extended: true,
         country: "gb",

@@ -4,11 +4,11 @@
         "chbLoansAmount": "Кредиты - RUB",
         "chbPaymentsAmount": "Платежи БКИ - RUB",
         "chbPaymentsAmountRub": "RUB",
-        "chbPaymentsAmountGbp": "GBP",
+        "chbPaymentsAmountEur": "EUR",
         "chbPaymentsAmountTry": "TRY",
         "flcPaymentsAmount": "Платежи ПСК - RUB",
         "flcPaymentsAmountRub": "RUB",
-        "flcPaymentsAmountGbp": "GBP",
+        "flcPaymentsAmountEur": "EUR",
         "flcPaymentsAmountTry": "TRY"
     },
     "extended_control": "Расширенная",

@@ -89,7 +89,7 @@ The "Report List" page showcases all available credit reports. By selecting a cl
 The "Report" page consists of two main panels:
 
 1. **Personal Data**: Displays the application number, creation date, and the client’s passport data, along with loan requests and credit score details.
-2. **Credit History**: Provides information on loans, including total amounts and monthly payments, with data presented in various currencies (GBP, RUB, TRY).
+2. **Credit History**: Provides information on loans, including total amounts and monthly payments, with data presented in various currencies (EUR, RUB, TRY).
 
 <img width="800" alt="Report Page" src="/docs/images/pages/reportPage.png">
 
@@ -190,4 +190,4 @@ https://github.com/lifeinplus/united-credit-history-frontend/blob/a0e6bf9a085b6c
 
 ---
 
-v4.16.1 © 2024 Artem Denisov
+v4.16.2 © 2024 Artem Denisov

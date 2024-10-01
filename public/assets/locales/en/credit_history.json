@@ -1,14 +1,14 @@
 {
     "amounts": {
-        "chbCreditCardsAmount": "Cards - GBP",
-        "chbLoansAmount": "Loans - GBP",
-        "chbPaymentsAmount": "Payments CHB - GBP",
+        "chbCreditCardsAmount": "Cards - EUR",
+        "chbLoansAmount": "Loans - EUR",
+        "chbPaymentsAmount": "Payments CHB - EUR",
         "chbPaymentsAmountRub": "RUB",
-        "chbPaymentsAmountGbp": "GBP",
+        "chbPaymentsAmountEur": "EUR",
         "chbPaymentsAmountTry": "TRY",
-        "flcPaymentsAmount": "Payments FLC - GBP",
+        "flcPaymentsAmount": "Payments FLC - EUR",
         "flcPaymentsAmountRub": "RUB",
-        "flcPaymentsAmountGbp": "GBP",
+        "flcPaymentsAmountEur": "EUR",
         "flcPaymentsAmountTry": "TRY"
     },
     "extended_control": "Extended",
