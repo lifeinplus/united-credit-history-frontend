@@ -187,7 +187,7 @@ export const tableColumns: TableColumn[] = [
     },
     {
         alignment: "text-start",
-        badgeEqual: "Микрокредит",
+        badgeEqual: "Microcredit",
         badgeType: "E",
         dataType: "text",
         sortable: true,
