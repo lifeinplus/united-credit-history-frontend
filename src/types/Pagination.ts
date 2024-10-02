@@ -3,6 +3,13 @@ import type { User } from "./User";
 
 export type HandleSetPage = (page: number) => void;
 
+export interface Pagination {
+    fromEntry: number;
+    toEntry: number;
+    total: number;
+    totalPages: number;
+}
+
 export interface PaginationState {
     activePage: number;
 }
@@ -13,16 +20,14 @@ export interface PaginationQueryArg {
     search: string;
 }
 
-export interface PaginationResult {
+export interface PaginationResult extends Pagination {
     page: number;
     results: ReportRecord[] | User[];
-    total: number;
-    totalPages: number;
 }
 
 export interface PaginationProps {
     isFetching: boolean;
-    totalPages: number;
+    pagination: Partial<Pagination>;
 }
 
 export interface PageItemProps {

@@ -1,4 +1,5 @@
 {
     "actions": "Hareketler",
-    "noData": "Veri bulunamadı"
+    "noData": "Veri bulunamadı",
+    "showingEntries": "{{total}} girdiden {{fromEntry}}-{{toEntry}} gösteriliyor"
 }
