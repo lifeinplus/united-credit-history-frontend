@@ -25,7 +25,13 @@ const ReportList = () => {
     });
 
     const reports = data?.results;
-    const totalPages = data?.totalPages;
+
+    const pagination = {
+        fromEntry: data?.fromEntry,
+        toEntry: data?.toEntry,
+        total: data?.total,
+        totalPages: data?.totalPages,
+    };
 
     const columns = reportListColumns.map((item) => ({
         ...item,
@@ -56,7 +62,7 @@ const ReportList = () => {
                                 isFetching={isFetching}
                                 isPagination={true}
                                 isRowHover={true}
-                                totalPages={totalPages}
+                                pagination={pagination}
                             />
                         </div>
                     </div>

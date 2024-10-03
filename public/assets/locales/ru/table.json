@@ -1,4 +1,5 @@
 {
     "actions": "Действия",
-    "noData": "Данные не найдены"
+    "noData": "Данные не найдены",
+    "showingEntries": "Показано {{fromEntry}}-{{toEntry}} из {{total}} записей"
 }

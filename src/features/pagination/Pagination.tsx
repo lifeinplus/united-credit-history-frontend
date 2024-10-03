@@ -1,18 +1,20 @@
 import classNames from "classnames";
 import { memo, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectTheme } from "../theme/themeSlice";
 import type { PageItemProps, PaginationProps } from "../../types/Pagination";
 import { selectActivePage, setActivePage } from "./paginationSlice";
 
-const Pagination = ({
-    isFetching = false,
-    totalPages = 1,
-}: PaginationProps) => {
+const Pagination = ({ isFetching = false, pagination }: PaginationProps) => {
+    const { t } = useTranslation("table");
+
     const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
     const activePage = useAppSelector(selectActivePage);
+
+    const { fromEntry, toEntry, total, totalPages } = pagination;
 
     const pages = Array(totalPages)
         .fill(undefined)
@@ -25,8 +27,11 @@ const Pagination = ({
     }, []);
 
     return (
-        <nav aria-label="Pages">
-            <ul className="pagination justify-content-end">
+        <nav aria-label="Pages" className="d-flex justify-content-between">
+            <p className="my-2">
+                {t("showingEntries", { fromEntry, toEntry, total })}
+            </p>
+            <ul className="pagination">
                 <PageItem
                     disabled={isFetching || activePage === 1}
                     page={activePage - 1}
@@ -75,15 +80,19 @@ const Pagination = ({
 function propsAreEqual(
     {
         isFetching: prevIsFetching,
-        totalPages: prevTotalPages,
+        pagination: prevPagination,
     }: Readonly<PaginationProps>,
     {
         isFetching: nextIsFetching,
-        totalPages: nextTotalPages,
+        pagination: nextPagination,
     }: Readonly<PaginationProps>
 ): boolean {
     return (
-        prevIsFetching === nextIsFetching && prevTotalPages === nextTotalPages
+        prevIsFetching === nextIsFetching &&
+        prevPagination.total === nextPagination.total &&
+        prevPagination.totalPages === nextPagination.totalPages &&
+        prevPagination.fromEntry === nextPagination.fromEntry &&
+        prevPagination.toEntry === nextPagination.toEntry
     );
 }
 

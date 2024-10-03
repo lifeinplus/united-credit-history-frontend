@@ -1,4 +1,5 @@
 {
     "actions": "Actions",
-    "noData": "No data found"
+    "noData": "No data found",
+    "showingEntries": "Showing {{fromEntry}}-{{toEntry}} of {{total}} entries"
 }

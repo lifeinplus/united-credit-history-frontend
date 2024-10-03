@@ -25,7 +25,13 @@ const UserList = () => {
     });
 
     const users = data?.results;
-    const totalPages = data?.totalPages;
+
+    const pagination = {
+        fromEntry: data?.fromEntry,
+        toEntry: data?.toEntry,
+        total: data?.total,
+        totalPages: data?.totalPages,
+    };
 
     const columns = userListColumns.map((item) => ({
         ...item,
@@ -58,7 +64,7 @@ const UserList = () => {
                                 isPagination={true}
                                 isRowHover={true}
                                 sorting={{ sysName: "creationDate" }}
-                                totalPages={totalPages}
+                                pagination={pagination}
                             />
                         </div>
                     </div>

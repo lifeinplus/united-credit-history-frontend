@@ -1,5 +1,6 @@
 import type { MouseEvent, RefObject } from "react";
 
+import type { Pagination } from "./Pagination";
 import type { Loan, Person, ReportRecord } from "./Report";
 import type { User } from "./User";
 
@@ -36,8 +37,8 @@ export interface TableProps {
     isStickyHeader?: boolean;
     isTextDifference?: boolean;
     isTooltips?: boolean;
+    pagination?: Partial<Pagination>;
     sorting?: TableSortConfig;
-    totalPages?: number;
 }
 
 export interface TableHeadProps {
