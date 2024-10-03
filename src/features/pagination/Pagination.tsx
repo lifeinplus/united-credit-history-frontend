@@ -1,30 +1,76 @@
 import classNames from "classnames";
-import { memo, useEffect } from "react";
+import { memo, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectTheme } from "../theme/themeSlice";
 import type { PageItemProps, PaginationProps } from "../../types/Pagination";
-import { selectActivePage, setActivePage } from "./paginationSlice";
 
-const Pagination = ({ isFetching = false, pagination }: PaginationProps) => {
+import { selectTheme } from "../theme/themeSlice";
+
+import {
+    goFirstPage,
+    goLastPage,
+    goNextPage,
+    goPrevPage,
+    selectActivePage,
+    selectFromEntry,
+    selectToEntry,
+    selectTotal,
+    selectTotalPages,
+    setActivePage,
+    setTotalPages,
+} from "./paginationSlice";
+
+const Pagination = ({ isFetching = false }: PaginationProps) => {
     const { t } = useTranslation("table");
 
     const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
     const activePage = useAppSelector(selectActivePage);
-
-    const { fromEntry, toEntry, total, totalPages } = pagination;
+    const fromEntry = useAppSelector(selectFromEntry);
+    const toEntry = useAppSelector(selectToEntry);
+    const total = useAppSelector(selectTotal);
+    const totalPages = useAppSelector(selectTotalPages);
 
     const pages = Array(totalPages)
         .fill(undefined)
         .map((_, index) => index + 1);
 
+    // Reset active page when component unmount
     useEffect(() => {
         return () => {
             dispatch(setActivePage(1));
         };
     }, []);
+
+    const handleKeyDown = useCallback(
+        ({ altKey, key }: KeyboardEvent) => {
+            if (altKey && key === "ArrowLeft") {
+                dispatch(goFirstPage());
+            }
+
+            if (altKey && key === "ArrowRight") {
+                dispatch(goLastPage());
+            }
+
+            if (!altKey && key === "ArrowRight" && activePage < totalPages) {
+                dispatch(goNextPage());
+            }
+
+            if (!altKey && key === "ArrowLeft" && activePage > 1) {
+                dispatch(goPrevPage());
+            }
+        },
+        [activePage, totalPages]
+    );
+
+    useEffect(() => {
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [handleKeyDown]);
 
     return (
         <nav aria-label="Pages" className="d-flex justify-content-between">
@@ -78,22 +124,10 @@ const Pagination = ({ isFetching = false, pagination }: PaginationProps) => {
 };
 
 function propsAreEqual(
-    {
-        isFetching: prevIsFetching,
-        pagination: prevPagination,
-    }: Readonly<PaginationProps>,
-    {
-        isFetching: nextIsFetching,
-        pagination: nextPagination,
-    }: Readonly<PaginationProps>
+    { isFetching: prevIsFetching }: Readonly<PaginationProps>,
+    { isFetching: nextIsFetching }: Readonly<PaginationProps>
 ): boolean {
-    return (
-        prevIsFetching === nextIsFetching &&
-        prevPagination.total === nextPagination.total &&
-        prevPagination.totalPages === nextPagination.totalPages &&
-        prevPagination.fromEntry === nextPagination.fromEntry &&
-        prevPagination.toEntry === nextPagination.toEntry
-    );
+    return prevIsFetching === nextIsFetching;
 }
 
 const MemoizedPagination = memo(Pagination, propsAreEqual);
