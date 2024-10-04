@@ -30,14 +30,11 @@ const Table = ({
     isStickyHeader = false,
     isTextDifference = false,
     isTooltips = false,
-    sorting = {},
 }: TableProps) => {
     const theme = useAppSelector(selectTheme);
 
     const rowActiveData = useRowActive(isRowActive, data);
-
-    const [sortedData, requestSort, sortDirection, sortSysName] =
-        useSortableData(rowActiveData, sorting);
+    const sortedData = useSortableData(rowActiveData);
 
     const [tableWrapperRef, headerRef] = useStickyHeader(isStickyHeader);
     const [scrollWrapperRef, btnRefs, handleScroll] =
@@ -78,9 +75,6 @@ const Table = ({
                         isActions={isActions}
                         isTooltips={isTooltips}
                         ref={headerRef}
-                        requestSort={requestSort}
-                        sortDirection={sortDirection}
-                        sortSysName={sortSysName}
                     />
                     <Body
                         columns={columns}

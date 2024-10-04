@@ -1,36 +1,28 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 
-import type {
-    TableSortConfig,
-    TableColumn,
-    TableData,
-    TableSortCompare,
-} from "../../../types/Table";
+import { useAppSelector } from "../../../app/hooks";
+import { selectSortConfig } from "../../../features/sortConfig/sortConfigSlice";
+import type { SortCompare } from "../../../types/Sort";
+import type { TableData } from "../../../types/Table";
 
-const useSortableData = (data: TableData[], config: TableSortConfig) => {
-    const { dataType, direction } = config;
-
-    if (!dataType) config.dataType = "date";
-    if (!direction) config.direction = "asc";
-
-    const [sortConfig, setSortConfig] = useState(config);
+const useSortableData = (data: TableData[]) => {
+    const { sortOrder, sortSysName, sortSysNameStatus, sortType } =
+        useAppSelector(selectSortConfig);
 
     const sortedData = useMemo(() => {
-        const { dataType, direction, sysName, sysNameStatus } = sortConfig;
+        if (!sortType || !sortSysName) return data;
 
-        if (!dataType || !sysName) return data;
+        const more = sortOrder === "asc" ? 1 : -1;
+        const less = sortOrder === "asc" ? -1 : 1;
 
-        const more = direction === "asc" ? 1 : -1;
-        const less = direction === "asc" ? -1 : 1;
+        const compareFunction = getCompareFunction(sortType);
 
         const result = [...data].sort((a, b) => {
-            const compare = getCompareFunction(dataType);
-
-            const result = compare({
-                statusA: a[sysNameStatus || ""],
-                statusB: b[sysNameStatus || ""],
-                valueA: a[sysName],
-                valueB: b[sysName],
+            const result = compareFunction({
+                statusA: a[sortSysNameStatus || ""],
+                statusB: b[sortSysNameStatus || ""],
+                valueA: a[sortSysName],
+                valueB: b[sortSysName],
             });
 
             const { order, resultA, resultB } = result;
@@ -49,50 +41,24 @@ const useSortableData = (data: TableData[], config: TableSortConfig) => {
         });
 
         return result;
-    }, [data, sortConfig]);
+    }, [data, sortOrder, sortSysName]);
 
-    const requestSort = (column: TableColumn) => {
-        let direction = "asc";
-
-        if (
-            sortConfig &&
-            sortConfig.sysName === column.sysName &&
-            sortConfig.direction === "asc"
-        ) {
-            direction = "desc";
-        }
-
-        setSortConfig({ ...column, direction });
-    };
-
-    return [
-        sortedData,
-        requestSort,
-        sortConfig.direction,
-        sortConfig.sysName,
-    ] as const;
+    return sortedData;
 };
 
 function getCompareFunction(type: string) {
-    const _compareFunctions: Record<string, TableSortCompare> = {
-        amount({ statusA, statusB, valueA, valueB }) {
-            if (statusA === "Ошибка вычисления") return { order: -1 };
-            if (statusB === "Ошибка вычисления") return { order: 1 };
-
-            if (isNaN(Number(valueA))) return { order: 1 };
-            if (isNaN(Number(valueB))) return { order: -1 };
-
-            return { resultA: valueA, resultB: valueB };
-        },
-
+    const _compareFunctions: Record<string, SortCompare> = {
         numeric({ statusA, statusB, valueA, valueB }) {
-            if (statusA === "Ошибка вычисления") return { order: -1 };
-            if (statusB === "Ошибка вычисления") return { order: 1 };
+            if (statusA === "Calculation Error") return { order: -1 };
+            if (statusB === "Calculation Error") return { order: 1 };
 
-            if (isNaN(Number(valueA))) return { order: 1 };
-            if (isNaN(Number(valueB))) return { order: -1 };
+            const numberA = Number(valueA);
+            const numberB = Number(valueB);
 
-            return { resultA: valueA, resultB: valueB };
+            if (isNaN(numberA)) return { order: 1 };
+            if (isNaN(numberB)) return { order: -1 };
+
+            return { resultA: numberA, resultB: numberB };
         },
 
         numericArray({ valueA = "", valueB = "" }) {

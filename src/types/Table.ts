@@ -1,7 +1,16 @@
 import type { MouseEvent, RefObject } from "react";
 
 import type { Loan, Person, ReportRecord } from "./Report";
+import type { SortType } from "./Sort";
 import type { User } from "./User";
+
+export type DataType =
+    | "amount"
+    | "date"
+    | "dateTime"
+    | "numeric"
+    | "numericArray"
+    | "text";
 
 export type TableData = Loan | Person | ReportRecord | User;
 
@@ -10,11 +19,11 @@ export interface TableColumn {
     badgeEqual?: string;
     badgeMore?: number;
     badgeType?: string;
-    dataType?: string;
+    dataType?: DataType;
     extended?: boolean;
     isLink?: boolean;
     name?: string;
-    sortable?: boolean;
+    sortType?: SortType;
     sysName?: string;
     sysNameStatus?: string;
     tooltip?: boolean;
@@ -36,16 +45,13 @@ export interface TableProps {
     isStickyHeader?: boolean;
     isTextDifference?: boolean;
     isTooltips?: boolean;
-    sorting?: TableSortConfig;
 }
 
 export interface TableHeadProps {
     columns: TableColumn[];
     isActions: boolean;
     isTooltips: boolean;
-    requestSort: TableSortFunc;
     sortSysName?: string;
-    sortDirection?: string;
 }
 
 export interface TableBodyProps {
@@ -69,32 +75,6 @@ export interface TableDiffBadgesProps {
 export interface TableDiffData {
     text?: string;
     spanText?: string;
-}
-
-export interface TableSortConfig {
-    dataType?: string;
-    direction?: string;
-    sysName?: string;
-    sysNameStatus?: string;
-}
-
-export interface TableSortFunc {
-    (column: TableColumn): void;
-}
-
-interface TableSortCompareOptions {
-    statusA: string | number;
-    statusB: string | number;
-    valueA: string | number;
-    valueB: string | number;
-}
-
-export interface TableSortCompare {
-    (arg0: TableSortCompareOptions): {
-        order?: number;
-        resultA?: string | number;
-        resultB?: string | number;
-    };
 }
 
 export interface TableScrollButtons {

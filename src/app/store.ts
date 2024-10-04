@@ -6,6 +6,7 @@ import { extendedDataSlice } from "../features/extendedData/extendedDataSlice";
 import { modalDataSlice } from "../features/modalData/modalDataSlice";
 import { paginationSlice } from "../features/pagination/paginationSlice";
 import { searchSlice } from "../features/search/searchSlice";
+import { sortConfigSlice } from "../features/sortConfig/sortConfigSlice";
 import { themeSlice } from "../features/theme/themeSlice";
 
 const rootReducer = combineSlices(
@@ -15,6 +16,7 @@ const rootReducer = combineSlices(
     modalDataSlice,
     paginationSlice,
     searchSlice,
+    sortConfigSlice,
     themeSlice
 );
 

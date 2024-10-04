@@ -44,27 +44,32 @@ export const reportListColumns: TableColumn[] = [
     {
         alignment: "text-start",
         dataType: "numeric",
+        sortType: "numeric",
         sysName: "appNumber",
     },
     {
         alignment: "text-center",
         dataType: "dateTime",
+        sortType: "text",
         sysName: "appCreationDate",
     },
     {
         alignment: "text-start",
         dataType: "text",
+        sortType: "text",
         isLink: true,
         sysName: "clientName",
     },
     {
         alignment: "text-end",
         dataType: "numeric",
+        sortType: "text",
         sysName: "documentSeries",
     },
     {
         alignment: "text-end",
-        dataType: "numeric",
+        dataType: "text",
+        sortType: "numeric",
         sysName: "documentNumber",
     },
 ];
@@ -73,12 +78,13 @@ export const userListColumns: TableColumn[] = [
     {
         alignment: "text-center",
         dataType: "dateTime",
-        sortable: true,
+        sortType: "text",
         sysName: "creationDate",
     },
     {
         alignment: "text-start",
         dataType: "text",
+        sortType: "text",
         sysName: "userName",
     },
     {

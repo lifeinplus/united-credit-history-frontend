@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PanelHeader, Table } from "../../components";
+import type { SortConfigState } from "../../types/Sort";
 import { reportListColumns } from "../../utils";
 
 import {
@@ -14,6 +15,7 @@ import {
     setTotalPages,
 } from "../pagination/paginationSlice";
 import { selectSearch } from "../search/searchSlice";
+import { selectSortConfig, setSortConfig } from "../sortConfig/sortConfigSlice";
 import { selectTheme } from "../theme/themeSlice";
 
 import { useGetReportsQuery } from "./reportsApiSlice";
@@ -25,11 +27,23 @@ const ReportList = () => {
     const theme = useAppSelector(selectTheme);
     const search = useAppSelector(selectSearch);
     const page = useAppSelector(selectActivePage);
+    const { sortOrder, sortSysName } = useAppSelector(selectSortConfig);
+
+    const sortConfig: SortConfigState = {
+        sortOrder: "asc",
+        sortSysName: "appNumber",
+    };
+
+    useEffect(() => {
+        dispatch(setSortConfig(sortConfig));
+    }, []);
 
     const { data, isFetching } = useGetReportsQuery({
         limit: 10,
         page,
         search,
+        sortOrder: sortOrder || sortConfig.sortOrder,
+        sortSysName: sortSysName || sortConfig.sortSysName,
     });
 
     useEffect(() => {

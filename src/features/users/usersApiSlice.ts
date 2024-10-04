@@ -13,8 +13,8 @@ interface UsersQueryArg {
 const usersApiSlice = apiSlice.injectEndpoints({
     endpoints: (build) => ({
         getUsers: build.query<PaginationResult, PaginationQueryArg>({
-            query: ({ limit, page, search }) =>
-                `users/getPaginated?page=${page}&limit=${limit}&search=${search}`,
+            query: ({ limit, page, search, sortOrder, sortSysName }) =>
+                `users/getPaginated?page=${page}&limit=${limit}&search=${search}&sort=${sortSysName}&order=${sortOrder}`,
             keepUnusedDataFor: 5,
             providesTags: ["Users"],
         }),
