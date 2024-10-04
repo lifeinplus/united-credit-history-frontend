@@ -30,7 +30,6 @@ const Table = ({
     isStickyHeader = false,
     isTextDifference = false,
     isTooltips = false,
-    pagination = {},
     sorting = {},
 }: TableProps) => {
     const theme = useAppSelector(selectTheme);
@@ -95,10 +94,7 @@ const Table = ({
             </div>
             {isPagination && (
                 <footer>
-                    <Pagination
-                        isFetching={isFetching}
-                        pagination={pagination}
-                    />
+                    <Pagination isFetching={isFetching} />
                 </footer>
             )}
         </>

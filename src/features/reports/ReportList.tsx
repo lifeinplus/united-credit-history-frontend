@@ -1,11 +1,18 @@
 import classNames from "classnames";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PanelHeader, Table } from "../../components";
 import { reportListColumns } from "../../utils";
 
-import { selectActivePage } from "../pagination/paginationSlice";
+import {
+    selectActivePage,
+    setFromEntry,
+    setToEntry,
+    setTotal,
+    setTotalPages,
+} from "../pagination/paginationSlice";
 import { selectSearch } from "../search/searchSlice";
 import { selectTheme } from "../theme/themeSlice";
 
@@ -14,6 +21,7 @@ import { useGetReportsQuery } from "./reportsApiSlice";
 const ReportList = () => {
     const { t } = useTranslation(["report_list"]);
 
+    const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
     const search = useAppSelector(selectSearch);
     const page = useAppSelector(selectActivePage);
@@ -24,14 +32,12 @@ const ReportList = () => {
         search,
     });
 
-    const reports = data?.results;
-
-    const pagination = {
-        fromEntry: data?.fromEntry,
-        toEntry: data?.toEntry,
-        total: data?.total,
-        totalPages: data?.totalPages,
-    };
+    useEffect(() => {
+        dispatch(setFromEntry(data?.fromEntry));
+        dispatch(setToEntry(data?.toEntry));
+        dispatch(setTotal(data?.total));
+        dispatch(setTotalPages(data?.totalPages));
+    }, [data]);
 
     const columns = reportListColumns.map((item) => ({
         ...item,
@@ -58,11 +64,10 @@ const ReportList = () => {
                             <Table
                                 id={"rl"}
                                 columns={columns}
-                                data={reports}
+                                data={data?.results}
                                 isFetching={isFetching}
                                 isPagination={true}
                                 isRowHover={true}
-                                pagination={pagination}
                             />
                         </div>
                     </div>
