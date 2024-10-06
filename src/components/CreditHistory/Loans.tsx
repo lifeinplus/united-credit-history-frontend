@@ -1,19 +1,34 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Table } from "../../components";
 import { selectShowExtendedData } from "../../features/extendedData/extendedDataSlice";
+import { setSortConfig } from "../../features/sortConfig/sortConfigSlice";
 import type { LoansProps } from "../../types/CreditHistory";
+import type { SortConfigState } from "../../types/Sort";
 import { getDateFormat } from "../../utils";
 
 import { tableColumns, TimePeriod } from "./utils";
 
 const Loans = ({ loans, reportCreationDate }: LoansProps) => {
     const { i18n, t } = useTranslation(["credit_history"]);
+
+    const dispatch = useAppDispatch();
     const showExtendedData = useAppSelector(selectShowExtendedData);
     const dateFormat = getDateFormat("ru", "status");
     const columns = defineColumns();
+
+    const sortConfig: SortConfigState = {
+        sortOrder: "asc",
+        sortSysName: "chbPayment",
+        sortSysNameStatus: "chbPaymentStatus",
+        sortType: "numeric",
+    };
+
+    useEffect(() => {
+        dispatch(setSortConfig(sortConfig));
+    }, []);
 
     return (
         <Table
@@ -23,11 +38,6 @@ const Loans = ({ loans, reportCreationDate }: LoansProps) => {
             isRowActive={true}
             isRowHover={true}
             isScrolling={true}
-            sorting={{
-                dataType: "amount",
-                sysName: "chbPayment",
-                sysNameStatus: "chbPaymentStatus",
-            }}
             isStickyHeader={true}
             isTooltips={true}
         />

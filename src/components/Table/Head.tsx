@@ -1,28 +1,33 @@
 import classNames from "classnames";
-import { forwardRef, memo } from "react";
+import { forwardRef, memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+    requestSort,
+    resetSortConfig,
+    selectSortConfig,
+} from "../../features/sortConfig/sortConfigSlice";
 import { selectTheme } from "../../features/theme/themeSlice";
 import type { TableHeadProps } from "../../types/Table";
 
 import { useTooltip } from "./hooks";
 
 const Head = forwardRef<HTMLTableSectionElement, TableHeadProps>(
-    (props, ref) => {
-        const {
-            columns,
-            isActions,
-            isTooltips,
-            requestSort,
-            sortDirection,
-            sortSysName,
-        } = props;
-
+    ({ columns, isActions, isTooltips }, ref) => {
         const { t } = useTranslation("table");
 
+        const dispatch = useAppDispatch();
+        const { sortOrder, sortSysName } = useAppSelector(selectSortConfig);
         const theme = useAppSelector(selectTheme);
+
         useTooltip(isTooltips, columns);
+
+        useEffect(() => {
+            return () => {
+                dispatch(resetSortConfig());
+            };
+        }, []);
 
         return (
             <thead className="align-middle" ref={ref}>
@@ -38,8 +43,9 @@ const Head = forwardRef<HTMLTableSectionElement, TableHeadProps>(
                             alignment,
                             extended,
                             name,
-                            sortable,
+                            sortType,
                             sysName,
+                            sysNameStatus,
                             tooltipName,
                         } = column;
 
@@ -50,15 +56,15 @@ const Head = forwardRef<HTMLTableSectionElement, TableHeadProps>(
                                 : "uch-table dark info");
 
                         const sortClass =
-                            sortable && sortSysName === sysName
-                                ? sortDirection
+                            sortType && sortSysName === sysName
+                                ? sortOrder
                                 : undefined;
 
-                        const sortThemeClass = sortable && `sortable ${theme}`;
+                        const sortThemeClass = sortType && `sortable ${theme}`;
 
                         return (
                             <th
-                                key={column.sysName || column.name}
+                                key={sysName || name}
                                 className={classNames(
                                     alignment,
                                     extendedClass,
@@ -70,8 +76,15 @@ const Head = forwardRef<HTMLTableSectionElement, TableHeadProps>(
                                 data-bs-custom-class={`uch-tooltip ${theme}`}
                                 data-bs-title={tooltipName}
                                 onClick={
-                                    sortable
-                                        ? () => requestSort(column)
+                                    sortType
+                                        ? () =>
+                                              dispatch(
+                                                  requestSort({
+                                                      sortType,
+                                                      sysName,
+                                                      sysNameStatus,
+                                                  })
+                                              )
                                         : undefined
                                 }
                                 scope="col"
@@ -94,19 +107,16 @@ const Head = forwardRef<HTMLTableSectionElement, TableHeadProps>(
 function propsAreEqual(
     {
         columns: prevColumns,
-        sortDirection: prevSortDirection,
         sortSysName: prevSortSysName,
     }: Readonly<TableHeadProps>,
     {
         columns: nextColumns,
-        sortDirection: nextSortDirection,
         sortSysName: nextSortSysName,
     }: Readonly<TableHeadProps>
 ): boolean {
     return (
         prevColumns.length === nextColumns.length &&
         prevColumns.every((item, i) => item.name === nextColumns[i].name) &&
-        prevSortDirection === nextSortDirection &&
         prevSortSysName === nextSortSysName
     );
 }
