@@ -45,13 +45,14 @@ Language switching is implemented using the i18next framework.
 
 The application includes hotkeys for convenient navigation:
 
--   Scroll Credit History table:
+-   Scroll Credit History or paginated data tables:
     -   Left: `ArrowLeft`
     -   Right: `ArrowRight`
     -   Begin: `Option-ArrowLeft` or `Alt-ArrowLeft`
     -   End: `Option-ArrowRight` or `Alt-ArrowRight`
 -   Change color theme: `Option-T` or `Alt-T`
 -   Switch interface language: `Option-L` or `Alt-L`
+-   Focus search field: `Option-F` or `Alt-F`
 -   Toggle extended data: `Option-E` or `Alt-E`
 
 ## Structure

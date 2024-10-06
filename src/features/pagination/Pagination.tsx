@@ -18,7 +18,6 @@ import {
     selectTotal,
     selectTotalPages,
     setActivePage,
-    setTotalPages,
 } from "./paginationSlice";
 
 const Pagination = ({ isFetching = false }: PaginationProps) => {
@@ -44,20 +43,20 @@ const Pagination = ({ isFetching = false }: PaginationProps) => {
     }, []);
 
     const handleKeyDown = useCallback(
-        ({ altKey, key }: KeyboardEvent) => {
-            if (altKey && key === "ArrowLeft") {
+        ({ altKey, code }: KeyboardEvent) => {
+            if (altKey && code === "ArrowLeft") {
                 dispatch(goFirstPage());
             }
 
-            if (altKey && key === "ArrowRight") {
+            if (altKey && code === "ArrowRight") {
                 dispatch(goLastPage());
             }
 
-            if (!altKey && key === "ArrowRight" && activePage < totalPages) {
+            if (!altKey && code === "ArrowRight" && activePage < totalPages) {
                 dispatch(goNextPage());
             }
 
-            if (!altKey && key === "ArrowLeft" && activePage > 1) {
+            if (!altKey && code === "ArrowLeft" && activePage > 1) {
                 dispatch(goPrevPage());
             }
         },
@@ -66,7 +65,6 @@ const Pagination = ({ isFetching = false }: PaginationProps) => {
 
     useEffect(() => {
         window.addEventListener("keydown", handleKeyDown);
-
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
