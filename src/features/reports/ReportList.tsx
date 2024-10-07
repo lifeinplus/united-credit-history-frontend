@@ -14,7 +14,7 @@ import {
     setTotal,
     setTotalPages,
 } from "../pagination/paginationSlice";
-import { selectSearch } from "../search/searchSlice";
+import { selectSearchValue } from "../search/searchSlice";
 import { selectSortConfig, setSortConfig } from "../sortConfig/sortConfigSlice";
 import { selectTheme } from "../theme/themeSlice";
 
@@ -25,7 +25,7 @@ const ReportList = () => {
 
     const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
-    const search = useAppSelector(selectSearch);
+    const searchValue = useAppSelector(selectSearchValue);
     const page = useAppSelector(selectActivePage);
     const { sortOrder, sortSysName } = useAppSelector(selectSortConfig);
 
@@ -41,7 +41,7 @@ const ReportList = () => {
     const { data, isFetching } = useGetReportsQuery({
         limit: 10,
         page,
-        search,
+        searchValue,
         sortOrder: sortOrder || sortConfig.sortOrder,
         sortSysName: sortSysName || sortConfig.sortSysName,
     });

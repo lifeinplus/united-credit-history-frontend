@@ -1,16 +1,22 @@
 import { useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
+
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectSearch, setSearch } from "./searchSlice";
+import { setActivePage } from "../pagination/paginationSlice";
+import {
+    selectSearchValue,
+    setSearchFocus,
+    setSearchValue,
+} from "./searchSlice";
 
 const SearchControl = () => {
     const searchRef = useRef<HTMLInputElement>(null);
     const dispatch = useAppDispatch();
-    const search = useAppSelector(selectSearch);
+    const searchValue = useAppSelector(selectSearchValue);
 
     useEffect(() => {
         return () => {
-            dispatch(setSearch(""));
+            dispatch(setSearchValue(""));
         };
     }, []);
 
@@ -32,13 +38,20 @@ const SearchControl = () => {
     return (
         <Form.Control
             aria-label="Search"
+            onBlur={() => {
+                dispatch(setSearchFocus(false));
+            }}
             onChange={(e) => {
-                dispatch(setSearch(e.target.value));
+                dispatch(setActivePage(1));
+                dispatch(setSearchValue(e.target.value));
+            }}
+            onFocus={() => {
+                dispatch(setSearchFocus(true));
             }}
             placeholder="Search"
             ref={searchRef}
             type="search"
-            value={search}
+            value={searchValue}
         />
     );
 };

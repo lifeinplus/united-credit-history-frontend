@@ -16,7 +16,7 @@ export interface PaginationQueryArg
     extends Pick<SortConfigState, "sortOrder" | "sortSysName"> {
     limit: number;
     page: number;
-    search: string;
+    searchValue: string;
 }
 
 export interface PaginationResult extends PaginationState {
