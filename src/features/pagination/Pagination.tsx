@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import type { PageItemProps, PaginationProps } from "../../types/Pagination";
 
+import { selectSearchFocus } from "../search/searchSlice";
 import { selectTheme } from "../theme/themeSlice";
 
 import {
@@ -24,6 +25,7 @@ const Pagination = ({ isFetching = false }: PaginationProps) => {
     const { t } = useTranslation("table");
 
     const dispatch = useAppDispatch();
+    const searchFocus = useAppSelector(selectSearchFocus);
     const theme = useAppSelector(selectTheme);
     const activePage = useAppSelector(selectActivePage);
     const fromEntry = useAppSelector(selectFromEntry);
@@ -44,6 +46,8 @@ const Pagination = ({ isFetching = false }: PaginationProps) => {
 
     const handleKeyDown = useCallback(
         ({ altKey, code }: KeyboardEvent) => {
+            if (searchFocus) return;
+
             if (altKey && code === "ArrowLeft") {
                 dispatch(goFirstPage());
             }
@@ -60,7 +64,7 @@ const Pagination = ({ isFetching = false }: PaginationProps) => {
                 dispatch(goPrevPage());
             }
         },
-        [activePage, totalPages]
+        [activePage, totalPages, searchFocus]
     );
 
     useEffect(() => {

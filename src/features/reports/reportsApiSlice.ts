@@ -14,8 +14,8 @@ interface ReportFullQueryArg {
 const reportsApiSlice = apiSlice.injectEndpoints({
     endpoints: (build) => ({
         getReports: build.query<PaginationResult, PaginationQueryArg>({
-            query: ({ limit, page, search, sortOrder, sortSysName }) =>
-                `reports/getPaginated?page=${page}&limit=${limit}&search=${search}&sort=${sortSysName}&order=${sortOrder}`,
+            query: ({ limit, page, searchValue, sortOrder, sortSysName }) =>
+                `reports/getPaginated?page=${page}&limit=${limit}&search=${searchValue}&sort=${sortSysName}&order=${sortOrder}`,
             keepUnusedDataFor: 5,
             providesTags: ["Reports"],
         }),
