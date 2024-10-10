@@ -1,16 +1,21 @@
 import classNames from "classnames";
+import { Image } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { axiosPrivate } from "../../features/api/axios";
+import { axiosPrivate, BASE_URL } from "../../features/api/axios";
 import {
     logOut,
+    selectAvatarPath,
     selectRoles,
     selectUserId,
     selectUserName,
 } from "../../features/auth/authSlice";
-import { showChangePasswordModal } from "../../features/modalData/modalDataSlice";
+import {
+    showChangeAvatarModal,
+    showChangePasswordModal,
+} from "../../features/modalData/modalDataSlice";
 import { selectTheme } from "../../features/theme/themeSlice";
 
 const Account = () => {
@@ -19,13 +24,14 @@ const Account = () => {
 
     const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
-    const userName = useAppSelector(selectUserName);
-    const userId = useAppSelector(selectUserId);
+    const avatarPath = useAppSelector(selectAvatarPath);
     const roles = useAppSelector(selectRoles);
+    const userId = useAppSelector(selectUserId);
+    const userName = useAppSelector(selectUserName);
 
-    return userName ? <Out /> : <In />;
+    return userName ? <Inside /> : <Outside />;
 
-    function Out() {
+    function Inside() {
         const handleChangePassword = () => {
             dispatch(showChangePasswordModal({ _id: userId }));
         };
@@ -57,7 +63,17 @@ const Account = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                 >
-                    <i className="bi bi-person-circle me-2"></i>
+                    {avatarPath ? (
+                        <Image
+                            src={`${BASE_URL}/${avatarPath}`}
+                            rounded
+                            width="16"
+                            height="16"
+                            className="me-2 align-text-top"
+                        />
+                    ) : (
+                        <i className="bi bi-person-circle me-2"></i>
+                    )}
                     {userName}
                 </button>
                 <ul
@@ -81,6 +97,19 @@ const Account = () => {
                     <li>
                         <button
                             className="dropdown-item"
+                            onClick={() => {
+                                dispatch(
+                                    showChangeAvatarModal({ _id: userId })
+                                );
+                            }}
+                            type="button"
+                        >
+                            {t("changeAvatar")}
+                        </button>
+                    </li>
+                    <li>
+                        <button
+                            className="dropdown-item"
                             onClick={handleChangePassword}
                             type="button"
                         >
@@ -101,7 +130,7 @@ const Account = () => {
         );
     }
 
-    function In() {
+    function Outside() {
         return (
             <button
                 className={classNames(

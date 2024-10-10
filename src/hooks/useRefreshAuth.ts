@@ -7,14 +7,13 @@ const useRefreshAuth = () => {
     const dispatch = useAppDispatch();
 
     return async () => {
-        const { accessToken, roles, userId, userName }: AuthState =
-            await axiosPrivate
-                .get("auth/refresh")
-                .then((response) => response.data);
+        const data: AuthState = await axiosPrivate
+            .get("auth/refresh")
+            .then((response) => response.data);
 
-        dispatch(setCredentials({ accessToken, roles, userId, userName }));
+        dispatch(setCredentials(data));
 
-        return accessToken;
+        return data.accessToken;
     };
 };
 

@@ -3,12 +3,13 @@ import {
     createApi,
     fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
+import { BASE_URL } from "./axios";
 
 import { logOut, setCredentials } from "../auth/authSlice";
 import type { AuthState } from "../../types/Auth";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: "http://localhost:9090",
+    baseUrl: BASE_URL,
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
         const { auth } = getState() as { auth: AuthState };

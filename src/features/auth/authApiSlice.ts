@@ -15,7 +15,6 @@ const authApiSlice = apiSlice.injectEndpoints({
                 method: "PUT",
                 body: { id, currentPassword, newPassword },
             }),
-            invalidatesTags: ["Users"],
         }),
         login: build.mutation<AuthResultLogin, AuthQuery>({
             query: (credentials) => ({

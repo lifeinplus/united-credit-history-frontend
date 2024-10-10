@@ -7,23 +7,12 @@ export const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        logOut: (state) => {
-            state.accessToken = undefined;
-            state.roles = undefined;
-            state.userName = undefined;
-        },
-        setCredentials: (state, action) => {
-            const { accessToken, roles, userId, userName }: AuthState =
-                action.payload;
-
-            state.accessToken = accessToken;
-            state.roles = roles;
-            state.userId = userId;
-            state.userName = userName;
-        },
+        logOut: () => initialState,
+        setCredentials: (_, action) => action.payload,
     },
     selectors: {
         selectAccessToken: (state) => state.accessToken,
+        selectAvatarPath: (state) => state.avatarPath,
         selectRoles: (state) => state.roles,
         selectUserId: (state) => state.userId,
         selectUserName: (state) => state.userName,
@@ -32,5 +21,10 @@ export const authSlice = createSlice({
 
 export const { logOut, setCredentials } = authSlice.actions;
 
-export const { selectAccessToken, selectRoles, selectUserName, selectUserId } =
-    authSlice.selectors;
+export const {
+    selectAccessToken,
+    selectAvatarPath,
+    selectRoles,
+    selectUserId,
+    selectUserName,
+} = authSlice.selectors;
