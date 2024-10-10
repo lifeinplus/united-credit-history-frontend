@@ -8,16 +8,21 @@ import {
     showModalDelete,
     showModalEdit,
 } from "../../features/modalData/modalDataSlice";
+import {
+    selectSearchSysName,
+    selectSearchValue,
+} from "../../features/search/searchSlice";
 import { selectTheme } from "../../features/theme/themeSlice";
 import type {
     TableBodyProps,
     TableColumn,
     TableData,
-    TableDiffData,
-    TableDiffBadgesProps,
+    TableDiffBadges,
     TableRowProps,
 } from "../../types/Table";
 import { getDateFormat, langs } from "../../utils";
+
+import BadgeText from "./BadgeText";
 
 const Body = ({
     columns,
@@ -34,6 +39,8 @@ const Body = ({
     );
 
     const dispatch = useAppDispatch();
+    const searchSysName = useAppSelector(selectSearchSysName);
+    const searchValue = useAppSelector(selectSearchValue);
     const theme = useAppSelector(selectTheme);
 
     const { i18n } = useTranslation();
@@ -81,9 +88,10 @@ const Body = ({
                                 {columns.map((column, index) => {
                                     const key = `${_id}-${index}`;
 
-                                    const { isLink, name, type } = column;
+                                    const { isLink, name, sysName, type } =
+                                        column;
 
-                                    const { cell, badge, diffData, value } =
+                                    const { cell, badge, value } =
                                         type === "status"
                                             ? getStatusData(column, dataItem)
                                             : getCommonData(column, dataItem);
@@ -92,14 +100,23 @@ const Body = ({
                                         ? name
                                         : undefined;
 
-                                    const linkValue = isLink && (
+                                    const diffedBadges =
+                                        isTextDifference &&
+                                        diffBadges(column, value);
+
+                                    const highlightedSearch =
+                                        searchValue && sysName === searchSysName
+                                            ? highlightSearch(value)
+                                            : undefined;
+
+                                    const linkValue = isLink ? (
                                         <Link
                                             className={`uch-link ${theme}`}
                                             to={`/reports/${dataItem._id}`}
                                         >
-                                            {value}
+                                            {highlightedSearch || value}
                                         </Link>
-                                    );
+                                    ) : undefined;
 
                                     return (
                                         <td
@@ -108,14 +125,11 @@ const Body = ({
                                             data-label={label}
                                         >
                                             <span className={badge}>
-                                                {isTextDifference ? (
-                                                    <DiffBadges
-                                                        id={key}
-                                                        data={diffData}
-                                                    />
-                                                ) : (
-                                                    linkValue || value
-                                                )}
+                                                {isTextDifference
+                                                    ? diffedBadges
+                                                    : linkValue ||
+                                                      highlightedSearch ||
+                                                      value}
                                             </span>
                                         </td>
                                     );
@@ -162,21 +176,6 @@ const Body = ({
         );
     }
 
-    function DiffBadges({ id, data = [] }: TableDiffBadgesProps) {
-        return data.map((element, index) => {
-            const { spanText, text } = element;
-            const key = `${id}-span${index}`;
-
-            return spanText ? (
-                <mark key={key} className={"uch-badge diff uch-text-bg-A"}>
-                    {spanText}
-                </mark>
-            ) : (
-                text
-            );
-        });
-    }
-
     function getCommonData(column: TableColumn, data: TableData) {
         const {
             alignment,
@@ -188,27 +187,17 @@ const Body = ({
             sysNameStatus,
         } = column;
 
-        const firstSource = firstDataItem && firstDataItem[sysName];
-        const firstValue =
-            isTextDifference && firstSource
-                ? prepare(firstSource, dataType)
-                : "";
-
-        const currentStatusSource = data[sysNameStatus || ""];
-        const currentSource = currentStatusSource ?? data[sysName] ?? "";
-        const currentValue = prepare(currentSource, dataType);
+        const statusSource = data[sysNameStatus || ""];
+        const source = statusSource ?? data[sysName] ?? "";
+        const value = prepare(source, dataType);
 
         const badge =
-            currentSource === badgeEqual ||
-            (badgeMore !== undefined && Number(currentSource) > badgeMore)
+            source === badgeEqual ||
+            (badgeMore !== undefined && Number(source) > badgeMore)
                 ? `uch-badge uch-text-bg-${badgeType}`
                 : undefined;
 
-        const diffData = isTextDifference
-            ? compare(firstValue, currentValue)
-            : undefined;
-
-        return { cell: alignment, badge, diffData, value: currentValue };
+        return { cell: alignment, badge, value };
     }
 
     function getStatusData(column: TableColumn, data: TableData) {
@@ -217,89 +206,116 @@ const Body = ({
         const value = data[name || ""];
         const badge = value ? `uch-badge status uch-text-bg-${value}` : "";
 
-        return { cell: "uch-td-status", badge, diffData: undefined, value };
+        return { cell: "uch-td-status", badge, value };
     }
 
-    function prepare(sourceValue: string | number, dataType: string) {
-        const numberValue = Number(sourceValue);
+    function diffBadges(column: TableColumn, diffValue: string | number) {
+        const { dataType = "", sysName = "" } = column;
 
-        if (dataType === "amount" && !isNaN(numberValue)) {
-            return numberFormat.format(numberValue);
-        }
+        let result: TableDiffBadges[] = [];
 
-        if (dataType === "date" && sourceValue) {
-            const milliseconds = Date.parse(String(sourceValue));
-            return dateFormat.format(milliseconds);
-        }
+        const firstSource = firstDataItem && String(firstDataItem[sysName]);
+        const firstValue = firstSource && prepare(firstSource, dataType);
 
-        if (dataType === "dateTime" && sourceValue) {
-            const milliseconds = Date.parse(String(sourceValue));
-            const date = dateFormat.format(milliseconds);
-            const time = timeFormat.format(milliseconds);
-            return date + " " + time;
-        }
+        const firstArray = String(firstValue).split(" ");
+        const diffArray = String(diffValue).split(" ");
 
-        return sourceValue;
-    }
-
-    function compare(
-        valueA: string | number = "",
-        valueB: string | number = ""
-    ) {
-        let result: TableDiffData[] = [];
-
-        const arrayA = String(valueA).split(" ");
-        const arrayB = String(valueB).split(" ");
-
-        const maxLength = Math.max(arrayA.length, arrayB.length);
+        const maxLength = Math.max(firstArray.length, diffArray.length);
 
         for (let i = 0; i < maxLength; i++) {
-            const stringA = arrayA[i] || "";
-            const stringB = arrayB[i] || "";
+            const firstString = firstArray[i] || "";
+            const diffString = diffArray[i] || "";
 
-            let compared = compareStrings(stringA, stringB);
+            let badged = badgeDiffs(firstString, diffString);
 
             if (i < maxLength - 1) {
-                compared = compared.concat([{ text: " " }]);
+                badged.push(" ");
             }
 
-            result = result.concat(compared);
+            result = result.concat(badged);
         }
 
         return result;
     }
 
-    function compareStrings(stringA: string, stringB: string) {
-        const result = [];
-        const maxLength = Math.max(stringA.length, stringB.length);
+    function highlightSearch(text: string | number) {
+        const regex = new RegExp(`(${searchValue})`, "gi");
+        const parts = String(text).split(regex);
 
-        let text = "";
-        let spanText = "";
+        return parts.map((part, index) =>
+            regex.test(part) ? <BadgeText key={index} text={part} /> : part
+        );
+    }
 
-        for (let i = 0; i < maxLength; i++) {
-            const charA = stringA[i] || "";
-            const charB = stringB[i] || "";
+    function prepare(value: string | number, dataType: string) {
+        const numberValue = Number(value);
 
-            if (charA !== charB && charB) {
-                if (text) {
-                    result.push({ text });
-                    text = "";
-                }
-
-                spanText += charB;
-                continue;
-            }
-
-            if (spanText) {
-                result.push({ spanText });
-                spanText = "";
-            }
-
-            text += charB;
+        if (dataType === "amount" && !isNaN(numberValue)) {
+            return numberFormat.format(numberValue);
         }
 
-        if (spanText) result.push({ spanText });
-        if (text) result.push({ text });
+        if (dataType === "date" && value) {
+            const milliseconds = Date.parse(String(value));
+            return dateFormat.format(milliseconds);
+        }
+
+        if (dataType === "dateTime" && value) {
+            const milliseconds = Date.parse(String(value));
+            const date = dateFormat.format(milliseconds);
+            const time = timeFormat.format(milliseconds);
+            return date + " " + time;
+        }
+
+        return value;
+    }
+
+    function badgeDiffs(firstString: string, diffString: string) {
+        const result: (string | JSX.Element)[] = [];
+
+        let regularBuffer = "";
+        let badgeBuffer = "";
+        let key = 1;
+
+        const maxLength = Math.max(firstString.length, diffString.length);
+
+        for (let i = 0; i < maxLength; i++) {
+            const firstChar = firstString[i] || "";
+            const diffChar = diffString[i] || "";
+
+            if (firstChar === diffChar) {
+                if (badgeBuffer) {
+                    result.push(
+                        <BadgeText
+                            key={`badge-${maxLength}-${key++}`}
+                            text={badgeBuffer}
+                        />
+                    );
+                    badgeBuffer = "";
+                }
+
+                regularBuffer += firstChar;
+            } else {
+                if (regularBuffer) {
+                    result.push(regularBuffer);
+                    regularBuffer = "";
+                }
+
+                badgeBuffer += diffChar;
+            }
+        }
+
+        if (badgeBuffer) {
+            result.push(
+                <BadgeText
+                    key={`badge-${maxLength}-${key++}`}
+                    text={badgeBuffer}
+                />
+            );
+        }
+
+        if (regularBuffer) {
+            result.push(regularBuffer);
+        }
 
         return result;
     }

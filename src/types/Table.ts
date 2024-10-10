@@ -63,18 +63,10 @@ export interface TableBodyProps {
     isTextDifference: boolean;
 }
 
+export type TableDiffBadges = string | JSX.Element;
+
 export interface TableRowProps {
     data: TableData;
-}
-
-export interface TableDiffBadgesProps {
-    id: string;
-    data?: TableDiffData[];
-}
-
-export interface TableDiffData {
-    text?: string;
-    spanText?: string;
 }
 
 export interface TableScrollButtons {

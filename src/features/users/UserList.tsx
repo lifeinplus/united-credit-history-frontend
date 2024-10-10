@@ -14,7 +14,7 @@ import {
     setTotal,
     setTotalPages,
 } from "../pagination/paginationSlice";
-import { selectSearchValue } from "../search/searchSlice";
+import { selectSearchValue, setSearchSysName } from "../search/searchSlice";
 import { selectSortConfig, setSortConfig } from "../sortConfig/sortConfigSlice";
 import { selectTheme } from "../theme/themeSlice";
 
@@ -35,6 +35,7 @@ const UserList = () => {
     };
 
     useEffect(() => {
+        dispatch(setSearchSysName("userName"));
         dispatch(setSortConfig(sortConfig));
     }, []);
 
