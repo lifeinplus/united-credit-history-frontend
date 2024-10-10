@@ -108,7 +108,7 @@ The "About" page is a multilingual React component with three sections: a brief 
 
 ### Search
 
-The "Search" component allows users to type in search queries, which are captured by the input field and dispatched to the Redux store. On component unmount, the search query is reset to an empty string.
+The "Search" component allows users to type in search queries, which are captured by the input field and dispatched to the Redux store. Search characters are highlighted in result rows. On component unmount, the search query is reset to an empty string.
 
 <img width="800" alt="Search" src="/docs/images/components/search.png">
 
@@ -191,4 +191,4 @@ https://github.com/lifeinplus/united-credit-history-frontend/blob/a0e6bf9a085b6c
 
 ---
 
-v4.20.1 © 2024 Artem Denisov
+v4.21.0 © 2024 Artem Denisov

@@ -39,7 +39,10 @@ const PanelHeader = ({
                             </li>
                         </ul>
                     )}
-                    <Form className="d-flex">
+                    <Form
+                        className="d-flex"
+                        onSubmit={(e) => e.preventDefault()}
+                    >
                         <Navbar.Text>
                             {number && (
                                 <HeaderField
