@@ -1,5 +1,6 @@
 {
     "title": {
+        "changeAvatar": "Avatarı değiştir",
         "changePassword": "Şifre değiştir",
         "delete": "Silmek",
         "edit": "Düzenlemek"
@@ -8,6 +9,7 @@
         "currentPassword": "Mevcut Şifre",
         "newPassword": "Yeni Şifre",
         "roles": "Roller",
+        "selectAvatar": "Bir avatar seçin",
         "userName": "Kullanıcı adı"
     },
     "message": {

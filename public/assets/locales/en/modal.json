@@ -1,5 +1,6 @@
 {
     "title": {
+        "changeAvatar": "Change Avatar",
         "changePassword": "Change Password",
         "delete": "Delete",
         "edit": "Edit"
@@ -8,6 +9,7 @@
         "currentPassword": "Current Password",
         "newPassword": "New Password",
         "roles": "Roles",
+        "selectAvatar": "Select an avatar",
         "userName": "User Name"
     },
     "message": {

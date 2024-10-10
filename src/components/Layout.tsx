@@ -2,6 +2,7 @@ import { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
 
 import { useAppSelector } from "../app/hooks";
+import ChangeAvatarModal from "../features/modalData/ChangeAvatarModal";
 import ChangePasswordModal from "../features/modalData/ChangePasswordModal";
 import ModalDelete from "../features/modalData/ModalDelete";
 import ModalEdit from "../features/modalData/ModalEdit";
@@ -23,6 +24,7 @@ const Layout = () => {
                     },
                 }}
             />
+            <ChangeAvatarModal />
             <ChangePasswordModal />
             <ModalDelete />
             <ModalEdit />

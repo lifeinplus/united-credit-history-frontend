@@ -10,7 +10,10 @@ import {
     selectUserId,
     selectUserName,
 } from "../../features/auth/authSlice";
-import { showChangePasswordModal } from "../../features/modalData/modalDataSlice";
+import {
+    showChangeAvatarModal,
+    showChangePasswordModal,
+} from "../../features/modalData/modalDataSlice";
 import { selectTheme } from "../../features/theme/themeSlice";
 
 const Account = () => {
@@ -78,6 +81,19 @@ const Account = () => {
                             </button>
                         </li>
                     )}
+                    <li>
+                        <button
+                            className="dropdown-item"
+                            onClick={() => {
+                                dispatch(
+                                    showChangeAvatarModal({ _id: userId })
+                                );
+                            }}
+                            type="button"
+                        >
+                            {t("changeAvatar")}
+                        </button>
+                    </li>
                     <li>
                         <button
                             className="dropdown-item"
