@@ -19,10 +19,11 @@ export interface AuthQueryChangePassword {
     newPassword: string;
 }
 
-export interface AuthResultLogin {
-    accessToken: string;
-    roles: number[];
-}
+export interface AuthResultLogin
+    extends Pick<
+        AuthState,
+        "accessToken" | "avatarPath" | "roles" | "userId"
+    > {}
 
 export interface AuthResultRegister {
     message: string;
@@ -34,11 +35,10 @@ export interface AuthRequireProps {
 
 export interface AuthState {
     accessToken?: string;
+    avatarPath?: string;
     roles?: number[];
     userId?: string;
     userName?: string;
 }
 
-export interface AuthSubmitHandler {
-    (userName: string, password: string): void;
-}
+export type AuthSubmitHandler = (userName: string, password: string) => void;

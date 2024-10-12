@@ -1,5 +1,6 @@
 {
     "title": {
+        "changeAvatar": "Изменить аватар",
         "changePassword": "Изменить пароль",
         "delete": "Удалить",
         "edit": "Редактировать"
@@ -8,6 +9,7 @@
         "currentPassword": "Текущий пароль",
         "newPassword": "Новый пароль",
         "roles": "Роли",
+        "selectAvatar": "Выберите аватар",
         "userName": "Имя пользователя"
     },
     "message": {

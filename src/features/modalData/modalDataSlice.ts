@@ -2,12 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types/User";
 
 type ModalData = {
+    avatar?: File;
     currentPassword: string;
     newPassword: string;
     status?: "idle" | "loading" | "failed";
 } & Partial<User>;
 
 interface ModalDataState {
+    isChangeAvatarModal: boolean;
     isChangePasswordModal: boolean;
     isModalDelete: boolean;
     isModalEdit: boolean;
@@ -15,6 +17,7 @@ interface ModalDataState {
 }
 
 const initialState: ModalDataState = {
+    isChangeAvatarModal: false,
     isChangePasswordModal: false,
     isModalDelete: false,
     isModalEdit: false,
@@ -30,6 +33,10 @@ export const modalDataSlice = createSlice({
     name: "modalData",
     initialState,
     reducers: {
+        hideChangeAvatarModal: (state) => {
+            state.isChangeAvatarModal = false;
+            state.modalData = initialState.modalData;
+        },
         hideChangePasswordModal: (state) => {
             state.isChangePasswordModal = false;
             state.modalData = initialState.modalData;
@@ -41,6 +48,16 @@ export const modalDataSlice = createSlice({
             state.isModalEdit = false;
         },
         setModalData: (state, action) => {
+            if (action.payload) {
+                state.modalData = {
+                    ...state.modalData,
+                    ...action.payload,
+                };
+            }
+        },
+        showChangeAvatarModal: (state, action) => {
+            state.isChangeAvatarModal = true;
+
             if (action.payload) {
                 state.modalData = {
                     ...state.modalData,
@@ -68,6 +85,7 @@ export const modalDataSlice = createSlice({
         },
     },
     selectors: {
+        selectIsChangeAvatarModal: (state) => state.isChangeAvatarModal,
         selectIsChangePasswordModal: (state) => state.isChangePasswordModal,
         selectIsModalDelete: (state) => state.isModalDelete,
         selectIsModalEdit: (state) => state.isModalEdit,
@@ -76,16 +94,19 @@ export const modalDataSlice = createSlice({
 });
 
 export const {
+    hideChangeAvatarModal,
     hideChangePasswordModal,
     hideModalDelete,
     hideModalEdit,
     setModalData,
+    showChangeAvatarModal,
     showChangePasswordModal,
     showModalDelete,
     showModalEdit,
 } = modalDataSlice.actions;
 
 export const {
+    selectIsChangeAvatarModal,
     selectIsChangePasswordModal,
     selectIsModalDelete,
     selectIsModalEdit,
