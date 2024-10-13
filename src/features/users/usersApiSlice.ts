@@ -9,23 +9,34 @@ interface UserQueryArg {
     id: string;
 }
 
+interface ChangeAvatarUserQueryArg extends UserQueryArg {
+    formData: FormData;
+}
+
+interface ChangePasswordQueryArg extends UserQueryArg {
+    currentPassword: string;
+    newPassword: string;
+}
+
 interface EditUserQueryArg extends UserQueryArg {
     roles?: string;
 }
 
-interface UploadUserQueryArg extends UserQueryArg {
-    formData: FormData;
-}
-
 const usersApiSlice = apiSlice.injectEndpoints({
     endpoints: (build) => ({
-        changeAvatar: build.mutation<void, UploadUserQueryArg>({
+        changeAvatar: build.mutation<void, ChangeAvatarUserQueryArg>({
             query: ({ id, formData }) => ({
                 url: `users/${id}/changeAvatar`,
                 method: "PUT",
                 body: formData,
             }),
-            invalidatesTags: ["Users"],
+        }),
+        changePassword: build.mutation<void, ChangePasswordQueryArg>({
+            query: ({ id, currentPassword, newPassword }) => ({
+                url: `users/${id}/changePassword`,
+                method: "PUT",
+                body: { id, currentPassword, newPassword },
+            }),
         }),
         deleteUser: build.mutation<void, UserQueryArg>({
             query: ({ id }) => ({
@@ -53,6 +64,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
 
 export const {
     useChangeAvatarMutation,
+    useChangePasswordMutation,
     useDeleteUserMutation,
     useEditUserMutation,
     useGetUsersQuery,

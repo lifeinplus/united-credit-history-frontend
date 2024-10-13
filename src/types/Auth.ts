@@ -13,11 +13,6 @@ export interface AuthQuery {
     userName: string;
     password: string;
 }
-export interface AuthQueryChangePassword {
-    id: string;
-    currentPassword: string;
-    newPassword: string;
-}
 
 export interface AuthResultLogin
     extends Pick<

@@ -9,7 +9,7 @@ import {
     isFetchBaseQueryError,
 } from "../../services/helpers";
 
-import { useChangePasswordMutation } from "../auth/authApiSlice";
+import { useChangePasswordMutation } from "../users/usersApiSlice";
 
 import {
     hideChangePasswordModal,
