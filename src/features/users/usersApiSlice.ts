@@ -9,7 +9,7 @@ interface UserQueryArg {
     id: string;
 }
 
-interface UpdateUserQueryArg extends UserQueryArg {
+interface EditUserQueryArg extends UserQueryArg {
     roles?: string;
 }
 
@@ -27,20 +27,6 @@ const usersApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["Users"],
         }),
-        getUsers: build.query<PaginationResult, PaginationQueryArg>({
-            query: ({ limit, page, searchValue, sortOrder, sortSysName }) =>
-                `users/getPaginated?page=${page}&limit=${limit}&search=${searchValue}&sort=${sortSysName}&order=${sortOrder}`,
-            keepUnusedDataFor: 5,
-            providesTags: ["Users"],
-        }),
-        updateUser: build.mutation<void, UpdateUserQueryArg>({
-            query: (arg) => ({
-                url: "users/updateById",
-                method: "PUT",
-                body: { ...arg },
-            }),
-            invalidatesTags: ["Users"],
-        }),
         deleteUser: build.mutation<void, UserQueryArg>({
             query: ({ id }) => ({
                 url: `users/deleteById/${id}`,
@@ -48,12 +34,26 @@ const usersApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["Users"],
         }),
+        editUser: build.mutation<void, EditUserQueryArg>({
+            query: (arg) => ({
+                url: "users/editById",
+                method: "PUT",
+                body: { ...arg },
+            }),
+            invalidatesTags: ["Users"],
+        }),
+        getUsers: build.query<PaginationResult, PaginationQueryArg>({
+            query: ({ limit, page, searchValue, sortOrder, sortSysName }) =>
+                `users/getPaginated?page=${page}&limit=${limit}&search=${searchValue}&sort=${sortSysName}&order=${sortOrder}`,
+            keepUnusedDataFor: 5,
+            providesTags: ["Users"],
+        }),
     }),
 });
 
 export const {
     useChangeAvatarMutation,
     useDeleteUserMutation,
+    useEditUserMutation,
     useGetUsersQuery,
-    useUpdateUserMutation,
 } = usersApiSlice;

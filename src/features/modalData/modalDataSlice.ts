@@ -11,16 +11,16 @@ type ModalData = {
 interface ModalDataState {
     isChangeAvatarModal: boolean;
     isChangePasswordModal: boolean;
-    isModalDelete: boolean;
-    isModalEdit: boolean;
+    isDeleteUserModal: boolean;
+    isEditUserModal: boolean;
     modalData: ModalData;
 }
 
 const initialState: ModalDataState = {
     isChangeAvatarModal: false,
     isChangePasswordModal: false,
-    isModalDelete: false,
-    isModalEdit: false,
+    isDeleteUserModal: false,
+    isEditUserModal: false,
     modalData: {
         id: "",
         currentPassword: "",
@@ -41,11 +41,11 @@ export const modalDataSlice = createSlice({
             state.isChangePasswordModal = false;
             state.modalData = initialState.modalData;
         },
-        hideModalDelete: (state) => {
-            state.isModalDelete = false;
+        hideDeleteUserModal: (state) => {
+            state.isDeleteUserModal = false;
         },
-        hideModalEdit: (state) => {
-            state.isModalEdit = false;
+        hideEditUserModal: (state) => {
+            state.isEditUserModal = false;
         },
         setModalData: (state, action) => {
             if (action.payload) {
@@ -75,20 +75,20 @@ export const modalDataSlice = createSlice({
                 };
             }
         },
-        showModalDelete: (state, action) => {
+        showDeleteUserModal: (state, action) => {
             state.modalData = action.payload ?? {};
-            state.isModalDelete = true;
+            state.isDeleteUserModal = true;
         },
-        showModalEdit: (state, action) => {
+        showEditUserModal: (state, action) => {
             state.modalData = action.payload ?? {};
-            state.isModalEdit = true;
+            state.isEditUserModal = true;
         },
     },
     selectors: {
         selectIsChangeAvatarModal: (state) => state.isChangeAvatarModal,
         selectIsChangePasswordModal: (state) => state.isChangePasswordModal,
-        selectIsModalDelete: (state) => state.isModalDelete,
-        selectIsModalEdit: (state) => state.isModalEdit,
+        selectIsDeleteUserModal: (state) => state.isDeleteUserModal,
+        selectIsEditUserModal: (state) => state.isEditUserModal,
         selectModalData: (state) => state.modalData,
     },
 });
@@ -96,19 +96,19 @@ export const modalDataSlice = createSlice({
 export const {
     hideChangeAvatarModal,
     hideChangePasswordModal,
-    hideModalDelete,
-    hideModalEdit,
+    hideDeleteUserModal,
+    hideEditUserModal,
     setModalData,
     showChangeAvatarModal,
     showChangePasswordModal,
-    showModalDelete,
-    showModalEdit,
+    showDeleteUserModal,
+    showEditUserModal,
 } = modalDataSlice.actions;
 
 export const {
     selectIsChangeAvatarModal,
     selectIsChangePasswordModal,
-    selectIsModalDelete,
-    selectIsModalEdit,
+    selectIsDeleteUserModal,
+    selectIsEditUserModal,
     selectModalData,
 } = modalDataSlice.selectors;

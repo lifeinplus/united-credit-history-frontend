@@ -1,44 +1,67 @@
 import { memo } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form, Modal, Spinner } from "react-bootstrap";
+import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+    isDataMessageError,
+    isFetchBaseQueryError,
+} from "../../services/helpers";
 
-import { useUpdateUserMutation } from "../users/usersApiSlice";
+import { useEditUserMutation } from "../users/usersApiSlice";
 
 import {
-    hideModalEdit,
-    selectIsModalEdit,
+    hideEditUserModal,
+    selectIsEditUserModal,
     selectModalData,
     setModalData,
 } from "./modalDataSlice";
 
-const ModalEdit = () => {
+const EditUserModal = () => {
     const { t } = useTranslation("modal");
 
     const dispatch = useAppDispatch();
-    const isModalEdit = useAppSelector(selectIsModalEdit);
+    const isEditUserModal = useAppSelector(selectIsEditUserModal);
     const modalData = useAppSelector(selectModalData);
 
-    const { _id, userName, roles } = modalData;
+    const { _id, roles, status, userName } = modalData;
 
-    const [updateUser] = useUpdateUserMutation();
+    const [editUser] = useEditUserMutation();
 
     const handleSave = async () => {
         if (!_id) return;
 
-        try {
-            await updateUser({ id: _id, roles }).unwrap();
-            dispatch(hideModalEdit());
-        } catch (error) {
-            console.error(error);
-        }
+        dispatch(setModalData({ status: "loading" }));
+
+        const runEditUser = async () => {
+            try {
+                await editUser({ id: _id, roles }).unwrap();
+                dispatch(hideEditUserModal());
+            } catch (error) {
+                dispatch(setModalData({ status: "failed" }));
+
+                if (isDataMessageError(error)) {
+                    toast.error(error.data.message);
+                } else if (isFetchBaseQueryError(error)) {
+                    const errMsg =
+                        "error" in error
+                            ? error.error
+                            : JSON.stringify(error.data);
+                    toast.error(errMsg);
+                } else {
+                    console.error(error);
+                }
+            }
+        };
+
+        setTimeout(runEditUser, 500);
     };
 
     return (
         <Modal
-            show={isModalEdit}
-            onHide={() => dispatch(hideModalEdit())}
+            show={isEditUserModal}
+            onHide={() => dispatch(hideEditUserModal())}
             centered
         >
             <Modal.Header closeButton>
@@ -74,17 +97,25 @@ const ModalEdit = () => {
             </Modal.Body>
             <Modal.Footer>
                 <Button
-                    onClick={() => dispatch(hideModalEdit())}
+                    onClick={() => dispatch(hideEditUserModal())}
                     variant="secondary"
                 >
                     {t("button.cancel")}
                 </Button>
-                <Button onClick={handleSave} variant="primary">
-                    {t("button.save")}
+                <Button
+                    disabled={status === "loading"}
+                    onClick={handleSave}
+                    variant="primary"
+                >
+                    {status === "loading" ? (
+                        <Spinner animation="border" size="sm" />
+                    ) : (
+                        t("button.save")
+                    )}
                 </Button>
             </Modal.Footer>
         </Modal>
     );
 };
 
-export default memo(ModalEdit);
+export default memo(EditUserModal);

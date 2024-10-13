@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
-    showModalDelete,
-    showModalEdit,
+    showDeleteUserModal,
+    showEditUserModal,
 } from "../../features/modalData/modalDataSlice";
 import {
     selectSearchSysName,
@@ -154,7 +154,7 @@ const Body = ({
                             `uch-btn-outline-primary ${theme}`,
                             "btn-sm"
                         )}
-                        onClick={() => dispatch(showModalEdit(data))}
+                        onClick={() => dispatch(showEditUserModal(data))}
                         type="button"
                     >
                         <i className="bi bi-pencil-square"></i>
@@ -166,7 +166,7 @@ const Body = ({
                             `uch-btn-outline-primary ${theme}`,
                             "btn-sm"
                         )}
-                        onClick={() => dispatch(showModalDelete(data))}
+                        onClick={() => dispatch(showDeleteUserModal(data))}
                         type="button"
                     >
                         <i className="bi bi-trash"></i>
