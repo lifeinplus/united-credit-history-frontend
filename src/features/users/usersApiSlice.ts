@@ -5,57 +5,58 @@ import type {
     PaginationResult,
 } from "../../types/Pagination";
 
-interface UserQueryArg {
-    id: string;
-}
+type UserId = string;
 
-interface ChangeAvatarUserQueryArg extends UserQueryArg {
+interface UserAvatarQueryArg {
+    id: UserId;
     formData: FormData;
 }
 
-interface ChangePasswordQueryArg extends UserQueryArg {
+interface UserPasswordQueryArg {
+    id: UserId;
     currentPassword: string;
     newPassword: string;
 }
 
-interface EditUserQueryArg extends UserQueryArg {
-    roles?: string;
+interface UserQueryArg {
+    id: UserId;
+    roles: string;
 }
 
 const usersApiSlice = apiSlice.injectEndpoints({
     endpoints: (build) => ({
-        changeAvatar: build.mutation<void, ChangeAvatarUserQueryArg>({
+        changeUserAvatarById: build.mutation<void, UserAvatarQueryArg>({
             query: ({ id, formData }) => ({
-                url: `users/${id}/changeAvatar`,
+                url: `users/${id}/avatar`,
                 method: "PUT",
                 body: formData,
             }),
         }),
-        changePassword: build.mutation<void, ChangePasswordQueryArg>({
+        changeUserPasswordById: build.mutation<void, UserPasswordQueryArg>({
             query: ({ id, currentPassword, newPassword }) => ({
-                url: `users/${id}/changePassword`,
+                url: `users/${id}/password`,
                 method: "PUT",
-                body: { id, currentPassword, newPassword },
+                body: { currentPassword, newPassword },
             }),
         }),
-        deleteUser: build.mutation<void, UserQueryArg>({
-            query: ({ id }) => ({
-                url: `users/deleteById/${id}`,
+        deleteUserById: build.mutation<void, UserId>({
+            query: (id) => ({
+                url: `users/${id}`,
                 method: "DELETE",
             }),
             invalidatesTags: ["Users"],
         }),
-        editUser: build.mutation<void, EditUserQueryArg>({
-            query: (arg) => ({
-                url: "users/editById",
+        editUserById: build.mutation<void, UserQueryArg>({
+            query: ({ id, roles }) => ({
+                url: `users/${id}`,
                 method: "PUT",
-                body: { ...arg },
+                body: { roles },
             }),
             invalidatesTags: ["Users"],
         }),
-        getUsers: build.query<PaginationResult, PaginationQueryArg>({
+        getUsersPaginated: build.query<PaginationResult, PaginationQueryArg>({
             query: ({ limit, page, searchValue, sortOrder, sortSysName }) =>
-                `users/getPaginated?page=${page}&limit=${limit}&search=${searchValue}&sort=${sortSysName}&order=${sortOrder}`,
+                `users/paginated?page=${page}&limit=${limit}&search=${searchValue}&sort=${sortSysName}&order=${sortOrder}`,
             keepUnusedDataFor: 5,
             providesTags: ["Users"],
         }),
@@ -63,9 +64,9 @@ const usersApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-    useChangeAvatarMutation,
-    useChangePasswordMutation,
-    useDeleteUserMutation,
-    useEditUserMutation,
-    useGetUsersQuery,
+    useChangeUserAvatarByIdMutation,
+    useChangeUserPasswordByIdMutation,
+    useDeleteUserByIdMutation,
+    useEditUserByIdMutation,
+    useGetUsersPaginatedQuery,
 } = usersApiSlice;

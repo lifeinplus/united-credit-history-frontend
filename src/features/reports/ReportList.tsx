@@ -18,7 +18,7 @@ import { selectSearchValue, setSearchSysName } from "../search/searchSlice";
 import { selectSortConfig, setSortConfig } from "../sortConfig/sortConfigSlice";
 import { selectTheme } from "../theme/themeSlice";
 
-import { useGetReportsQuery } from "./reportsApiSlice";
+import { useGetReportsPaginatedQuery } from "./reportsApiSlice";
 
 const ReportList = () => {
     const { t } = useTranslation(["report_list"]);
@@ -39,7 +39,7 @@ const ReportList = () => {
         dispatch(setSortConfig(sortConfig));
     }, []);
 
-    const { data, isFetching } = useGetReportsQuery({
+    const { data, isFetching } = useGetReportsPaginatedQuery({
         limit: 10,
         page,
         searchValue,

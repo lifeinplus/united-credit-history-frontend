@@ -9,7 +9,7 @@ import {
     isFetchBaseQueryError,
 } from "../../services/helpers";
 
-import { useChangePasswordMutation } from "../users/usersApiSlice";
+import { useChangeUserPasswordByIdMutation } from "../users/usersApiSlice";
 
 import {
     hideChangePasswordModal,
@@ -27,7 +27,7 @@ const ChangePasswordModal = () => {
 
     const { _id, currentPassword, newPassword, status } = modalData;
 
-    const [changePassword] = useChangePasswordMutation();
+    const [changeUserPasswordById] = useChangeUserPasswordByIdMutation();
 
     const handleSave = () => {
         if (!_id) return;
@@ -36,7 +36,7 @@ const ChangePasswordModal = () => {
 
         const runChangePassword = async () => {
             try {
-                await changePassword({
+                await changeUserPasswordById({
                     id: _id,
                     currentPassword,
                     newPassword,

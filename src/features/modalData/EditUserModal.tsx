@@ -9,7 +9,7 @@ import {
     isFetchBaseQueryError,
 } from "../../services/helpers";
 
-import { useEditUserMutation } from "../users/usersApiSlice";
+import { useEditUserByIdMutation } from "../users/usersApiSlice";
 
 import {
     hideEditUserModal,
@@ -25,9 +25,9 @@ const EditUserModal = () => {
     const isEditUserModal = useAppSelector(selectIsEditUserModal);
     const modalData = useAppSelector(selectModalData);
 
-    const { _id, roles, status, userName } = modalData;
+    const { _id, roles = "", status, userName } = modalData;
 
-    const [editUser] = useEditUserMutation();
+    const [editUserById] = useEditUserByIdMutation();
 
     const handleSave = async () => {
         if (!_id) return;
@@ -36,7 +36,7 @@ const EditUserModal = () => {
 
         const runEditUser = async () => {
             try {
-                await editUser({ id: _id, roles }).unwrap();
+                await editUserById({ id: _id, roles }).unwrap();
                 dispatch(hideEditUserModal());
             } catch (error) {
                 dispatch(setModalData({ status: "failed" }));

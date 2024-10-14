@@ -9,7 +9,7 @@ import {
     isFetchBaseQueryError,
 } from "../../services/helpers";
 
-import { useChangeAvatarMutation } from "../users/usersApiSlice";
+import { useChangeUserAvatarByIdMutation } from "../users/usersApiSlice";
 
 import {
     hideChangeAvatarModal,
@@ -29,7 +29,7 @@ const ChangeAvatarModal = () => {
 
     const { _id, status } = modalData;
 
-    const [changeAvatar] = useChangeAvatarMutation();
+    const [changeUserAvatarById] = useChangeUserAvatarByIdMutation();
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target;
@@ -58,7 +58,7 @@ const ChangeAvatarModal = () => {
 
         const runChangeAvatar = async () => {
             try {
-                await changeAvatar({ id: _id, formData }).unwrap();
+                await changeUserAvatarById({ id: _id, formData }).unwrap();
                 handleHide();
             } catch (error) {
                 dispatch(setModalData({ status: "failed" }));

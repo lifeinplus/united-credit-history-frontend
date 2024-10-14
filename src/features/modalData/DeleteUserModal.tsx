@@ -9,7 +9,7 @@ import {
     isFetchBaseQueryError,
 } from "../../services/helpers";
 
-import { useDeleteUserMutation } from "../users/usersApiSlice";
+import { useDeleteUserByIdMutation } from "../users/usersApiSlice";
 
 import {
     hideDeleteUserModal,
@@ -27,7 +27,7 @@ const DeleteUserModal = () => {
 
     const { _id, status, userName } = modalData;
 
-    const [deleteUser] = useDeleteUserMutation();
+    const [deleteUserById] = useDeleteUserByIdMutation();
 
     const handleDelete = async () => {
         if (!_id) return;
@@ -36,7 +36,7 @@ const DeleteUserModal = () => {
 
         const runDeleteUser = async () => {
             try {
-                await deleteUser({ id: _id }).unwrap();
+                await deleteUserById(_id).unwrap();
                 dispatch(hideDeleteUserModal());
             } catch (error) {
                 dispatch(setModalData({ status: "failed" }));

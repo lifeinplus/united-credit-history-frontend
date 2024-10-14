@@ -18,7 +18,7 @@ import { selectSearchValue, setSearchSysName } from "../search/searchSlice";
 import { selectSortConfig, setSortConfig } from "../sortConfig/sortConfigSlice";
 import { selectTheme } from "../theme/themeSlice";
 
-import { useGetUsersQuery } from "./usersApiSlice";
+import { useGetUsersPaginatedQuery } from "./usersApiSlice";
 
 const UserList = () => {
     const { t } = useTranslation(["user_list"]);
@@ -39,7 +39,7 @@ const UserList = () => {
         dispatch(setSortConfig(sortConfig));
     }, []);
 
-    const { data, isFetching } = useGetUsersQuery({
+    const { data, isFetching } = useGetUsersPaginatedQuery({
         limit: 9,
         page,
         searchValue,
