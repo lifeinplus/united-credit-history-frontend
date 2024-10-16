@@ -36,7 +36,12 @@ const EditUserModal = () => {
 
         const runEditUser = async () => {
             try {
-                await editUserById({ id: _id, roles }).unwrap();
+                const response = await editUserById({
+                    id: _id,
+                    roles,
+                }).unwrap();
+
+                toast.success(response.message);
                 dispatch(hideEditUserModal());
             } catch (error) {
                 dispatch(setModalData({ status: "failed" }));

@@ -36,11 +36,13 @@ const ChangePasswordModal = () => {
 
         const runChangePassword = async () => {
             try {
-                await changeUserPasswordById({
+                const response = await changeUserPasswordById({
                     id: _id,
                     currentPassword,
                     newPassword,
                 }).unwrap();
+
+                toast.success(response.message);
                 dispatch(hideChangePasswordModal());
             } catch (error) {
                 dispatch(setModalData({ status: "failed" }));

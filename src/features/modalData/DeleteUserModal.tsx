@@ -36,7 +36,8 @@ const DeleteUserModal = () => {
 
         const runDeleteUser = async () => {
             try {
-                await deleteUserById(_id).unwrap();
+                const response = await deleteUserById(_id).unwrap();
+                toast.success(response.message);
                 dispatch(hideDeleteUserModal());
             } catch (error) {
                 dispatch(setModalData({ status: "failed" }));

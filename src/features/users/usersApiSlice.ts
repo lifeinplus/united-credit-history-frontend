@@ -23,6 +23,10 @@ interface UserQueryArg {
     roles: string;
 }
 
+interface UserQueryResult {
+    message: string;
+}
+
 const usersApiSlice = apiSlice.injectEndpoints({
     endpoints: (build) => ({
         changeUserAvatarById: build.mutation<void, UserAvatarQueryArg>({
@@ -32,21 +36,24 @@ const usersApiSlice = apiSlice.injectEndpoints({
                 body: formData,
             }),
         }),
-        changeUserPasswordById: build.mutation<void, UserPasswordQueryArg>({
+        changeUserPasswordById: build.mutation<
+            UserQueryResult,
+            UserPasswordQueryArg
+        >({
             query: ({ id, currentPassword, newPassword }) => ({
                 url: `users/${id}/password`,
                 method: "PUT",
                 body: { currentPassword, newPassword },
             }),
         }),
-        deleteUserById: build.mutation<void, UserId>({
+        deleteUserById: build.mutation<UserQueryResult, UserId>({
             query: (id) => ({
                 url: `users/${id}`,
                 method: "DELETE",
             }),
             invalidatesTags: ["Users"],
         }),
-        editUserById: build.mutation<void, UserQueryArg>({
+        editUserById: build.mutation<UserQueryResult, UserQueryArg>({
             query: ({ id, roles }) => ({
                 url: `users/${id}`,
                 method: "PUT",
