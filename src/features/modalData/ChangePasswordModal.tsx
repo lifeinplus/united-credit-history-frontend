@@ -25,19 +25,24 @@ const ChangePasswordModal = () => {
     const isChangePasswordModal = useAppSelector(selectIsChangePasswordModal);
     const modalData = useAppSelector(selectModalData);
 
-    const { _id, currentPassword, newPassword, status } = modalData;
+    const {
+        currentPassword = "",
+        newPassword = "",
+        status,
+        userId,
+    } = modalData;
 
     const [changeUserPasswordById] = useChangeUserPasswordByIdMutation();
 
     const handleSave = () => {
-        if (!_id) return;
+        if (!userId) return;
 
         dispatch(setModalData({ status: "loading" }));
 
         const runChangePassword = async () => {
             try {
                 const response = await changeUserPasswordById({
-                    id: _id,
+                    id: userId,
                     currentPassword,
                     newPassword,
                 }).unwrap();

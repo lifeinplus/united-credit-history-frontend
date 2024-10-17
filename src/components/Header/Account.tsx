@@ -26,14 +26,14 @@ const Account = () => {
     const theme = useAppSelector(selectTheme);
     const avatarPath = useAppSelector(selectAvatarPath);
     const roles = useAppSelector(selectRoles);
-    const userId = useAppSelector(selectUserId);
+    const userId = useAppSelector(selectUserId) || "";
     const userName = useAppSelector(selectUserName);
 
     return userName ? <Inside /> : <Outside />;
 
     function Inside() {
         const handleChangePassword = () => {
-            dispatch(showChangePasswordModal({ _id: userId }));
+            dispatch(showChangePasswordModal({ userId }));
         };
 
         const handleLogout = async () => {
@@ -98,9 +98,7 @@ const Account = () => {
                         <button
                             className="dropdown-item"
                             onClick={() => {
-                                dispatch(
-                                    showChangeAvatarModal({ _id: userId })
-                                );
+                                dispatch(showChangeAvatarModal({ userId }));
                             }}
                             type="button"
                         >

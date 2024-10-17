@@ -25,19 +25,19 @@ const EditUserModal = () => {
     const isEditUserModal = useAppSelector(selectIsEditUserModal);
     const modalData = useAppSelector(selectModalData);
 
-    const { _id, roles = "", status, userName } = modalData;
+    const { roles = "", status, userId, userName } = modalData;
 
     const [editUserById] = useEditUserByIdMutation();
 
     const handleSave = async () => {
-        if (!_id) return;
+        if (!userId) return;
 
         dispatch(setModalData({ status: "loading" }));
 
         const runEditUser = async () => {
             try {
                 const response = await editUserById({
-                    id: _id,
+                    id: userId,
                     roles,
                 }).unwrap();
 
