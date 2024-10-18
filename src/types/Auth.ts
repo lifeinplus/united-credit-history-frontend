@@ -9,9 +9,17 @@ export interface AuthProps {
     title: string;
 }
 
-export interface AuthQuery {
+export interface AuthQueryLogin {
     userName: string;
     password: string;
+}
+
+export interface AuthQueryRegister {
+    firstName: string;
+    lastName: string;
+    userName: string;
+    password: string;
+    confirmPassword: string;
 }
 
 export interface AuthResultLogin
