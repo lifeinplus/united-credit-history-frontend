@@ -25,19 +25,28 @@ const EditUserModal = () => {
     const isEditUserModal = useAppSelector(selectIsEditUserModal);
     const modalData = useAppSelector(selectModalData);
 
-    const { _id, roles = "", status, userName } = modalData;
+    const { roles = "", status, userId, userName } = modalData;
 
     const [editUserById] = useEditUserByIdMutation();
 
+    const handleHide = () => {
+        dispatch(hideEditUserModal());
+    };
+
     const handleSave = async () => {
-        if (!_id) return;
+        if (!userId) return;
 
         dispatch(setModalData({ status: "loading" }));
 
         const runEditUser = async () => {
             try {
-                await editUserById({ id: _id, roles }).unwrap();
-                dispatch(hideEditUserModal());
+                const response = await editUserById({
+                    id: userId,
+                    roles,
+                }).unwrap();
+
+                toast.success(response.message);
+                handleHide();
             } catch (error) {
                 dispatch(setModalData({ status: "failed" }));
 
@@ -59,11 +68,7 @@ const EditUserModal = () => {
     };
 
     return (
-        <Modal
-            show={isEditUserModal}
-            onHide={() => dispatch(hideEditUserModal())}
-            centered
-        >
+        <Modal show={isEditUserModal} onHide={handleHide} centered>
             <Modal.Header closeButton>
                 <Modal.Title>{t("title.edit")}</Modal.Title>
             </Modal.Header>
@@ -96,10 +101,7 @@ const EditUserModal = () => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button
-                    onClick={() => dispatch(hideEditUserModal())}
-                    variant="secondary"
-                >
+                <Button onClick={handleHide} variant="secondary">
                     {t("button.cancel")}
                 </Button>
                 <Button

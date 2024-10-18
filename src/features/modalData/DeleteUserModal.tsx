@@ -25,19 +25,24 @@ const DeleteUserModal = () => {
     const isDeleteUserModal = useAppSelector(selectIsDeleteUserModal);
     const modalData = useAppSelector(selectModalData);
 
-    const { _id, status, userName } = modalData;
+    const { status, userName, userId } = modalData;
 
     const [deleteUserById] = useDeleteUserByIdMutation();
 
+    const handleHide = () => {
+        dispatch(hideDeleteUserModal());
+    };
+
     const handleDelete = async () => {
-        if (!_id) return;
+        if (!userId) return;
 
         dispatch(setModalData({ status: "loading" }));
 
         const runDeleteUser = async () => {
             try {
-                await deleteUserById(_id).unwrap();
-                dispatch(hideDeleteUserModal());
+                const response = await deleteUserById(userId).unwrap();
+                toast.success(response.message);
+                handleHide();
             } catch (error) {
                 dispatch(setModalData({ status: "failed" }));
 
@@ -59,11 +64,7 @@ const DeleteUserModal = () => {
     };
 
     return (
-        <Modal
-            show={isDeleteUserModal}
-            onHide={() => dispatch(hideDeleteUserModal())}
-            centered
-        >
+        <Modal show={isDeleteUserModal} onHide={handleHide} centered>
             <Modal.Header closeButton>
                 <Modal.Title>{t("title.delete")}</Modal.Title>
             </Modal.Header>
@@ -72,7 +73,7 @@ const DeleteUserModal = () => {
             </Modal.Body>
             <Modal.Footer>
                 <Button
-                    onClick={() => dispatch(hideDeleteUserModal())}
+                    onClick={() => dispatch(handleHide)}
                     variant="secondary"
                 >
                     {t("button.cancel")}

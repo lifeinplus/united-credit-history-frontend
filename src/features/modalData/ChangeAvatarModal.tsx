@@ -27,7 +27,7 @@ const ChangeAvatarModal = () => {
     const isChangeAvatarModal = useAppSelector(selectIsChangeAvatarModal);
     const modalData = useAppSelector(selectModalData);
 
-    const { _id, status } = modalData;
+    const { status, userId } = modalData;
 
     const [changeUserAvatarById] = useChangeUserAvatarByIdMutation();
 
@@ -44,7 +44,7 @@ const ChangeAvatarModal = () => {
     };
 
     const handleSave = () => {
-        if (!_id) return;
+        if (!userId) return;
 
         if (!avatar) {
             toast.error("Please select an avatar to upload");
@@ -58,7 +58,12 @@ const ChangeAvatarModal = () => {
 
         const runChangeAvatar = async () => {
             try {
-                await changeUserAvatarById({ id: _id, formData }).unwrap();
+                const response = await changeUserAvatarById({
+                    id: userId,
+                    formData,
+                }).unwrap();
+
+                toast.success(response.message);
                 handleHide();
             } catch (error) {
                 dispatch(setModalData({ status: "failed" }));

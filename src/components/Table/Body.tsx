@@ -69,14 +69,14 @@ const Body = ({
                     </tr>
                 ) : (
                     data.map((dataItem) => {
-                        const { _id, activeId } = dataItem;
+                        const { _id: dataId, activeId } = dataItem;
 
                         // I decided not to create rows and cells in individual components,
                         // since with a large number of them the table renders noticeably slower
                         // (the difference is almost twice – from 55ms to 30ms)
                         return (
                             <tr
-                                key={dataItem._id}
+                                key={dataId}
                                 id={String(activeId)}
                                 className={
                                     isRowActive && activeId === activeRowId
@@ -86,7 +86,7 @@ const Body = ({
                                 onClick={handleClick}
                             >
                                 {columns.map((column, index) => {
-                                    const key = `${_id}-${index}`;
+                                    const key = `${dataId}-${index}`;
 
                                     const { isLink, name, sysName, type } =
                                         column;
@@ -112,7 +112,7 @@ const Body = ({
                                     const linkValue = isLink ? (
                                         <Link
                                             className={`uch-link ${theme}`}
-                                            to={`/reports/${dataItem._id}`}
+                                            to={`/reports/${dataId}`}
                                         >
                                             {highlightedSearch || value}
                                         </Link>
@@ -144,6 +144,10 @@ const Body = ({
     );
 
     function CellActions({ data }: TableRowProps) {
+        const roles = data.roles as string;
+        const userId = data._id;
+        const userName = data.userName as string;
+
         return (
             <td className={"text-end"}>
                 <div className="btn-group" role="group">
@@ -154,7 +158,15 @@ const Body = ({
                             `uch-btn-outline-primary ${theme}`,
                             "btn-sm"
                         )}
-                        onClick={() => dispatch(showEditUserModal(data))}
+                        onClick={() =>
+                            dispatch(
+                                showEditUserModal({
+                                    roles,
+                                    userId,
+                                    userName,
+                                })
+                            )
+                        }
                         type="button"
                     >
                         <i className="bi bi-pencil-square"></i>
@@ -166,7 +178,14 @@ const Body = ({
                             `uch-btn-outline-primary ${theme}`,
                             "btn-sm"
                         )}
-                        onClick={() => dispatch(showDeleteUserModal(data))}
+                        onClick={() =>
+                            dispatch(
+                                showDeleteUserModal({
+                                    userId,
+                                    userName,
+                                })
+                            )
+                        }
                         type="button"
                     >
                         <i className="bi bi-trash"></i>
