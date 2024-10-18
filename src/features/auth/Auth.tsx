@@ -38,13 +38,15 @@ const Auth = ({ buttonText, handleSubmit, question, title }: AuthProps) => {
                     <input
                         id="floatingUserName"
                         className="form-control"
-                        placeholder={t("userName")}
+                        placeholder={t("labels.userName")}
                         ref={userNameRef}
                         required
                         type="text"
                         {...userNameAttributes}
                     />
-                    <label htmlFor="floatingUserName">{t("userName")}</label>
+                    <label htmlFor="floatingUserName">
+                        {t("labels.userName")}
+                    </label>
                 </div>
                 <div className="form-floating">
                     <input
@@ -52,14 +54,16 @@ const Auth = ({ buttonText, handleSubmit, question, title }: AuthProps) => {
                         className="form-control"
                         minLength={4}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder={t("password")}
+                        placeholder={t("labels.password")}
                         type="password"
                         required
                         value={password}
                     />
-                    <label htmlFor="floatingPassword">{t("password")}</label>
+                    <label htmlFor="floatingPassword">
+                        {t("labels.password")}
+                    </label>
                 </div>
-                <label className="form-label my-3">
+                <label className="my-3">
                     {question.text}{" "}
                     <Link className={`uch-link ${theme}`} to={question.link}>
                         {question.linkText}

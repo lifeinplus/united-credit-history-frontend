@@ -12,7 +12,7 @@ import type { AuthSubmitHandler } from "../types/Auth";
 const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { t } = useTranslation(["login"]);
+    const { t } = useTranslation(["auth"]);
 
     const dispatch = useAppDispatch();
     const [login] = useLoginMutation();
@@ -39,14 +39,14 @@ const Login = () => {
 
     return (
         <Auth
-            buttonText={t("buttonText")}
+            buttonText={t("buttons.login")}
             handleSubmit={handleSubmit}
             question={{
                 link: "/register",
-                linkText: t("linkText"),
-                text: t("questionText"),
+                linkText: t("links.login"),
+                text: t("questions.login"),
             }}
-            title={t("title")}
+            title={t("titles.login")}
         />
     );
 };
