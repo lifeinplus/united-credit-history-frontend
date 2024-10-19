@@ -10,7 +10,7 @@ import {
     selectAvatarPath,
     selectRoles,
     selectUserId,
-    selectUserName,
+    selectUsername,
 } from "../../features/auth/authSlice";
 import {
     showChangeAvatarModal,
@@ -27,9 +27,9 @@ const Account = () => {
     const avatarPath = useAppSelector(selectAvatarPath);
     const roles = useAppSelector(selectRoles);
     const userId = useAppSelector(selectUserId) || "";
-    const userName = useAppSelector(selectUserName);
+    const username = useAppSelector(selectUsername);
 
-    return userName ? <Inside /> : <Outside />;
+    return username ? <Inside /> : <Outside />;
 
     function Inside() {
         const handleChangePassword = () => {
@@ -74,7 +74,7 @@ const Account = () => {
                     ) : (
                         <i className="bi bi-person-circle me-2"></i>
                     )}
-                    {userName}
+                    {username}
                 </button>
                 <ul
                     className={classNames(

@@ -25,7 +25,7 @@ const EditUserModal = () => {
     const isEditUserModal = useAppSelector(selectIsEditUserModal);
     const modalData = useAppSelector(selectModalData);
 
-    const { roles = "", status, userId, userName } = modalData;
+    const { roles = "", status, userId, username } = modalData;
 
     const [editUserById] = useEditUserByIdMutation();
 
@@ -74,12 +74,12 @@ const EditUserModal = () => {
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Group controlId="userName" className="mb-3">
-                        <Form.Label>{t("label.userName")}:</Form.Label>
+                    <Form.Group controlId="username" className="mb-3">
+                        <Form.Label>{t("label.username")}:</Form.Label>
                         <Form.Control
                             type="text"
                             disabled
-                            defaultValue={userName}
+                            defaultValue={username}
                         ></Form.Control>
                     </Form.Group>
                     <Form.Group controlId="roles" className="mb-3">

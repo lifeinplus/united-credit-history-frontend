@@ -146,7 +146,7 @@ const Body = ({
     function CellActions({ data }: TableRowProps) {
         const roles = data.roles as string;
         const userId = data._id;
-        const userName = data.userName as string;
+        const username = data.username as string;
 
         return (
             <td className={"text-end"}>
@@ -163,7 +163,7 @@ const Body = ({
                                 showEditUserModal({
                                     roles,
                                     userId,
-                                    userName,
+                                    username,
                                 })
                             )
                         }
@@ -182,7 +182,7 @@ const Body = ({
                             dispatch(
                                 showDeleteUserModal({
                                     userId,
-                                    userName,
+                                    username,
                                 })
                             )
                         }

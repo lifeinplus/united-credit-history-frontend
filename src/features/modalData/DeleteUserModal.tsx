@@ -25,7 +25,7 @@ const DeleteUserModal = () => {
     const isDeleteUserModal = useAppSelector(selectIsDeleteUserModal);
     const modalData = useAppSelector(selectModalData);
 
-    const { status, userName, userId } = modalData;
+    const { status, userId, username } = modalData;
 
     const [deleteUserById] = useDeleteUserByIdMutation();
 
@@ -69,7 +69,7 @@ const DeleteUserModal = () => {
                 <Modal.Title>{t("title.delete")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <p>{t("message.delete", { userName })}</p>
+                <p>{t("message.delete", { username })}</p>
             </Modal.Body>
             <Modal.Footer>
                 <Button

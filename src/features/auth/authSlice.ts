@@ -15,7 +15,7 @@ export const authSlice = createSlice({
         selectAvatarPath: (state) => state.avatarPath,
         selectRoles: (state) => state.roles,
         selectUserId: (state) => state.userId,
-        selectUserName: (state) => state.userName,
+        selectUsername: (state) => state.username,
     },
 });
 
@@ -26,5 +26,5 @@ export const {
     selectAvatarPath,
     selectRoles,
     selectUserId,
-    selectUserName,
+    selectUsername,
 } = authSlice.selectors;

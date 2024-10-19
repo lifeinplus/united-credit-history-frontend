@@ -1,7 +1,7 @@
 {
     "table": {
         "creationDate": "Oluşturma tarihi",
-        "userName": "Kullanıcı adı",
+        "username": "Kullanıcı adı",
         "roles": "Roller"
     },
     "title": "Kullanıcı listesi"

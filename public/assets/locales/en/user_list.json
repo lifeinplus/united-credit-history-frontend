@@ -1,7 +1,7 @@
 {
     "table": {
         "creationDate": "Creation Date",
-        "userName": "User Name",
+        "username": "Username",
         "roles": "Roles"
     },
     "title": "User List"
