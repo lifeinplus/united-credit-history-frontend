@@ -17,3 +17,15 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+.uch-register {
+    max-width: 400px;
+}
+
+.uch-register .form-floating:focus-within {
+    z-index: 2;
+}
+
+.uch-register input[type="password"] {
+    margin-bottom: 10px;
+}

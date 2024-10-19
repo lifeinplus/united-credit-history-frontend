@@ -1,4 +1,4 @@
-import { ChangeEvent, memo, useEffect, useState } from "react";
+import { memo } from "react";
 import { Button, Form, Modal, Spinner } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -9,58 +9,40 @@ import {
     isFetchBaseQueryError,
 } from "../../services/helpers";
 
-import { useChangeUserAvatarByIdMutation } from "../users/usersApiSlice";
+import { useEditUserByIdMutation } from "../users/usersApiSlice";
 
 import {
-    hideChangeAvatarModal,
-    selectIsChangeAvatarModal,
+    hideEditUserModal,
+    selectIsEditUserModal,
     selectModalData,
     setModalData,
 } from "./modalDataSlice";
 
-const ChangeAvatarModal = () => {
+const EditUserModal = () => {
     const { t } = useTranslation("modal");
 
-    const [avatar, setAvatar] = useState<File>();
-
     const dispatch = useAppDispatch();
-    const isChangeAvatarModal = useAppSelector(selectIsChangeAvatarModal);
+    const isEditUserModal = useAppSelector(selectIsEditUserModal);
     const modalData = useAppSelector(selectModalData);
 
-    const { status, userId } = modalData;
+    const { roles = "", status, userId, userName } = modalData;
 
-    const [changeUserAvatarById] = useChangeUserAvatarByIdMutation();
-
-    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { files } = e.target;
-        if (files && files[0]) {
-            setAvatar(files[0]);
-        }
-    };
+    const [editUserById] = useEditUserByIdMutation();
 
     const handleHide = () => {
-        setAvatar(undefined);
-        dispatch(hideChangeAvatarModal());
+        dispatch(hideEditUserModal());
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!userId) return;
-
-        if (!avatar) {
-            toast.error("Please select an avatar to upload");
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("avatar", avatar);
 
         dispatch(setModalData({ status: "loading" }));
 
-        const runChangeAvatar = async () => {
+        const runEditUser = async () => {
             try {
-                const response = await changeUserAvatarById({
+                const response = await editUserById({
                     id: userId,
-                    formData,
+                    roles,
                 }).unwrap();
 
                 toast.success(response.message);
@@ -82,24 +64,39 @@ const ChangeAvatarModal = () => {
             }
         };
 
-        setTimeout(runChangeAvatar, 500);
+        setTimeout(runEditUser, 500);
     };
 
     return (
-        <Modal show={isChangeAvatarModal} onHide={handleHide} centered>
+        <Modal show={isEditUserModal} onHide={handleHide} centered>
             <Modal.Header closeButton>
-                <Modal.Title>{t("title.changeAvatar")}</Modal.Title>
+                <Modal.Title>{t("title.edit")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Group controlId="selectAvatar" className="mb-3">
-                        <Form.Label>{t("label.selectAvatar")}</Form.Label>
+                    <Form.Group controlId="userName" className="mb-3">
+                        <Form.Label>{t("label.userName")}:</Form.Label>
                         <Form.Control
-                            accept="image/*"
+                            type="text"
+                            disabled
+                            defaultValue={userName}
+                        ></Form.Control>
+                    </Form.Group>
+                    <Form.Group controlId="roles" className="mb-3">
+                        <Form.Label>{t("label.roles")}:</Form.Label>
+                        <Form.Control
+                            as="textarea"
                             autoFocus
-                            onChange={handleFileChange}
-                            type="file"
-                        />
+                            onChange={(e) =>
+                                dispatch(
+                                    setModalData({
+                                        roles: e.target.value,
+                                    })
+                                )
+                            }
+                            rows={3}
+                            value={roles}
+                        ></Form.Control>
                     </Form.Group>
                 </Form>
             </Modal.Body>
@@ -123,4 +120,4 @@ const ChangeAvatarModal = () => {
     );
 };
 
-export default memo(ChangeAvatarModal);
+export default memo(EditUserModal);

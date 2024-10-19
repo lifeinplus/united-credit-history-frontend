@@ -4,8 +4,8 @@ import { Outlet } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
 import ChangeAvatarModal from "../features/modalData/ChangeAvatarModal";
 import ChangePasswordModal from "../features/modalData/ChangePasswordModal";
-import ModalDelete from "../features/modalData/ModalDelete";
-import ModalEdit from "../features/modalData/ModalEdit";
+import DeleteUserModal from "../features/modalData/DeleteUserModal";
+import EditUserModal from "../features/modalData/EditUserModal";
 import { selectTheme } from "../features/theme/themeSlice";
 
 import { Footer, Header } from ".";
@@ -26,8 +26,8 @@ const Layout = () => {
             />
             <ChangeAvatarModal />
             <ChangePasswordModal />
-            <ModalDelete />
-            <ModalEdit />
+            <DeleteUserModal />
+            <EditUserModal />
             <Header />
             <main className="container-fluid">
                 <Outlet />

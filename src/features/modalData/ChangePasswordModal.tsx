@@ -9,7 +9,7 @@ import {
     isFetchBaseQueryError,
 } from "../../services/helpers";
 
-import { useChangePasswordMutation } from "../auth/authApiSlice";
+import { useChangeUserPasswordByIdMutation } from "../users/usersApiSlice";
 
 import {
     hideChangePasswordModal,
@@ -25,23 +25,34 @@ const ChangePasswordModal = () => {
     const isChangePasswordModal = useAppSelector(selectIsChangePasswordModal);
     const modalData = useAppSelector(selectModalData);
 
-    const { _id, currentPassword, newPassword, status } = modalData;
+    const {
+        currentPassword = "",
+        newPassword = "",
+        status,
+        userId,
+    } = modalData;
 
-    const [changePassword] = useChangePasswordMutation();
+    const [changeUserPasswordById] = useChangeUserPasswordByIdMutation();
+
+    const handleHide = () => {
+        dispatch(hideChangePasswordModal());
+    };
 
     const handleSave = () => {
-        if (!_id) return;
+        if (!userId) return;
 
         dispatch(setModalData({ status: "loading" }));
 
         const runChangePassword = async () => {
             try {
-                await changePassword({
-                    id: _id,
+                const response = await changeUserPasswordById({
+                    id: userId,
                     currentPassword,
                     newPassword,
                 }).unwrap();
-                dispatch(hideChangePasswordModal());
+
+                toast.success(response.message);
+                handleHide();
             } catch (error) {
                 dispatch(setModalData({ status: "failed" }));
 
@@ -63,11 +74,7 @@ const ChangePasswordModal = () => {
     };
 
     return (
-        <Modal
-            show={isChangePasswordModal}
-            onHide={() => dispatch(hideChangePasswordModal())}
-            centered
-        >
+        <Modal show={isChangePasswordModal} onHide={handleHide} centered>
             <Modal.Header closeButton>
                 <Modal.Title>{t("title.changePassword")}</Modal.Title>
             </Modal.Header>
@@ -105,10 +112,7 @@ const ChangePasswordModal = () => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button
-                    onClick={() => dispatch(hideChangePasswordModal())}
-                    variant="secondary"
-                >
+                <Button onClick={handleHide} variant="secondary">
                     {t("button.cancel")}
                 </Button>
                 <Button
