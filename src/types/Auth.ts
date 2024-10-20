@@ -1,23 +1,12 @@
-export interface AuthProps {
-    buttonText: string;
-    handleSubmit: AuthSubmitHandler;
-    question: {
-        link: string;
-        linkText: string;
-        text: string;
-    };
-    title: string;
-}
-
 export interface AuthQueryLogin {
-    userName: string;
+    username: string;
     password: string;
 }
 
 export interface AuthQueryRegister {
     firstName: string;
     lastName: string;
-    userName: string;
+    username: string;
     password: string;
     confirmPassword: string;
 }
@@ -39,9 +28,9 @@ export interface AuthRequireProps {
 export interface AuthState {
     accessToken?: string;
     avatarPath?: string;
+    firstName?: string;
+    lastName?: string;
     roles?: number[];
     userId?: string;
-    userName?: string;
+    username?: string;
 }
-
-export type AuthSubmitHandler = (userName: string, password: string) => void;

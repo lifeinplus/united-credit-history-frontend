@@ -1,13 +1,16 @@
+import classNames from "classnames";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { Button, Form, Spinner } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { useAppDispatch } from "../app/hooks";
-import Auth from "../features/auth/Auth";
-import { useLoginMutation } from "../features/auth/authApiSlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useLoginUserMutation } from "../features/auth/authApiSlice";
 import { setCredentials } from "../features/auth/authSlice";
+import { selectTheme } from "../features/theme/themeSlice";
+import { useInput } from "../hooks";
 import { isDataMessageError, isFetchBaseQueryError } from "../services/helpers";
-import type { AuthSubmitHandler } from "../types/Auth";
 
 const Login = () => {
     const location = useLocation();
@@ -15,39 +18,114 @@ const Login = () => {
     const { t } = useTranslation(["auth"]);
 
     const dispatch = useAppDispatch();
-    const [login] = useLoginMutation();
+    const theme = useAppSelector(selectTheme);
+
+    const usernameRef = useRef<HTMLInputElement>(null);
+    const [status, setStatus] = useState("idle");
+    const [validated, setValidated] = useState(false);
+
+    const [username, usernameAttributes] = useInput("username", "");
+    const [password, setPassword] = useState("");
+
+    const [loginUser] = useLoginUserMutation();
 
     const from = location.state?.from?.pathname || "/reports";
 
-    const handleSubmit: AuthSubmitHandler = async (userName, password) => {
-        try {
-            const response = await login({ userName, password }).unwrap();
-            dispatch(setCredentials({ ...response, userName }));
-            navigate(from, { replace: true });
-        } catch (err) {
-            if (isDataMessageError(err)) {
-                toast.error(err.data.message);
-            } else if (isFetchBaseQueryError(err)) {
-                const errMsg =
-                    "error" in err ? err.error : JSON.stringify(err.data);
-                toast.error(errMsg);
-            } else {
-                console.error(err);
+    useEffect(() => {
+        usernameRef.current?.focus();
+    }, []);
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setValidated(true);
+        setStatus("loading");
+
+        const runLoginUser = async () => {
+            try {
+                const response = await loginUser({
+                    username,
+                    password,
+                }).unwrap();
+
+                dispatch(setCredentials(response));
+                setStatus("succeeded");
+                navigate(from, { replace: true });
+            } catch (err) {
+                setStatus("failed");
+
+                if (isDataMessageError(err)) {
+                    toast.error(err.data.message);
+                } else if (isFetchBaseQueryError(err)) {
+                    const errMsg =
+                        "error" in err ? err.error : JSON.stringify(err.data);
+                    toast.error(errMsg);
+                } else {
+                    console.error(err);
+                }
             }
-        }
+        };
+
+        setTimeout(runLoginUser, 500);
     };
 
     return (
-        <Auth
-            buttonText={t("buttons.login")}
-            handleSubmit={handleSubmit}
-            question={{
-                link: "/register",
-                linkText: t("links.login"),
-                text: t("questions.login"),
-            }}
-            title={t("titles.login")}
-        />
+        <section className={classNames("uch-auth", "my-10", "m-auto")}>
+            <h1 className="h3 mb-3 fw-normal">{t("titles.login")}</h1>
+            <Form
+                className={validated ? "was-validated" : undefined}
+                noValidate
+                onSubmit={handleSubmit}
+            >
+                <Form.Floating>
+                    <Form.Control
+                        id="floatingUsername"
+                        placeholder={t("labels.username")}
+                        ref={usernameRef}
+                        required
+                        type="text"
+                        {...usernameAttributes}
+                    />
+                    <Form.Label htmlFor="floatingUsername">
+                        {t("labels.username")}
+                    </Form.Label>
+                </Form.Floating>
+
+                <Form.Floating>
+                    <Form.Control
+                        id="floatingPassword"
+                        minLength={8}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder={t("labels.password")}
+                        required
+                        type="password"
+                        value={password}
+                    />
+                    <Form.Label htmlFor="floatingPassword">
+                        {t("labels.password")}
+                    </Form.Label>
+                </Form.Floating>
+
+                <Form.Label className="my-3">
+                    {t("questions.login")}{" "}
+                    <Link className={`uch-link ${theme}`} to={"/register"}>
+                        {t("links.login")}
+                    </Link>
+                </Form.Label>
+
+                <Button
+                    className="w-100 py-2"
+                    disabled={status === "loading"}
+                    type="submit"
+                    variant="primary"
+                >
+                    {status === "loading" ? (
+                        <Spinner animation="border" size="sm" />
+                    ) : (
+                        t("buttons.login")
+                    )}
+                </Button>
+            </Form>
+        </section>
     );
 };
 

@@ -8,9 +8,11 @@ import { axiosPrivate, BASE_URL } from "../../features/api/axios";
 import {
     logOut,
     selectAvatarPath,
+    selectFirstName,
+    selectLastName,
     selectRoles,
     selectUserId,
-    selectUserName,
+    selectUsername,
 } from "../../features/auth/authSlice";
 import {
     showChangeAvatarModal,
@@ -25,11 +27,13 @@ const Account = () => {
     const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
     const avatarPath = useAppSelector(selectAvatarPath);
+    const firstName = useAppSelector(selectFirstName);
+    const lastName = useAppSelector(selectLastName);
     const roles = useAppSelector(selectRoles);
     const userId = useAppSelector(selectUserId) || "";
-    const userName = useAppSelector(selectUserName);
+    const username = useAppSelector(selectUsername);
 
-    return userName ? <Inside /> : <Outside />;
+    return username ? <Inside /> : <Outside />;
 
     function Inside() {
         const handleChangePassword = () => {
@@ -74,7 +78,9 @@ const Account = () => {
                     ) : (
                         <i className="bi bi-person-circle me-2"></i>
                     )}
-                    {userName}
+                    {firstName || lastName
+                        ? [firstName, lastName].join(" ").trim()
+                        : username}
                 </button>
                 <ul
                     className={classNames(

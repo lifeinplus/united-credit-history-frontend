@@ -10,10 +10,10 @@
         "newPassword": "New Password",
         "roles": "Roles",
         "selectAvatar": "Select an avatar",
-        "userName": "User Name"
+        "username": "Username"
     },
     "message": {
-        "delete": "Are you sure you want to delete the user ({{userName}})?"
+        "delete": "Are you sure you want to delete the user ({{username}})?"
     },
     "button": {
         "cancel": "Cancel",

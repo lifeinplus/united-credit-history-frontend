@@ -10,10 +10,10 @@
         "newPassword": "Yeni Şifre",
         "roles": "Roller",
         "selectAvatar": "Bir avatar seçin",
-        "userName": "Kullanıcı adı"
+        "username": "Kullanıcı adı"
     },
     "message": {
-        "delete": "Kullanıcıyı silmek istediğinizden emin misiniz ({{userName}})?"
+        "delete": "Kullanıcıyı silmek istediğinizden emin misiniz ({{username}})?"
     },
     "button": {
         "cancel": "İptal",

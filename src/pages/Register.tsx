@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useAppSelector } from "../app/hooks";
-import { useRegisterMutation } from "../features/auth/authApiSlice";
+import { useRegisterUserMutation } from "../features/auth/authApiSlice";
 import { selectTheme } from "../features/theme/themeSlice";
 import { useInput } from "../hooks";
 import { isDataMessageError, isFetchBaseQueryError } from "../services/helpers";
@@ -23,33 +23,33 @@ const Register = () => {
 
     const [firstName, firstNameAttributes] = useInput("firstName", "");
     const [lastName, lastNameAttributes] = useInput("lastName", "");
-    const [userName, userNameAttributes] = useInput("userName", "");
+    const [username, usernameAttributes] = useInput("username", "");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const [register] = useRegisterMutation();
+    const [registerUser] = useRegisterUserMutation();
 
     useEffect(() => {
         firstNameRef.current?.focus();
     }, []);
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setValidated(true);
         setStatus("loading");
 
         const runRegisterUser = async () => {
             try {
-                const response = await register({
+                const response = await registerUser({
                     firstName,
                     lastName,
-                    userName,
+                    username,
                     password,
                     confirmPassword,
                 }).unwrap();
 
-                setStatus("succeeded");
                 toast.success(response.message);
+                setStatus("succeeded");
                 navigate("/login");
             } catch (error) {
                 setStatus("failed");
@@ -114,13 +114,13 @@ const Register = () => {
                 <Form.Floating>
                     <Form.Control
                         id="floatingUsername"
-                        placeholder={t("labels.userName")}
+                        placeholder={t("labels.username")}
                         required
                         type="text"
-                        {...userNameAttributes}
+                        {...usernameAttributes}
                     />
                     <Form.Label htmlFor="floatingUsername">
-                        {t("labels.userName")}
+                        {t("labels.username")}
                     </Form.Label>
                 </Form.Floating>
 

@@ -11,7 +11,7 @@ The user can:
 -   Change color themes.
 -   Switch between interface languages.
 -   Display extended data.
--   Change their password.
+-   Change their avatar and password.
 -   Manage user accounts if the user has the administrator role.
 -   View a 401 (Unauthorized) error page if there are not enough roles to view an existing resource.
 -   View a 404 (Not Found) error page if a report doesn’t exist or the URL is incorrect.
@@ -45,7 +45,7 @@ Language switching is implemented using the i18next framework.
 
 The application includes hotkeys for convenient navigation:
 
--   Scroll Credit History or paginated data tables:
+-   Scroll credit history or paginated data tables:
     -   Left: `ArrowLeft`
     -   Right: `ArrowRight`
     -   Begin: `Option-ArrowLeft` or `Alt-ArrowLeft`
@@ -61,6 +61,8 @@ The project consists of the following main pages and components:
 
 -   Pages
 
+    -   [Sign In Page](#sign-in-page)
+    -   [Sign Up Page](#sign-up-page)
     -   [Report List Page](#report-list-page)
     -   [Report Page](#report-page)
     -   [User List Page](#user-list-page)
@@ -78,6 +80,18 @@ The project consists of the following main pages and components:
         -   [Payment Statuses](#payment-statuses)
         -   [Active Row](#active-row)
         -   [Horizontal Scrolling](#horizontal-scrolling)
+
+### Sign In Page
+
+The "Sign In" page includes form validation, displays loading states, and shows error messages via toast notifications. Upon successful login, it stores user credentials and redirects the user to a specified page.
+
+<img width="800" alt="Sign In Page" src="/docs/images/pages/signInPage.png">
+
+### Sign Up Page
+
+The "Sign Up" page handles asynchronous registration requests, includes form validation, and displays notifications. It redirects to the login page upon successful registration, and includes fields for names and passwords.
+
+<img width="800" alt="Sign In Page" src="/docs/images/pages/signUpPage.png">
 
 ### Report List Page
 
@@ -191,4 +205,4 @@ https://github.com/lifeinplus/united-credit-history-frontend/blob/a0e6bf9a085b6c
 
 ---
 
-v4.23.0 © 2024 Artem Denisov
+v4.24.0 © 2024 Artem Denisov

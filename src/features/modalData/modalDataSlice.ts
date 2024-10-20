@@ -20,10 +20,10 @@ interface ModalDataState {
 
 type ChangeUserPayload = Required<Pick<AuthState, "userId">>;
 
-type DeleteUserPayload = Required<Pick<AuthState, "userId" | "userName">>;
+type DeleteUserPayload = Required<Pick<AuthState, "userId" | "username">>;
 
 type EditUserPayload = { roles: string } & Required<
-    Pick<AuthState, "userId" | "userName">
+    Pick<AuthState, "userId" | "username">
 >;
 
 const initialState: ModalDataState = {

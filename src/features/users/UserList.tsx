@@ -35,7 +35,7 @@ const UserList = () => {
     };
 
     useEffect(() => {
-        dispatch(setSearchSysName("userName"));
+        dispatch(setSearchSysName("username"));
         dispatch(setSortConfig(sortConfig));
     }, []);
 

@@ -34,7 +34,7 @@ const baseQueryWithReauth: BaseQueryFn = async (args, api, extraOptions) => {
             api.dispatch(
                 setCredentials({
                     ...refreshResult.data,
-                    userName: auth.userName,
+                    username: auth.username,
                 })
             );
 

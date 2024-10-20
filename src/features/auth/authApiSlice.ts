@@ -9,14 +9,14 @@ import type {
 
 const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (build) => ({
-        login: build.mutation<AuthResultLogin, AuthQueryLogin>({
+        loginUser: build.mutation<AuthResultLogin, AuthQueryLogin>({
             query: (credentials) => ({
                 url: "auth/login",
                 method: "POST",
                 body: { ...credentials },
             }),
         }),
-        register: build.mutation<AuthResultRegister, AuthQueryRegister>({
+        registerUser: build.mutation<AuthResultRegister, AuthQueryRegister>({
             query: (credentials) => ({
                 url: "auth/register",
                 method: "POST",
@@ -26,4 +26,4 @@ const authApiSlice = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApiSlice;
+export const { useLoginUserMutation, useRegisterUserMutation } = authApiSlice;
