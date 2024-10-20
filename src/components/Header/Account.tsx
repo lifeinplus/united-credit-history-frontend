@@ -8,6 +8,8 @@ import { axiosPrivate, BASE_URL } from "../../features/api/axios";
 import {
     logOut,
     selectAvatarPath,
+    selectFirstName,
+    selectLastName,
     selectRoles,
     selectUserId,
     selectUsername,
@@ -25,6 +27,8 @@ const Account = () => {
     const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
     const avatarPath = useAppSelector(selectAvatarPath);
+    const firstName = useAppSelector(selectFirstName);
+    const lastName = useAppSelector(selectLastName);
     const roles = useAppSelector(selectRoles);
     const userId = useAppSelector(selectUserId) || "";
     const username = useAppSelector(selectUsername);
@@ -74,7 +78,9 @@ const Account = () => {
                     ) : (
                         <i className="bi bi-person-circle me-2"></i>
                     )}
-                    {username}
+                    {firstName || lastName
+                        ? [firstName, lastName].join(" ").trim()
+                        : username}
                 </button>
                 <ul
                     className={classNames(

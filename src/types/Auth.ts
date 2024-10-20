@@ -28,6 +28,8 @@ export interface AuthRequireProps {
 export interface AuthState {
     accessToken?: string;
     avatarPath?: string;
+    firstName?: string;
+    lastName?: string;
     roles?: number[];
     userId?: string;
     username?: string;

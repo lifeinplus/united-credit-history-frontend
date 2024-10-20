@@ -47,7 +47,7 @@ const Login = () => {
                     password,
                 }).unwrap();
 
-                dispatch(setCredentials({ ...response, username }));
+                dispatch(setCredentials(response));
                 setStatus("succeeded");
                 navigate(from, { replace: true });
             } catch (err) {
