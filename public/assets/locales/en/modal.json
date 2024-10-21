@@ -8,6 +8,7 @@
     "label": {
         "currentPassword": "Current Password",
         "newPassword": "New Password",
+        "resetPassword": "Reset Password",
         "roles": "Roles",
         "selectAvatar": "Select an avatar",
         "username": "Username"

@@ -6,8 +6,9 @@
         "edit": "Düzenlemek"
     },
     "label": {
-        "currentPassword": "Mevcut Şifre",
-        "newPassword": "Yeni Şifre",
+        "currentPassword": "Mevcut şifre",
+        "newPassword": "Yeni şifre",
+        "resetPassword": "Şifreyi sıfırla",
         "roles": "Roller",
         "selectAvatar": "Bir avatar seçin",
         "username": "Kullanıcı adı"
