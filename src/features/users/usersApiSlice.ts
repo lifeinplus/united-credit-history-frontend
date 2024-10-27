@@ -20,6 +20,7 @@ interface UserPasswordQueryArg {
 
 interface UserQueryArg {
     id: UserId;
+    isResetPassword: boolean;
     roles: string;
 }
 
@@ -57,10 +58,10 @@ const usersApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: ["Users"],
         }),
         editUserById: build.mutation<UserQueryResult, UserQueryArg>({
-            query: ({ id, roles }) => ({
+            query: ({ id, isResetPassword, roles }) => ({
                 url: `users/${id}`,
                 method: "PUT",
-                body: { roles },
+                body: { isResetPassword, roles },
             }),
             invalidatesTags: ["Users"],
         }),

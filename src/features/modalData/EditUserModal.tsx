@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { ChangeEvent, memo } from "react";
 import { Button, Form, Modal, Spinner } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -12,25 +12,44 @@ import {
 import { useEditUserByIdMutation } from "../users/usersApiSlice";
 
 import {
-    hideEditUserModal,
-    selectIsEditUserModal,
+    hideModal,
     selectModalData,
+    selectUserEditModalData,
     setModalData,
+    setUserEditModalData,
 } from "./modalDataSlice";
 
 const EditUserModal = () => {
     const { t } = useTranslation("modal");
 
     const dispatch = useAppDispatch();
-    const isEditUserModal = useAppSelector(selectIsEditUserModal);
-    const modalData = useAppSelector(selectModalData);
 
-    const { roles = "", status, userId, username } = modalData;
+    const { isResetPassword, roles, show, userId, username } = useAppSelector(
+        selectUserEditModalData
+    );
+
+    const { status } = useAppSelector(selectModalData);
 
     const [editUserById] = useEditUserByIdMutation();
 
+    const handleChangeRoles = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(
+            setUserEditModalData({
+                roles: e.target.value,
+            })
+        );
+    };
+
+    const handleChangeResetPassword = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(
+            setUserEditModalData({
+                isResetPassword: e.target.checked,
+            })
+        );
+    };
+
     const handleHide = () => {
-        dispatch(hideEditUserModal());
+        dispatch(hideModal());
     };
 
     const handleSave = async () => {
@@ -42,6 +61,7 @@ const EditUserModal = () => {
             try {
                 const response = await editUserById({
                     id: userId,
+                    isResetPassword,
                     roles,
                 }).unwrap();
 
@@ -68,7 +88,7 @@ const EditUserModal = () => {
     };
 
     return (
-        <Modal show={isEditUserModal} onHide={handleHide} centered>
+        <Modal show={show} onHide={handleHide} centered>
             <Modal.Header closeButton>
                 <Modal.Title>{t("title.edit")}</Modal.Title>
             </Modal.Header>
@@ -87,17 +107,18 @@ const EditUserModal = () => {
                         <Form.Control
                             as="textarea"
                             autoFocus
-                            onChange={(e) =>
-                                dispatch(
-                                    setModalData({
-                                        roles: e.target.value,
-                                    })
-                                )
-                            }
+                            onChange={handleChangeRoles}
                             rows={3}
                             value={roles}
                         ></Form.Control>
                     </Form.Group>
+                    <Form.Check
+                        id="resetPassword"
+                        checked={isResetPassword}
+                        label={t("label.resetPassword")}
+                        onChange={handleChangeResetPassword}
+                        type={"checkbox"}
+                    />
                 </Form>
             </Modal.Body>
             <Modal.Footer>

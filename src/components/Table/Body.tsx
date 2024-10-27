@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
+    setUserEditModalData,
     showDeleteUserModal,
-    showEditUserModal,
+    showUserEditModal,
 } from "../../features/modalData/modalDataSlice";
 import {
     selectSearchSysName,
@@ -148,6 +149,26 @@ const Body = ({
         const userId = data._id;
         const username = data.username as string;
 
+        const handleEdit = () => {
+            dispatch(showUserEditModal());
+            dispatch(
+                setUserEditModalData({
+                    roles,
+                    userId,
+                    username,
+                })
+            );
+        };
+
+        const handleDelete = () => {
+            dispatch(
+                showDeleteUserModal({
+                    userId,
+                    username,
+                })
+            );
+        };
+
         return (
             <td className={"text-end"}>
                 <div className="btn-group" role="group">
@@ -158,15 +179,7 @@ const Body = ({
                             `uch-btn-outline-primary ${theme}`,
                             "btn-sm"
                         )}
-                        onClick={() =>
-                            dispatch(
-                                showEditUserModal({
-                                    roles,
-                                    userId,
-                                    username,
-                                })
-                            )
-                        }
+                        onClick={handleEdit}
                         type="button"
                     >
                         <i className="bi bi-pencil-square"></i>
@@ -178,14 +191,7 @@ const Body = ({
                             `uch-btn-outline-primary ${theme}`,
                             "btn-sm"
                         )}
-                        onClick={() =>
-                            dispatch(
-                                showDeleteUserModal({
-                                    userId,
-                                    username,
-                                })
-                            )
-                        }
+                        onClick={handleDelete}
                         type="button"
                     >
                         <i className="bi bi-trash"></i>

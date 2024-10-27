@@ -3,18 +3,25 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { AuthState } from "../../types/Auth";
 import type { User } from "../../types/User";
 
+interface UserEditModalData extends Pick<AuthState, "userId" | "username"> {
+    isResetPassword: boolean;
+    roles: string;
+    show: boolean;
+}
+
 type ModalData = {
     avatar?: File;
     currentPassword?: string;
     newPassword?: string;
     status?: "idle" | "loading" | "failed";
-} & Partial<User>;
+    userId?: string;
+} & Partial<Pick<User, "username">>;
 
 interface ModalDataState {
     isChangeAvatarModal: boolean;
     isChangePasswordModal: boolean;
     isDeleteUserModal: boolean;
-    isEditUserModal: boolean;
+    userEditModalData: UserEditModalData;
     modalData: ModalData;
 }
 
@@ -22,20 +29,20 @@ type ChangeUserPayload = Required<Pick<AuthState, "userId">>;
 
 type DeleteUserPayload = Required<Pick<AuthState, "userId" | "username">>;
 
-type EditUserPayload = { roles: string } & Required<
-    Pick<AuthState, "userId" | "username">
->;
-
 const initialState: ModalDataState = {
     isChangeAvatarModal: false,
     isChangePasswordModal: false,
     isDeleteUserModal: false,
-    isEditUserModal: false,
+    userEditModalData: {
+        isResetPassword: false,
+        roles: "",
+        show: false,
+    },
     modalData: {
-        id: "",
         currentPassword: "",
         newPassword: "",
         status: "idle",
+        username: "",
     },
 };
 
@@ -55,9 +62,15 @@ export const modalDataSlice = createSlice({
             state.isDeleteUserModal = false;
             state.modalData = initialState.modalData;
         },
-        hideEditUserModal: (state) => {
-            state.isEditUserModal = false;
-            state.modalData = initialState.modalData;
+        hideModal: () => initialState,
+        setUserEditModalData: (
+            state,
+            action: PayloadAction<Partial<UserEditModalData>>
+        ) => {
+            state.userEditModalData = {
+                ...state.userEditModalData,
+                ...action.payload,
+            };
         },
         setModalData: (state, action: PayloadAction<ModalData>) => {
             if (action.payload) {
@@ -88,17 +101,16 @@ export const modalDataSlice = createSlice({
             state.isDeleteUserModal = true;
             state.modalData = action.payload || {};
         },
-        showEditUserModal: (state, action: PayloadAction<EditUserPayload>) => {
-            state.isEditUserModal = true;
-            state.modalData = action.payload || {};
+        showUserEditModal: (state) => {
+            state.userEditModalData.show = true;
         },
     },
     selectors: {
         selectIsChangeAvatarModal: (state) => state.isChangeAvatarModal,
         selectIsChangePasswordModal: (state) => state.isChangePasswordModal,
         selectIsDeleteUserModal: (state) => state.isDeleteUserModal,
-        selectIsEditUserModal: (state) => state.isEditUserModal,
         selectModalData: (state) => state.modalData,
+        selectUserEditModalData: (state) => state.userEditModalData,
     },
 });
 
@@ -106,18 +118,19 @@ export const {
     hideChangeAvatarModal,
     hideChangePasswordModal,
     hideDeleteUserModal,
-    hideEditUserModal,
+    hideModal,
     setModalData,
+    setUserEditModalData,
     showChangeAvatarModal,
     showChangePasswordModal,
     showDeleteUserModal,
-    showEditUserModal,
+    showUserEditModal,
 } = modalDataSlice.actions;
 
 export const {
     selectIsChangeAvatarModal,
     selectIsChangePasswordModal,
     selectIsDeleteUserModal,
-    selectIsEditUserModal,
     selectModalData,
+    selectUserEditModalData,
 } = modalDataSlice.selectors;
