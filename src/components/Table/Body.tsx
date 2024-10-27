@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
-    setUserEditModalData,
-    showDeleteUserModal,
+    setUserDeleteData,
+    setUserEditData,
+    showUserDeleteModal,
     showUserEditModal,
-} from "../../features/modalData/modalDataSlice";
+} from "../../features/modals";
 import {
     selectSearchSysName,
     selectSearchValue,
@@ -152,7 +153,7 @@ const Body = ({
         const handleEdit = () => {
             dispatch(showUserEditModal());
             dispatch(
-                setUserEditModalData({
+                setUserEditData({
                     roles,
                     userId,
                     username,
@@ -161,8 +162,9 @@ const Body = ({
         };
 
         const handleDelete = () => {
+            dispatch(showUserDeleteModal());
             dispatch(
-                showDeleteUserModal({
+                setUserDeleteData({
                     userId,
                     username,
                 })

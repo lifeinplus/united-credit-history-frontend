@@ -5,7 +5,7 @@ import type {
     PaginationResult,
 } from "../../types/Pagination";
 
-type UserId = string;
+export type UserId = string;
 
 interface UserAvatarQueryArg {
     id: UserId;

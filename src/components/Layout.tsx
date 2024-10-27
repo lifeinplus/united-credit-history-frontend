@@ -2,10 +2,12 @@ import { Toaster } from "react-hot-toast";
 import { Outlet } from "react-router-dom";
 
 import { useAppSelector } from "../app/hooks";
-import ChangeAvatarModal from "../features/modalData/ChangeAvatarModal";
-import ChangePasswordModal from "../features/modalData/ChangePasswordModal";
-import DeleteUserModal from "../features/modalData/DeleteUserModal";
-import EditUserModal from "../features/modalData/EditUserModal";
+import {
+    AvatarChangeModal,
+    PasswordChangeModal,
+    UserDeleteModal,
+    UserEditModal,
+} from "../features/modals";
 import { selectTheme } from "../features/theme/themeSlice";
 
 import { Footer, Header } from ".";
@@ -24,10 +26,10 @@ const Layout = () => {
                     },
                 }}
             />
-            <ChangeAvatarModal />
-            <ChangePasswordModal />
-            <DeleteUserModal />
-            <EditUserModal />
+            <AvatarChangeModal />
+            <PasswordChangeModal />
+            <UserDeleteModal />
+            <UserEditModal />
             <Header />
             <main className="container-fluid">
                 <Outlet />

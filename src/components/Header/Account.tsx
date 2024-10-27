@@ -15,9 +15,11 @@ import {
     selectUsername,
 } from "../../features/auth/authSlice";
 import {
-    showChangeAvatarModal,
-    showChangePasswordModal,
-} from "../../features/modalData/modalDataSlice";
+    setAvatarChangeData,
+    setPasswordChangeData,
+    showAvatarChangeModal,
+    showPasswordChangeModal,
+} from "../../features/modals";
 import { selectTheme } from "../../features/theme/themeSlice";
 
 const Account = () => {
@@ -36,8 +38,18 @@ const Account = () => {
     return username ? <Inside /> : <Outside />;
 
     function Inside() {
-        const handleChangePassword = () => {
-            dispatch(showChangePasswordModal({ userId }));
+        const handleUsers = () => {
+            navigate("/users");
+        };
+
+        const handleAvatar = () => {
+            dispatch(showAvatarChangeModal());
+            dispatch(setAvatarChangeData({ userId }));
+        };
+
+        const handlePassword = () => {
+            dispatch(showPasswordChangeModal());
+            dispatch(setPasswordChangeData({ userId }));
         };
 
         const handleLogout = async () => {
@@ -47,10 +59,6 @@ const Account = () => {
                     navigate("/login");
                 })
                 .catch((error) => console.error(error));
-        };
-
-        const handleUsers = () => {
-            navigate("/users");
         };
 
         return (
@@ -103,9 +111,7 @@ const Account = () => {
                     <li>
                         <button
                             className="dropdown-item"
-                            onClick={() => {
-                                dispatch(showChangeAvatarModal({ userId }));
-                            }}
+                            onClick={handleAvatar}
                             type="button"
                         >
                             {t("changeAvatar")}
@@ -114,7 +120,7 @@ const Account = () => {
                     <li>
                         <button
                             className="dropdown-item"
-                            onClick={handleChangePassword}
+                            onClick={handlePassword}
                             type="button"
                         >
                             {t("changePassword")}
