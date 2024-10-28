@@ -2,8 +2,8 @@ import classNames from "classnames";
 import { Container, Form, Navbar } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-import ExtendControl from "../features/extendedData/ExtendControl";
-import SearchControl from "../features/search/SearchControl";
+import { ExtendControl } from "../features/extendedData";
+import { SearchControl } from "../features/search";
 
 import type {
     PanelHeaderProps,

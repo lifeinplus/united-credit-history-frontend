@@ -10,10 +10,7 @@ import {
     isFetchBaseQueryError,
 } from "../../services/helpers";
 
-import {
-    useChangeUserPasswordByIdMutation,
-    type UserId,
-} from "../users/usersApiSlice";
+import { useChangeUserPasswordByIdMutation, type UserId } from "../users";
 
 import {
     hideModals,
@@ -21,7 +18,7 @@ import {
     selectPasswordChangeData,
     setStatus,
     setPasswordChangeData,
-} from "./modalsSlice";
+} from ".";
 
 const PasswordChangeModal = () => {
     const { t } = useTranslation("modal");

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 
 import { CreditHistory, PersonalData, Spinner } from "../components";
-import { useGetReportFullByIdQuery } from "../features/reports/reportsApiSlice";
+import { useGetReportFullByIdQuery } from "../features/reports";
 
 const Report = () => {
     const { reportId = "" } = useParams();

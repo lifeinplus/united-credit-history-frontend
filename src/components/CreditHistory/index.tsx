@@ -2,7 +2,7 @@ import classNames from "classnames";
 
 import { useAppSelector } from "../../app/hooks";
 import { PanelHeader } from "../../components";
-import { selectTheme } from "../../features/theme/themeSlice";
+import { selectTheme } from "../../features/theme";
 import type { CreditHistoryProps } from "../../types/CreditHistory";
 
 import Loans from "./Loans";

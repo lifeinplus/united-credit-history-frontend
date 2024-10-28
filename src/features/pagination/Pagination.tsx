@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import type { PageItemProps, PaginationProps } from "../../types/Pagination";
 
-import { selectSearchFocus } from "../search/searchSlice";
-import { selectTheme } from "../theme/themeSlice";
+import { selectSearchFocus } from "../search";
+import { selectTheme } from "../theme";
 
 import {
     goFirstPage,
@@ -132,6 +132,4 @@ function propsAreEqual(
     return prevIsFetching === nextIsFetching;
 }
 
-const MemoizedPagination = memo(Pagination, propsAreEqual);
-
-export default MemoizedPagination;
+export default memo(Pagination, propsAreEqual);

@@ -2,8 +2,8 @@ import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../app/hooks";
-import { selectShowExtendedData } from "../../features/extendedData/extendedDataSlice";
-import { selectTheme } from "../../features/theme/themeSlice";
+import { selectShowExtendedData } from "../../features/extendedData";
+import { selectTheme } from "../../features/theme";
 import type {
     AmountContextField,
     GroupProps,

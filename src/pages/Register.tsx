@@ -6,8 +6,8 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useAppSelector } from "../app/hooks";
-import { useRegisterUserMutation } from "../features/auth/authApiSlice";
-import { selectTheme } from "../features/theme/themeSlice";
+import { useRegisterUserMutation } from "../features/auth";
+import { selectTheme } from "../features/theme";
 import { useInput } from "../hooks";
 import { isDataMessageError, isFetchBaseQueryError } from "../services/helpers";
 

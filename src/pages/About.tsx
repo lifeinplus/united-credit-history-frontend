@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../app/hooks";
 import { PanelHeader } from "../components";
-import { selectTheme } from "../features/theme/themeSlice";
+import { selectTheme } from "../features/theme";
 import type { LegendProps, TaskProps, TitleProps } from "../types/About";
 
 const About = () => {

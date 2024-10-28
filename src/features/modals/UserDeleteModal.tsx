@@ -10,14 +10,9 @@ import {
     isFetchBaseQueryError,
 } from "../../services/helpers";
 
-import { useDeleteUserByIdMutation, type UserId } from "../users/usersApiSlice";
+import { useDeleteUserByIdMutation, type UserId } from "../users";
 
-import {
-    hideModals,
-    selectStatus,
-    selectUserDeleteData,
-    setStatus,
-} from "./modalsSlice";
+import { hideModals, selectStatus, selectUserDeleteData, setStatus } from ".";
 
 const UserDeleteModal = () => {
     const { t } = useTranslation("modal");

@@ -4,8 +4,7 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 
 import { useAppSelector } from "../../app/hooks";
-import { selectTheme } from "../../features/theme/themeSlice";
-import ThemeSwitcher from "../../features/theme/ThemeSwitcher";
+import { ThemeSwitcher, selectTheme } from "../../features/theme";
 
 import Account from "./Account";
 import LanguageSwitcher from "./LanguageSwitcher";

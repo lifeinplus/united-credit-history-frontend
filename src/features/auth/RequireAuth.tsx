@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import type { AuthRequireProps } from "../../types/Auth";
 
-import { selectRoles, selectUsername } from "./authSlice";
+import { selectRoles, selectUsername } from ".";
 
 const RequireAuth = ({ allowedRoles }: AuthRequireProps) => {
     const roles = useAppSelector(selectRoles);

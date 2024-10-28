@@ -11,17 +11,9 @@ import {
     isFetchBaseQueryError,
 } from "../../services/helpers";
 
-import {
-    useChangeUserAvatarByIdMutation,
-    type UserId,
-} from "../users/usersApiSlice";
+import { useChangeUserAvatarByIdMutation, type UserId } from "../users";
 
-import {
-    hideModals,
-    selectStatus,
-    selectAvatarChangeData,
-    setStatus,
-} from "./modalsSlice";
+import { hideModals, selectStatus, selectAvatarChangeData, setStatus } from ".";
 
 const ChangeAvatarModal = () => {
     const { t } = useTranslation("modal");

@@ -1,13 +1,13 @@
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
 
-import { apiSlice } from "../features/api/apiSlice";
-import { authSlice } from "../features/auth/authSlice";
-import { extendedDataSlice } from "../features/extendedData/extendedDataSlice";
+import { apiSlice } from "../features/api";
+import { authSlice } from "../features/auth";
+import { extendedDataSlice } from "../features/extendedData";
 import { modalsSlice } from "../features/modals";
-import { paginationSlice } from "../features/pagination/paginationSlice";
-import { searchSlice } from "../features/search/searchSlice";
-import { sortConfigSlice } from "../features/sortConfig/sortConfigSlice";
-import { themeSlice } from "../features/theme/themeSlice";
+import { paginationSlice } from "../features/pagination";
+import { searchSlice } from "../features/search";
+import { sortConfigSlice } from "../features/sortConfig";
+import { themeSlice } from "../features/theme";
 
 const rootReducer = combineSlices(
     apiSlice,

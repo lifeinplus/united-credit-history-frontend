@@ -1,7 +1,7 @@
 import { memo } from "react";
 
 import { useAppSelector } from "../../app/hooks";
-import { selectTheme } from "../../features/theme/themeSlice";
+import { selectTheme } from "../../features/theme";
 import type { TableScrollButtons } from "../../types/Table";
 
 const ScrollButtons = ({ btnRefs, handleScroll }: TableScrollButtons) => {
@@ -44,6 +44,4 @@ function propsAreEqual(
     );
 }
 
-const MemoizedScrollButtons = memo(ScrollButtons, propsAreEqual);
-
-export default MemoizedScrollButtons;
+export default memo(ScrollButtons, propsAreEqual);

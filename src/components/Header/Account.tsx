@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { axiosPrivate, BASE_URL } from "../../features/api/axios";
+import { axiosPrivate, BASE_URL } from "../../features/api";
 import {
     logOut,
     selectAvatarPath,
@@ -13,14 +13,14 @@ import {
     selectRoles,
     selectUserId,
     selectUsername,
-} from "../../features/auth/authSlice";
+} from "../../features/auth";
 import {
     setAvatarChangeData,
     setPasswordChangeData,
     showAvatarChangeModal,
     showPasswordChangeModal,
 } from "../../features/modals";
-import { selectTheme } from "../../features/theme/themeSlice";
+import { selectTheme } from "../../features/theme";
 
 const Account = () => {
     const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
 import { useAppSelector } from "../../../app/hooks";
-import { selectSortConfig } from "../../../features/sortConfig/sortConfigSlice";
+import { selectSortConfig } from "../../../features/sortConfig";
 import type { SortCompare } from "../../../types/Sort";
 import type { TableData } from "../../../types/Table";
 

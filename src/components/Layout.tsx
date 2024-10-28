@@ -8,7 +8,7 @@ import {
     UserDeleteModal,
     UserEditModal,
 } from "../features/modals";
-import { selectTheme } from "../features/theme/themeSlice";
+import { selectTheme } from "../features/theme";
 
 import { Footer, Header } from ".";
 

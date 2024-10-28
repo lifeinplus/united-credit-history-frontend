@@ -1,7 +1,8 @@
 import classNames from "classnames";
 
 import { useAppSelector } from "../../app/hooks";
-import { selectTheme } from "../../features/theme/themeSlice";
+import { Pagination } from "../../features/pagination";
+import { selectTheme } from "../../features/theme";
 import type { TableProps } from "../../types/Table";
 
 import {
@@ -13,7 +14,6 @@ import {
 
 import Body from "./Body";
 import Head from "./Head";
-import Pagination from "../../features/pagination/Pagination";
 import ScrollButtons from "./ScrollButtons";
 
 const Table = ({

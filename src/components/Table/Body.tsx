@@ -10,11 +10,8 @@ import {
     showUserDeleteModal,
     showUserEditModal,
 } from "../../features/modals";
-import {
-    selectSearchSysName,
-    selectSearchValue,
-} from "../../features/search/searchSlice";
-import { selectTheme } from "../../features/theme/themeSlice";
+import { selectSearchSysName, selectSearchValue } from "../../features/search";
+import { selectTheme } from "../../features/theme";
 import type {
     TableBodyProps,
     TableColumn,
@@ -365,6 +362,4 @@ function propsAreEqual(
     return areColumnsEqual && Boolean(isDataEqual);
 }
 
-const MemoizedBody = memo(Body, propsAreEqual);
-
-export default MemoizedBody;
+export default memo(Body, propsAreEqual);

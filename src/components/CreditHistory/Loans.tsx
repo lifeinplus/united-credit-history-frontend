@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Table } from "../../components";
-import { selectShowExtendedData } from "../../features/extendedData/extendedDataSlice";
-import { setSortConfig } from "../../features/sortConfig/sortConfigSlice";
+import { selectShowExtendedData } from "../../features/extendedData";
+import { setSortConfig } from "../../features/sortConfig";
 import type { LoansProps } from "../../types/CreditHistory";
 import type { SortConfigState } from "../../types/Sort";
 import { getDateFormat } from "../../utils";

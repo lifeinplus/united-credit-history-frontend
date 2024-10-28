@@ -1,5 +1,5 @@
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import type { UserId } from "../features/users/usersApiSlice";
+import type { UserId } from "../features/users";
 
 interface DataMessageError {
     data: { message: string };

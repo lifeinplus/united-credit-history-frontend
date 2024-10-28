@@ -10,7 +10,7 @@ import {
     isFetchBaseQueryError,
 } from "../../services/helpers";
 
-import { useEditUserByIdMutation, type UserId } from "../users/usersApiSlice";
+import { useEditUserByIdMutation, type UserId } from "../users";
 
 import {
     hideModals,
@@ -18,7 +18,7 @@ import {
     selectUserEditData,
     setStatus,
     setUserEditData,
-} from "./modalsSlice";
+} from ".";
 
 const UserEditModal = () => {
     const { t } = useTranslation("modal");

@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { useAppSelector } from "../app/hooks";
-import { selectTheme } from "../features/theme/themeSlice";
+import { selectTheme } from "../features/theme";
 
 const NotFound = () => {
     const theme = useAppSelector(selectTheme);
