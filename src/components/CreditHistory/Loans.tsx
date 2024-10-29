@@ -3,13 +3,10 @@ import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Table } from "../../components";
-import { selectShowExtendedData } from "../../features/extendedData/extendedDataSlice";
-import { setSortConfig } from "../../features/sortConfig/sortConfigSlice";
-import type { LoansProps } from "../../types/CreditHistory";
-import type { SortConfigState } from "../../types/Sort";
-import { getDateFormat } from "../../utils";
-
-import { tableColumns, TimePeriod } from "./utils";
+import { selectShowExtendedData } from "../../features/extendedData";
+import { setSortConfig } from "../../features/sortConfig";
+import type { LoansProps, SortConfigState } from "../../types";
+import { getDateFormat, loansColumns, TimePeriod } from "../../utils";
 
 const Loans = ({ loans, reportCreationDate }: LoansProps) => {
     const { i18n, t } = useTranslation(["credit_history"]);
@@ -55,7 +52,7 @@ const Loans = ({ loans, reportCreationDate }: LoansProps) => {
     }
 
     function getCommonCols() {
-        const all = [...tableColumns];
+        const all = [...loansColumns];
 
         const columns = showExtendedData
             ? all

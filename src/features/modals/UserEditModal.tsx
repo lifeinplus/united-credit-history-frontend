@@ -5,36 +5,34 @@ import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
+    ensureUserId,
     isDataMessageError,
     isFetchBaseQueryError,
-} from "../../services/helpers";
+} from "../../utils";
 
-import { useEditUserByIdMutation } from "../users/usersApiSlice";
+import { useEditUserByIdMutation, type UserId } from "../users";
 
 import {
-    hideModal,
-    selectModalData,
-    selectUserEditModalData,
-    setModalData,
-    setUserEditModalData,
-} from "./modalDataSlice";
+    hideModals,
+    selectStatus,
+    selectUserEditData,
+    setStatus,
+    setUserEditData,
+} from ".";
 
-const EditUserModal = () => {
+const UserEditModal = () => {
     const { t } = useTranslation("modal");
 
     const dispatch = useAppDispatch();
-
-    const { isResetPassword, roles, show, userId, username } = useAppSelector(
-        selectUserEditModalData
-    );
-
-    const { status } = useAppSelector(selectModalData);
+    const status = useAppSelector(selectStatus);
+    const { isResetPassword, roles, show, userId, username } =
+        useAppSelector(selectUserEditData);
 
     const [editUserById] = useEditUserByIdMutation();
 
     const handleChangeRoles = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(
-            setUserEditModalData({
+            setUserEditData({
                 roles: e.target.value,
             })
         );
@@ -42,49 +40,52 @@ const EditUserModal = () => {
 
     const handleChangeResetPassword = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(
-            setUserEditModalData({
+            setUserEditData({
                 isResetPassword: e.target.checked,
             })
         );
     };
 
     const handleHide = () => {
-        dispatch(hideModal());
+        dispatch(hideModals());
     };
 
     const handleSave = async () => {
-        if (!userId) return;
-
-        dispatch(setModalData({ status: "loading" }));
-
-        const runEditUser = async () => {
-            try {
-                const response = await editUserById({
-                    id: userId,
-                    isResetPassword,
-                    roles,
-                }).unwrap();
-
-                toast.success(response.message);
-                handleHide();
-            } catch (error) {
-                dispatch(setModalData({ status: "failed" }));
-
-                if (isDataMessageError(error)) {
-                    toast.error(error.data.message);
-                } else if (isFetchBaseQueryError(error)) {
-                    const errMsg =
-                        "error" in error
-                            ? error.error
-                            : JSON.stringify(error.data);
-                    toast.error(errMsg);
-                } else {
-                    console.error(error);
-                }
+        try {
+            const verifiedUserId = ensureUserId(userId);
+            dispatch(setStatus("loading"));
+            setTimeout(() => editUser(verifiedUserId), 500);
+        } catch (error) {
+            console.error(error);
+            if (error instanceof Error) {
+                toast.error(error.message);
             }
-        };
+        }
+    };
 
-        setTimeout(runEditUser, 500);
+    const editUser = async (id: UserId) => {
+        try {
+            const response = await editUserById({
+                id,
+                isResetPassword,
+                roles,
+            }).unwrap();
+
+            toast.success(response.message);
+            handleHide();
+        } catch (error) {
+            dispatch(setStatus("failed"));
+
+            if (isDataMessageError(error)) {
+                toast.error(error.data.message);
+            } else if (isFetchBaseQueryError(error)) {
+                const errMsg =
+                    "error" in error ? error.error : JSON.stringify(error.data);
+                toast.error(errMsg);
+            } else {
+                console.error(error);
+            }
+        }
     };
 
     return (
@@ -141,4 +142,4 @@ const EditUserModal = () => {
     );
 };
 
-export default memo(EditUserModal);
+export default memo(UserEditModal);

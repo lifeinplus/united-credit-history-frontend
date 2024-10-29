@@ -2,8 +2,8 @@ import classNames from "classnames";
 
 import { useAppSelector } from "../../app/hooks";
 import { PanelHeader } from "../../components";
-import { selectTheme } from "../../features/theme/themeSlice";
-import type { PersonalDataProps } from "../../types/PersonalData";
+import { selectTheme } from "../../features/theme";
+import type { PersonalDataProps } from "../../types";
 
 import Persons from "./Persons";
 import RequestCounts from "./RequestCounts";

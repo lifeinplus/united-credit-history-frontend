@@ -5,7 +5,7 @@ import { useAppSelector } from "../../app/hooks";
 import { Spinner } from "../../components";
 import { useRefreshAuth } from "../../hooks";
 
-import { selectAccessToken } from "./authSlice";
+import { selectAccessToken } from ".";
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);

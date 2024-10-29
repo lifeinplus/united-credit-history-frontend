@@ -6,11 +6,10 @@ import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { useLoginUserMutation } from "../features/auth/authApiSlice";
-import { setCredentials } from "../features/auth/authSlice";
-import { selectTheme } from "../features/theme/themeSlice";
+import { useLoginUserMutation, setCredentials } from "../features/auth";
+import { selectTheme } from "../features/theme";
 import { useInput } from "../hooks";
-import { isDataMessageError, isFetchBaseQueryError } from "../services/helpers";
+import { isDataMessageError, isFetchBaseQueryError } from "../utils";
 
 const Login = () => {
     const location = useLocation();

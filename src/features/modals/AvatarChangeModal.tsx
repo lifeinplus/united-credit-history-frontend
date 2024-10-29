@@ -1,37 +1,31 @@
-import { ChangeEvent, memo, useEffect, useState } from "react";
+import { ChangeEvent, memo, useState } from "react";
 import { Button, Form, Modal, Spinner } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
+    ensureAvatar,
+    ensureUserId,
     isDataMessageError,
     isFetchBaseQueryError,
-} from "../../services/helpers";
+} from "../../utils";
 
-import { useChangeUserAvatarByIdMutation } from "../users/usersApiSlice";
+import { useChangeUserAvatarByIdMutation, type UserId } from "../users";
 
-import {
-    hideChangeAvatarModal,
-    selectIsChangeAvatarModal,
-    selectModalData,
-    setModalData,
-} from "./modalDataSlice";
+import { hideModals, selectStatus, selectAvatarChangeData, setStatus } from ".";
 
 const ChangeAvatarModal = () => {
     const { t } = useTranslation("modal");
-
     const [avatar, setAvatar] = useState<File>();
 
     const dispatch = useAppDispatch();
-    const isChangeAvatarModal = useAppSelector(selectIsChangeAvatarModal);
-    const modalData = useAppSelector(selectModalData);
-
-    const { status, userId } = modalData;
+    const status = useAppSelector(selectStatus);
+    const { show, userId } = useAppSelector(selectAvatarChangeData);
 
     const [changeUserAvatarById] = useChangeUserAvatarByIdMutation();
 
-    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleAvatar = (e: ChangeEvent<HTMLInputElement>) => {
         const { files } = e.target;
         if (files && files[0]) {
             setAvatar(files[0]);
@@ -40,53 +34,51 @@ const ChangeAvatarModal = () => {
 
     const handleHide = () => {
         setAvatar(undefined);
-        dispatch(hideChangeAvatarModal());
+        dispatch(hideModals());
     };
 
     const handleSave = () => {
-        if (!userId) return;
-
-        if (!avatar) {
-            toast.error("Please select an avatar to upload");
-            return;
+        try {
+            const verifiedAvatar = ensureAvatar(avatar);
+            const verifiedUserId = ensureUserId(userId);
+            dispatch(setStatus("loading"));
+            setTimeout(() => changeAvatar(verifiedUserId, verifiedAvatar), 500);
+        } catch (error) {
+            console.error(error);
+            if (error instanceof Error) {
+                toast.error(error.message);
+            }
         }
+    };
 
+    const changeAvatar = async (id: UserId, avatar: File) => {
         const formData = new FormData();
         formData.append("avatar", avatar);
 
-        dispatch(setModalData({ status: "loading" }));
+        try {
+            const response = await changeUserAvatarById({
+                id,
+                formData,
+            }).unwrap();
 
-        const runChangeAvatar = async () => {
-            try {
-                const response = await changeUserAvatarById({
-                    id: userId,
-                    formData,
-                }).unwrap();
+            toast.success(response.message);
+            handleHide();
+        } catch (error) {
+            dispatch(setStatus("failed"));
+            console.error(error);
 
-                toast.success(response.message);
-                handleHide();
-            } catch (error) {
-                dispatch(setModalData({ status: "failed" }));
-
-                if (isDataMessageError(error)) {
-                    toast.error(error.data.message);
-                } else if (isFetchBaseQueryError(error)) {
-                    const errMsg =
-                        "error" in error
-                            ? error.error
-                            : JSON.stringify(error.data);
-                    toast.error(errMsg);
-                } else {
-                    console.error(error);
-                }
+            if (isDataMessageError(error)) {
+                toast.error(error.data.message);
+            } else if (isFetchBaseQueryError(error)) {
+                const errMsg =
+                    "error" in error ? error.error : JSON.stringify(error.data);
+                toast.error(errMsg);
             }
-        };
-
-        setTimeout(runChangeAvatar, 500);
+        }
     };
 
     return (
-        <Modal show={isChangeAvatarModal} onHide={handleHide} centered>
+        <Modal show={show} onHide={handleHide} centered>
             <Modal.Header closeButton>
                 <Modal.Title>{t("title.changeAvatar")}</Modal.Title>
             </Modal.Header>
@@ -97,7 +89,7 @@ const ChangeAvatarModal = () => {
                         <Form.Control
                             accept="image/*"
                             autoFocus
-                            onChange={handleFileChange}
+                            onChange={handleAvatar}
                             type="file"
                         />
                     </Form.Group>

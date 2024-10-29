@@ -1,126 +1,6 @@
-import type {
-    AmountContextField,
-    AmountField,
-} from "../../types/CreditHistory";
-import type { Loan } from "../../types/Report";
-import type { TableColumn } from "../../types/Table";
-import { getDateFormat } from "../../utils";
+import type { TableColumn } from "../types";
 
-export class TimePeriod {
-    constructor(
-        private readonly loans: Loan[],
-        private readonly lastDate: string
-    ) {}
-
-    get result() {
-        const milliseconds = Date.parse(this.lastDate);
-        const lastDate = new Date(milliseconds);
-        const result = [lastDate];
-
-        const monthsNumber = this.#getMonthsNumber();
-
-        for (let i = 1; i < monthsNumber; i++) {
-            let previous = result[i - 1];
-
-            let date = new Date(previous.getTime());
-            date.setMonth(date.getMonth() - 1);
-
-            result.push(date);
-        }
-
-        return result;
-    }
-
-    #getMonthsNumber() {
-        const startDate = this.#getStartDate();
-        const lastDate = this.lastDate;
-
-        const [startMonth, startYear] = this.#defineMonthYear(startDate);
-        const [lastMonth, lastYear] = this.#defineMonthYear(lastDate);
-
-        return (lastYear - startYear) * 12 + (lastMonth + 1) - startMonth;
-    }
-
-    #getStartDate() {
-        return this.loans?.reduce((result, { firstPaymentDate }) => {
-            return result > firstPaymentDate ? firstPaymentDate : result;
-        }, this.lastDate);
-    }
-
-    #defineMonthYear(isoDate: string) {
-        if (!isoDate) return [];
-
-        const dateFormat = getDateFormat("ru", "status");
-        const milliseconds = Date.parse(isoDate);
-
-        return dateFormat
-            .format(milliseconds)
-            .split(".")
-            .map((item) => Number(item));
-    }
-}
-
-export const obligationFields: AmountField[] = [
-    { sysName: "chbLoansAmount", type: "loan" },
-    { sysName: "chbLoansAmountEur", country: "gb", hide: true, type: "loan" },
-    { sysName: "chbLoansAmountRub", country: "ru", hide: true, type: "loan" },
-    { sysName: "chbLoansAmountTry", country: "tr", hide: true, type: "loan" },
-    { sysName: "chbCreditCardsAmount", type: "card" },
-    {
-        sysName: "chbCreditCardsAmountEur",
-        country: "gb",
-        hide: true,
-        type: "card",
-    },
-    {
-        sysName: "chbCreditCardsAmountRub",
-        country: "ru",
-        hide: true,
-        type: "card",
-    },
-    {
-        sysName: "chbCreditCardsAmountTry",
-        country: "tr",
-        hide: true,
-        type: "card",
-    },
-];
-
-export const paymentFields: AmountContextField[] = [
-    { sysName: "chbPaymentsAmount", type: "chb", context: "primary" },
-    { sysName: "chbPaymentsAmountEur", type: "chb", country: "gb" },
-    { sysName: "chbPaymentsAmountRub", type: "chb", country: "ru" },
-    { sysName: "chbPaymentsAmountTry", type: "chb", country: "tr" },
-    {
-        sysName: "flcPaymentsAmount",
-        type: "flc",
-        extended: true,
-        context: "info",
-    },
-    {
-        sysName: "flcPaymentsAmountEur",
-        type: "flc",
-        extended: true,
-        country: "gb",
-        hide: true,
-    },
-    {
-        sysName: "flcPaymentsAmountRub",
-        type: "flc",
-        extended: true,
-        country: "ru",
-        hide: true,
-    },
-    {
-        sysName: "flcPaymentsAmountTry",
-        type: "flc",
-        extended: true,
-        country: "tr",
-        hide: true,
-    },
-];
-
-export const tableColumns: TableColumn[] = [
+export const loansColumns: TableColumn[] = [
     {
         alignment: "text-end",
         badgeMore: 0,
@@ -332,5 +212,104 @@ export const tableColumns: TableColumn[] = [
         sortType: "numeric",
         sysName: "contractPeriod",
         tooltip: true,
+    },
+];
+
+export const personsColumns: TableColumn[] = [
+    {
+        alignment: "text-start",
+        dataType: "text",
+        sysName: "dataSource",
+    },
+    {
+        alignment: "text-start",
+        dataType: "text",
+        sysName: "clientName",
+    },
+    {
+        alignment: "text-center",
+        dataType: "date",
+        sysName: "birthDate",
+    },
+    {
+        alignment: "text-end",
+        dataType: "text",
+        sysName: "documentSeries",
+    },
+    {
+        alignment: "text-end",
+        dataType: "text",
+        sysName: "documentNumber",
+    },
+    {
+        alignment: "text-end",
+        dataType: "date",
+        sysName: "documentIssueDate",
+    },
+];
+
+export const reportListColumns: TableColumn[] = [
+    {
+        alignment: "text-start",
+        dataType: "numeric",
+        sortType: "numeric",
+        sysName: "appNumber",
+    },
+    {
+        alignment: "text-center",
+        dataType: "dateTime",
+        sortType: "text",
+        sysName: "appCreationDate",
+    },
+    {
+        alignment: "text-start",
+        dataType: "text",
+        sortType: "text",
+        isLink: true,
+        sysName: "clientName",
+    },
+    {
+        alignment: "text-end",
+        dataType: "numeric",
+        sortType: "text",
+        sysName: "documentSeries",
+    },
+    {
+        alignment: "text-end",
+        dataType: "text",
+        sortType: "numeric",
+        sysName: "documentNumber",
+    },
+];
+
+export const userListColumns: TableColumn[] = [
+    {
+        alignment: "text-center",
+        dataType: "dateTime",
+        sortType: "text",
+        sysName: "creationDate",
+    },
+    {
+        alignment: "text-start",
+        dataType: "text",
+        sortType: "text",
+        sysName: "firstName",
+    },
+    {
+        alignment: "text-start",
+        dataType: "text",
+        sortType: "text",
+        sysName: "lastName",
+    },
+    {
+        alignment: "text-start",
+        dataType: "text",
+        sortType: "text",
+        sysName: "username",
+    },
+    {
+        alignment: "text-start",
+        dataType: "text",
+        sysName: "roles",
     },
 ];

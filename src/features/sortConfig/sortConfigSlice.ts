@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { SortConfigState } from "../../types/Sort";
+import { SortConfigState } from "../../types";
 
 const initialState: SortConfigState = {};
 

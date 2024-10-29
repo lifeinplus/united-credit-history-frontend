@@ -1,6 +1,8 @@
 {
     "table": {
         "creationDate": "Дата создания",
+        "firstName": "Имя",
+        "lastName": "Фамилия",
         "username": "Имя пользователя",
         "roles": "Роли"
     },

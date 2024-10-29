@@ -2,14 +2,13 @@ import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../app/hooks";
-import { selectTheme } from "../../features/theme/themeSlice";
+import { selectTheme } from "../../features/theme";
 import type {
     RequestCountsCard,
     RequestCountsItem,
     RequestCountsProps,
-} from "../../types/PersonalData";
-
-import { listFields, scoreStyles } from "./utils";
+} from "../../types";
+import { requestCountsFields, scoreStyles } from "../../utils";
 
 const RequestCounts = ({ requestCounts: data, score }: RequestCountsProps) => {
     const { t } = useTranslation(["personal_data"]);
@@ -23,7 +22,7 @@ const RequestCounts = ({ requestCounts: data, score }: RequestCountsProps) => {
     );
 
     function Card({ title, type }: RequestCountsCard) {
-        const fields = listFields.filter((item) => item.type === type);
+        const fields = requestCountsFields.filter((item) => item.type === type);
         const values = fields.map(({ sysName }) => data && data[sysName]);
 
         const scoreDanger = score && score < 500;

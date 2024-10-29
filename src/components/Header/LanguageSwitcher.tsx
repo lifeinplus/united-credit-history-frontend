@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../app/hooks";
-import { selectTheme } from "../../features/theme/themeSlice";
+import { selectTheme } from "../../features/theme";
 import { langs } from "../../utils";
 
 const LanguageSwitcher = () => {

@@ -7,9 +7,9 @@ import {
     requestSort,
     resetSortConfig,
     selectSortConfig,
-} from "../../features/sortConfig/sortConfigSlice";
-import { selectTheme } from "../../features/theme/themeSlice";
-import type { TableHeadProps } from "../../types/Table";
+} from "../../features/sortConfig";
+import { selectTheme } from "../../features/theme";
+import type { TableHeadProps } from "../../types";
 
 import { useTooltip } from "./hooks";
 
@@ -121,6 +121,4 @@ function propsAreEqual(
     );
 }
 
-const MemoizedHead = memo(Head, propsAreEqual);
-
-export default MemoizedHead;
+export default memo(Head, propsAreEqual);

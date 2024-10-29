@@ -1,11 +1,8 @@
-import { apiSlice } from "../api/apiSlice";
+import { apiSlice } from "../api";
 
-import type {
-    PaginationQueryArg,
-    PaginationResult,
-} from "../../types/Pagination";
+import type { PaginationQueryArg, PaginationResult } from "../../types";
 
-type UserId = string;
+export type UserId = string;
 
 interface UserAvatarQueryArg {
     id: UserId;

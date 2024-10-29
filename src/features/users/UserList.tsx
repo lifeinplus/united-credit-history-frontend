@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PanelHeader, Table } from "../../components";
-import type { SortConfigState } from "../../types/Sort";
+import type { SortConfigState } from "../../types";
 import { userListColumns } from "../../utils";
 
 import {
@@ -13,12 +13,12 @@ import {
     setToEntry,
     setTotal,
     setTotalPages,
-} from "../pagination/paginationSlice";
-import { selectSearchValue, setSearchSysName } from "../search/searchSlice";
-import { selectSortConfig, setSortConfig } from "../sortConfig/sortConfigSlice";
-import { selectTheme } from "../theme/themeSlice";
+} from "../pagination";
+import { selectSearchValue, setSearchSysName } from "../search";
+import { selectSortConfig, setSortConfig } from "../sortConfig";
+import { selectTheme } from "../theme";
 
-import { useGetUsersPaginatedQuery } from "./usersApiSlice";
+import { useGetUsersPaginatedQuery } from ".";
 
 const UserList = () => {
     const { t } = useTranslation(["user_list"]);

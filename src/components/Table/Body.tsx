@@ -5,22 +5,20 @@ import { Link } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
-    setUserEditModalData,
-    showDeleteUserModal,
+    setUserDeleteData,
+    setUserEditData,
+    showUserDeleteModal,
     showUserEditModal,
-} from "../../features/modalData/modalDataSlice";
-import {
-    selectSearchSysName,
-    selectSearchValue,
-} from "../../features/search/searchSlice";
-import { selectTheme } from "../../features/theme/themeSlice";
+} from "../../features/modals";
+import { selectSearchSysName, selectSearchValue } from "../../features/search";
+import { selectTheme } from "../../features/theme";
 import type {
     TableBodyProps,
     TableColumn,
     TableData,
     TableDiffBadges,
     TableRowProps,
-} from "../../types/Table";
+} from "../../types";
 import { getDateFormat, langs } from "../../utils";
 
 import BadgeText from "./BadgeText";
@@ -152,7 +150,7 @@ const Body = ({
         const handleEdit = () => {
             dispatch(showUserEditModal());
             dispatch(
-                setUserEditModalData({
+                setUserEditData({
                     roles,
                     userId,
                     username,
@@ -161,8 +159,9 @@ const Body = ({
         };
 
         const handleDelete = () => {
+            dispatch(showUserDeleteModal());
             dispatch(
-                showDeleteUserModal({
+                setUserDeleteData({
                     userId,
                     username,
                 })
@@ -363,6 +362,4 @@ function propsAreEqual(
     return areColumnsEqual && Boolean(isDataEqual);
 }
 
-const MemoizedBody = memo(Body, propsAreEqual);
-
-export default MemoizedBody;
+export default memo(Body, propsAreEqual);

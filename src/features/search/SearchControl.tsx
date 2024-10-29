@@ -2,12 +2,8 @@ import { useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { setActivePage } from "../pagination/paginationSlice";
-import {
-    selectSearchValue,
-    setSearchFocus,
-    setSearchValue,
-} from "./searchSlice";
+import { setActivePage } from "../pagination";
+import { selectSearchValue, setSearchFocus, setSearchValue } from ".";
 
 const SearchControl = () => {
     const searchRef = useRef<HTMLInputElement>(null);
