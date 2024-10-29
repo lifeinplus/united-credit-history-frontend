@@ -1,6 +1,8 @@
 {
     "table": {
         "creationDate": "Creation Date",
+        "firstName": "First Name",
+        "lastName": "Last Name",
         "username": "Username",
         "roles": "Roles"
     },

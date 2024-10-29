@@ -1,6 +1,8 @@
 {
     "table": {
         "creationDate": "Oluşturma tarihi",
+        "firstName": "Ad",
+        "lastName": "Soyadı",
         "username": "Kullanıcı adı",
         "roles": "Roller"
     },

@@ -293,6 +293,18 @@ export const userListColumns: TableColumn[] = [
         alignment: "text-start",
         dataType: "text",
         sortType: "text",
+        sysName: "firstName",
+    },
+    {
+        alignment: "text-start",
+        dataType: "text",
+        sortType: "text",
+        sysName: "lastName",
+    },
+    {
+        alignment: "text-start",
+        dataType: "text",
+        sortType: "text",
         sysName: "username",
     },
     {
