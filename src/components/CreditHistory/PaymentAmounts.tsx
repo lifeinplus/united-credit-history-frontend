@@ -6,12 +6,10 @@ import { selectShowExtendedData } from "../../features/extendedData";
 import { selectTheme } from "../../features/theme";
 import type {
     AmountContextField,
-    GroupProps,
+    ListGroupProps,
     PaymentAmountsProps,
-} from "../../types/CreditHistory";
-import { langs } from "../../utils";
-
-import { obligationFields, paymentFields } from "./utils";
+} from "../../types";
+import { langs, obligationFields, paymentFields } from "../../utils";
 
 const PaymentAmounts = ({ data }: PaymentAmountsProps) => {
     const { i18n, t } = useTranslation(["credit_history"]);
@@ -39,10 +37,10 @@ const PaymentAmounts = ({ data }: PaymentAmountsProps) => {
     return (
         <div className="row justify-content-between text-center">
             <div className={showExtendedData ? "col-lg-4" : "col-lg-5"}>
-                <Group amounts={obligations} justify="start" />
+                <ListGroup amounts={obligations} justify="start" />
             </div>
             <div className={showExtendedData ? "col-lg-8" : "col-lg-7"}>
-                <Group amounts={payments} justify="end" />
+                <ListGroup amounts={payments} justify="end" />
             </div>
         </div>
     );
@@ -78,7 +76,7 @@ const PaymentAmounts = ({ data }: PaymentAmountsProps) => {
             });
     }
 
-    function Group({ amounts, justify }: GroupProps) {
+    function ListGroup({ amounts, justify }: ListGroupProps) {
         const theme = useAppSelector(selectTheme);
 
         return (

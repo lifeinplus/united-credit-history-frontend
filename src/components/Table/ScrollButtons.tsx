@@ -2,7 +2,7 @@ import { memo } from "react";
 
 import { useAppSelector } from "../../app/hooks";
 import { selectTheme } from "../../features/theme";
-import type { TableScrollButtons } from "../../types/Table";
+import type { TableScrollButtons } from "../../types";
 
 const ScrollButtons = ({ btnRefs, handleScroll }: TableScrollButtons) => {
     const theme = useAppSelector(selectTheme);

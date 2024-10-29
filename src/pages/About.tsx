@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../app/hooks";
 import { PanelHeader } from "../components";
 import { selectTheme } from "../features/theme";
-import type { LegendProps, TaskProps, TitleProps } from "../types/About";
+import type { LegendProps, TaskProps, TitleProps } from "../types";
 
 const About = () => {
     const { t } = useTranslation(["about"]);

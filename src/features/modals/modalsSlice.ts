@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { AuthState } from "../../types/Auth";
+import type { AuthState } from "../../types";
 
 type Status = "idle" | "loading" | "failed";
 

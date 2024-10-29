@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { TableData } from "../../../types/Table";
+import type { TableData } from "../../../types";
 
 const useRowActive = (isRowActive: boolean, data: TableData[]) => {
     return useMemo(() => {

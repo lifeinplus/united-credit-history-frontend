@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { useLoginUserMutation, setCredentials } from "../features/auth";
 import { selectTheme } from "../features/theme";
 import { useInput } from "../hooks";
-import { isDataMessageError, isFetchBaseQueryError } from "../services/helpers";
+import { isDataMessageError, isFetchBaseQueryError } from "../utils";
 
 const Login = () => {
     const location = useLocation();

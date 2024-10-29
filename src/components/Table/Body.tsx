@@ -18,7 +18,7 @@ import type {
     TableData,
     TableDiffBadges,
     TableRowProps,
-} from "../../types/Table";
+} from "../../types";
 import { getDateFormat, langs } from "../../utils";
 
 import BadgeText from "./BadgeText";

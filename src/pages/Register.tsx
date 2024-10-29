@@ -9,7 +9,7 @@ import { useAppSelector } from "../app/hooks";
 import { useRegisterUserMutation } from "../features/auth";
 import { selectTheme } from "../features/theme";
 import { useInput } from "../hooks";
-import { isDataMessageError, isFetchBaseQueryError } from "../services/helpers";
+import { isDataMessageError, isFetchBaseQueryError } from "../utils";
 
 const Register = () => {
     const navigate = useNavigate();

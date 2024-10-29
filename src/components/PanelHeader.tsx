@@ -4,12 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { ExtendControl } from "../features/extendedData";
 import { SearchControl } from "../features/search";
-
-import type {
-    PanelHeaderProps,
-    PanelHeaderFieldProps,
-} from "../types/PanelHeader";
-
+import type { PanelHeaderProps, PanelHeaderFieldProps } from "../types";
 import { getDateFormat, langs } from "../utils";
 
 const PanelHeader = ({

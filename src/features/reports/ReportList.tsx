@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PanelHeader, Table } from "../../components";
-import type { SortConfigState } from "../../types/Sort";
+import type { SortConfigState } from "../../types";
 import { reportListColumns } from "../../utils";
 
 import {

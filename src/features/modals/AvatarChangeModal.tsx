@@ -9,7 +9,7 @@ import {
     ensureUserId,
     isDataMessageError,
     isFetchBaseQueryError,
-} from "../../services/helpers";
+} from "../../utils";
 
 import { useChangeUserAvatarByIdMutation, type UserId } from "../users";
 

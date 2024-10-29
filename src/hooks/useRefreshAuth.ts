@@ -1,7 +1,7 @@
 import { useAppDispatch } from "../app/hooks";
 import { axiosPrivate } from "../features/api";
 import { setCredentials } from "../features/auth";
-import { AuthState } from "../types/Auth";
+import { AuthState } from "../types";
 
 const useRefreshAuth = () => {
     const dispatch = useAppDispatch();

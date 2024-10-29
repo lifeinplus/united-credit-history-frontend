@@ -6,7 +6,7 @@ import {
 import { BASE_URL } from "./axios";
 
 import { logOut, setCredentials } from "../auth/authSlice";
-import type { AuthState } from "../../types/Auth";
+import type { AuthState } from "../../types";
 
 const baseQuery = fetchBaseQuery({
     baseUrl: BASE_URL,

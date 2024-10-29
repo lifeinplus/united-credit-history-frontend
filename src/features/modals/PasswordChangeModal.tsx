@@ -8,7 +8,7 @@ import {
     ensureUserId,
     isDataMessageError,
     isFetchBaseQueryError,
-} from "../../services/helpers";
+} from "../../utils";
 
 import { useChangeUserPasswordByIdMutation, type UserId } from "../users";
 

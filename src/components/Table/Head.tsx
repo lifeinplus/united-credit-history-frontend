@@ -9,7 +9,7 @@ import {
     selectSortConfig,
 } from "../../features/sortConfig";
 import { selectTheme } from "../../features/theme";
-import type { TableHeadProps } from "../../types/Table";
+import type { TableHeadProps } from "../../types";
 
 import { useTooltip } from "./hooks";
 

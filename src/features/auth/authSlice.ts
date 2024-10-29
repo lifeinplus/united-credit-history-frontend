@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { AuthState } from "../../types/Auth";
+import type { AuthState } from "../../types";
 
 const initialState: AuthState = {};
 

@@ -3,9 +3,8 @@ import { apiSlice } from "../api";
 import type {
     PaginationQueryArg,
     PaginationResult,
-} from "../../types/Pagination";
-
-import type { ReportFull } from "../../types/Report";
+    ReportFull,
+} from "../../types";
 
 type ReportId = string;
 

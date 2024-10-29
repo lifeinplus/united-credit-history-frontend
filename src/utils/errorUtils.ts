@@ -1,11 +1,6 @@
 import type { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import type { UserId } from "../features/users";
 
-interface DataMessageError {
-    data: { message: string };
-    status: number;
-}
-
 export function ensureAvatar(avatar?: File) {
     if (!avatar) {
         throw new Error("Please select an avatar to upload");
@@ -18,6 +13,11 @@ export function ensureUserId(id?: UserId) {
         throw new Error("User ID is missing");
     }
     return id;
+}
+
+interface DataMessageError {
+    data: { message: string };
+    status: number;
 }
 
 export function isDataMessageError(error: unknown): error is DataMessageError {

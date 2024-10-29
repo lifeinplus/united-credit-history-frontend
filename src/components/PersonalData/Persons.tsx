@@ -1,12 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { Table } from "../../components";
-import type { PersonsProps } from "../../types/PersonalData";
-import { tableColumns } from "./utils";
+import type { PersonsProps } from "../../types";
+import { personsColumns } from "../../utils";
 
 const Persons = ({ persons }: PersonsProps) => {
     const { t } = useTranslation(["personal_data"]);
 
-    const columns = tableColumns.map((item) => ({
+    const columns = personsColumns.map((item) => ({
         ...item,
         name: t(`document.${item.sysName}`),
     }));

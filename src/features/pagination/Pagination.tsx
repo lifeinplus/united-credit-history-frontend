@@ -3,7 +3,7 @@ import { memo, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import type { PageItemProps, PaginationProps } from "../../types/Pagination";
+import type { PageItemProps, PaginationProps } from "../../types";
 
 import { selectSearchFocus } from "../search";
 import { selectTheme } from "../theme";

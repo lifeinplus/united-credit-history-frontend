@@ -1,9 +1,6 @@
 import { apiSlice } from "../api";
 
-import type {
-    PaginationQueryArg,
-    PaginationResult,
-} from "../../types/Pagination";
+import type { PaginationQueryArg, PaginationResult } from "../../types";
 
 export type UserId = string;
 

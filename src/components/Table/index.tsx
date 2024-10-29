@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useAppSelector } from "../../app/hooks";
 import { Pagination } from "../../features/pagination";
 import { selectTheme } from "../../features/theme";
-import type { TableProps } from "../../types/Table";
+import type { TableProps } from "../../types";
 
 import {
     useRowActive,

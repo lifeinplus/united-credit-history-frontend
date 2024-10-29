@@ -5,7 +5,7 @@ import type {
     AuthQueryRegister,
     AuthResultLogin,
     AuthResultRegister,
-} from "../../types/Auth";
+} from "../../types";
 
 const authApiSlice = apiSlice.injectEndpoints({
     endpoints: (build) => ({
