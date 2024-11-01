@@ -36,7 +36,12 @@ const Login = () => {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        const form = e.currentTarget;
         setValidated(true);
+
+        if (!form.checkValidity()) return;
+
         setStatus("loading");
 
         const runLoginUser = async () => {
@@ -70,28 +75,24 @@ const Login = () => {
     return (
         <section className={classNames("uch-auth", "my-10", "m-auto")}>
             <h1 className="h3 mb-3 fw-normal">{t("titles.login")}</h1>
-            <Form
-                className={validated ? "was-validated" : undefined}
-                noValidate
-                onSubmit={handleSubmit}
-            >
+            <Form noValidate onSubmit={handleSubmit} validated={validated}>
                 <Form.Floating>
                     <Form.Control
-                        id="floatingUsername"
+                        id="username"
                         placeholder={t("labels.username")}
                         ref={usernameRef}
                         required
                         type="text"
                         {...usernameAttributes}
                     />
-                    <Form.Label htmlFor="floatingUsername">
+                    <Form.Label htmlFor="username">
                         {t("labels.username")}
                     </Form.Label>
                 </Form.Floating>
 
                 <Form.Floating>
                     <Form.Control
-                        id="floatingPassword"
+                        id="password"
                         minLength={8}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder={t("labels.password")}
@@ -99,7 +100,7 @@ const Login = () => {
                         type="password"
                         value={password}
                     />
-                    <Form.Label htmlFor="floatingPassword">
+                    <Form.Label htmlFor="password">
                         {t("labels.password")}
                     </Form.Label>
                 </Form.Floating>
