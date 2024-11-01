@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { Button, Col, Form, Row, Spinner } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -8,24 +8,41 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
 import { useRegisterUserMutation } from "../features/auth";
 import { selectTheme } from "../features/theme";
-import { useInput } from "../hooks";
+import { useLocalStorage } from "../hooks";
 import { isDataMessageError, isFetchBaseQueryError } from "../utils";
+
+type Field =
+    | "firstName"
+    | "lastName"
+    | "username"
+    | "password"
+    | "confirmPassword";
+
+interface ErrorData extends Partial<Record<Field, boolean>> {}
+
+interface FormData extends Record<Field, string> {}
 
 const Register = () => {
     const navigate = useNavigate();
     const { t } = useTranslation(["auth"]);
 
     const theme = useAppSelector(selectTheme);
+    const [storageUsername, setStorageUsername] = useLocalStorage(
+        "username",
+        ""
+    );
 
     const firstNameRef = useRef<HTMLInputElement>(null);
     const [status, setStatus] = useState("idle");
-    const [validated, setValidated] = useState(false);
+    const [errorData, setErrorData] = useState<ErrorData>({});
 
-    const [firstName, firstNameAttributes] = useInput("firstName", "");
-    const [lastName, lastNameAttributes] = useInput("lastName", "");
-    const [username, usernameAttributes] = useInput("username", "");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [formData, setFormData] = useState<FormData>({
+        firstName: "",
+        lastName: "",
+        username: storageUsername || "",
+        password: "",
+        confirmPassword: "",
+    });
 
     const [registerUser] = useRegisterUserMutation();
 
@@ -33,20 +50,62 @@ const Register = () => {
         firstNameRef.current?.focus();
     }, []);
 
+    const validateForm = () => {
+        const newErrors: ErrorData = {};
+
+        const validateField = (field: Field) => {
+            if (!formData[field]) newErrors[field] = true;
+        };
+
+        validateField("firstName");
+        validateField("lastName");
+        validateField("username");
+
+        if (formData.password.length < 8) {
+            newErrors.password = true;
+        }
+
+        if (
+            !formData.confirmPassword ||
+            formData.confirmPassword !== formData.password
+        ) {
+            newErrors.confirmPassword = true;
+        }
+
+        setErrorData(newErrors);
+
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleFormData = (e: ChangeEvent<HTMLInputElement>) => {
+        const { id, value } = e.target;
+        const newFormData = { ...formData, [id]: value };
+
+        if (id === "firstName" || id === "lastName") {
+            const newUsername = [newFormData.firstName, newFormData.lastName]
+                .filter(Boolean)
+                .join(".")
+                .toLowerCase();
+
+            newFormData.username = newUsername;
+            setErrorData((prev) => ({ ...prev, username: false }));
+        }
+
+        setFormData(newFormData);
+        setErrorData((prev) => ({ ...prev, [id]: "" }));
+    };
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setValidated(true);
+
+        if (!validateForm()) return;
+
         setStatus("loading");
+        setStorageUsername(formData.username);
 
         const runRegisterUser = async () => {
             try {
-                const response = await registerUser({
-                    firstName,
-                    lastName,
-                    username,
-                    password,
-                    confirmPassword,
-                }).unwrap();
+                const response = await registerUser(formData).unwrap();
 
                 toast.success(response.message);
                 setStatus("succeeded");
@@ -74,23 +133,24 @@ const Register = () => {
     return (
         <section className={classNames("uch-register", "my-10", "m-auto")}>
             <h1 className="h3 mb-3 fw-normal">{t("titles.register")}</h1>
-            <Form
-                className={validated ? "was-validated" : undefined}
-                noValidate
-                onSubmit={handleSubmit}
-            >
+            <Form noValidate onSubmit={handleSubmit}>
                 <Row className="mb-4">
                     <Col>
                         <Form.Floating>
                             <Form.Control
-                                id="floatingFirstName"
+                                id="firstName"
+                                isInvalid={errorData.firstName}
+                                isValid={!!formData.firstName}
+                                onChange={handleFormData}
                                 placeholder={t("labels.firstName")}
                                 ref={firstNameRef}
-                                required
                                 type="text"
-                                {...firstNameAttributes}
+                                value={formData.firstName}
                             />
-                            <Form.Label htmlFor="floatingFirstName">
+                            <Form.Control.Feedback type="invalid">
+                                {t("errors.firstName")}
+                            </Form.Control.Feedback>
+                            <Form.Label htmlFor="firstName">
                                 {t("labels.firstName")}
                             </Form.Label>
                         </Form.Floating>
@@ -98,13 +158,18 @@ const Register = () => {
                     <Col>
                         <Form.Floating>
                             <Form.Control
-                                id="floatingLastName"
+                                id="lastName"
+                                isInvalid={errorData.lastName}
+                                isValid={!!formData.lastName}
+                                onChange={handleFormData}
                                 placeholder={t("labels.lastName")}
-                                required
                                 type="text"
-                                {...lastNameAttributes}
+                                value={formData.lastName}
                             />
-                            <Form.Label htmlFor="floatingLastName">
+                            <Form.Control.Feedback type="invalid">
+                                {t("errors.lastName")}
+                            </Form.Control.Feedback>
+                            <Form.Label htmlFor="lastName">
                                 {t("labels.lastName")}
                             </Form.Label>
                         </Form.Floating>
@@ -113,13 +178,18 @@ const Register = () => {
 
                 <Form.Floating>
                     <Form.Control
-                        id="floatingUsername"
+                        id="username"
+                        isInvalid={errorData.username}
+                        isValid={!!formData.username}
+                        onChange={handleFormData}
                         placeholder={t("labels.username")}
-                        required
                         type="text"
-                        {...usernameAttributes}
+                        value={formData.username}
                     />
-                    <Form.Label htmlFor="floatingUsername">
+                    <Form.Control.Feedback type="invalid">
+                        {t("errors.username")}
+                    </Form.Control.Feedback>
+                    <Form.Label htmlFor="username">
                         {t("labels.username")}
                     </Form.Label>
                 </Form.Floating>
@@ -128,15 +198,18 @@ const Register = () => {
                     <Col>
                         <Form.Floating>
                             <Form.Control
-                                id="floatingPassword"
-                                minLength={8}
-                                onChange={(e) => setPassword(e.target.value)}
+                                id="password"
+                                isInvalid={errorData.password}
+                                isValid={formData.password.length >= 8}
+                                onChange={handleFormData}
                                 placeholder={t("labels.password")}
-                                required
                                 type="password"
-                                value={password}
+                                value={formData.password}
                             />
-                            <Form.Label htmlFor="floatingPassword">
+                            <Form.Control.Feedback type="invalid">
+                                {t("errors.password")}
+                            </Form.Control.Feedback>
+                            <Form.Label htmlFor="password">
                                 {t("labels.password")}
                             </Form.Label>
                         </Form.Floating>
@@ -144,17 +217,18 @@ const Register = () => {
                     <Col>
                         <Form.Floating>
                             <Form.Control
-                                id="floatingConfirmPassword"
-                                minLength={8}
-                                onChange={(e) =>
-                                    setConfirmPassword(e.target.value)
-                                }
+                                id="confirmPassword"
+                                isInvalid={errorData.confirmPassword}
+                                isValid={formData.confirmPassword.length >= 8}
+                                onChange={handleFormData}
                                 placeholder={t("labels.confirmPassword")}
-                                required
                                 type="password"
-                                value={confirmPassword}
+                                value={formData.confirmPassword}
                             />
-                            <Form.Label htmlFor="floatingConfirmPassword">
+                            <Form.Control.Feedback type="invalid">
+                                {t("errors.confirmPassword")}
+                            </Form.Control.Feedback>
+                            <Form.Label htmlFor="confirmPassword">
                                 {t("labels.confirmPassword")}
                             </Form.Label>
                         </Form.Floating>
