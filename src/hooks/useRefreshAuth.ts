@@ -1,5 +1,5 @@
 import { useAppDispatch } from "../app/hooks";
-import { axiosPrivate } from "../features/api";
+import { axiosClient } from "../features/api";
 import { setCredentials } from "../features/auth";
 import { AuthState } from "../types";
 
@@ -7,7 +7,7 @@ const useRefreshAuth = () => {
     const dispatch = useAppDispatch();
 
     return async () => {
-        const data: AuthState = await axiosPrivate
+        const data: AuthState = await axiosClient
             .get("auth/refresh")
             .then((response) => response.data);
 

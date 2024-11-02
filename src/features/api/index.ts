@@ -1,2 +1,2 @@
 export * from "./apiSlice";
-export * from "./axios";
+export * from "./axiosClient";
