@@ -1,35 +1,22 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "../../app/hooks";
 import { Table } from "../../components";
 import { selectShowExtendedData } from "../../features/extendedData";
-import { setSortConfig } from "../../features/sortConfig";
-import type { LoansProps, SortConfigState } from "../../types";
+import type { LoansProps } from "../../types";
 import { getDateFormat, loansColumns, TimePeriod } from "../../utils";
 
 const Loans = ({ loans, reportCreationDate }: LoansProps) => {
     const { i18n, t } = useTranslation(["credit_history"]);
 
-    const dispatch = useAppDispatch();
     const showExtendedData = useAppSelector(selectShowExtendedData);
     const dateFormat = getDateFormat("ru", "status");
     const columns = defineColumns();
 
-    const sortConfig: SortConfigState = {
-        sortOrder: "asc",
-        sortSysName: "chbPayment",
-        sortSysNameStatus: "chbPaymentStatus",
-        sortType: "numeric",
-    };
-
-    useEffect(() => {
-        dispatch(setSortConfig(sortConfig));
-    }, []);
-
     return (
         <Table
-            id={"ch"}
+            id="loans"
             columns={columns}
             data={loans}
             isRowActive={true}

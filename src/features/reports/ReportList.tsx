@@ -4,9 +4,8 @@ import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PanelHeader, Table } from "../../components";
-import type { SortConfigState } from "../../types";
+import type { TableId } from "../../types";
 import { reportListColumns } from "../../utils";
-
 import {
     selectActivePage,
     setFromEntry,
@@ -15,9 +14,8 @@ import {
     setTotalPages,
 } from "../pagination";
 import { selectSearchValue, setSearchSysName } from "../search";
-import { selectSortConfig, setSortConfig } from "../sortConfig";
+import { selectSortConfig } from "../sortConfig";
 import { selectTheme } from "../theme";
-
 import { useGetReportsPaginatedQuery } from ".";
 
 const ReportList = () => {
@@ -27,24 +25,22 @@ const ReportList = () => {
     const theme = useAppSelector(selectTheme);
     const searchValue = useAppSelector(selectSearchValue);
     const page = useAppSelector(selectActivePage);
-    const { sortOrder, sortSysName } = useAppSelector(selectSortConfig);
 
-    const sortConfig: SortConfigState = {
-        sortOrder: "asc",
-        sortSysName: "appNumber",
-    };
+    const tableId: TableId = "reports";
+    const { sortOrder, sortSysName } = useAppSelector((state) =>
+        selectSortConfig(state, tableId)
+    );
 
     useEffect(() => {
         dispatch(setSearchSysName("clientName"));
-        dispatch(setSortConfig(sortConfig));
     }, []);
 
     const { data, isFetching } = useGetReportsPaginatedQuery({
         limit: 10,
         page,
         searchValue,
-        sortOrder: sortOrder || sortConfig.sortOrder,
-        sortSysName: sortSysName || sortConfig.sortSysName,
+        sortOrder,
+        sortSysName,
     });
 
     useEffect(() => {
@@ -77,7 +73,7 @@ const ReportList = () => {
                     <div className="row">
                         <div className="col">
                             <Table
-                                id={"rl"}
+                                id="reports"
                                 columns={columns}
                                 data={data?.results}
                                 isFetching={isFetching}

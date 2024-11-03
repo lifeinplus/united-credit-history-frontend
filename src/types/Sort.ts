@@ -1,12 +1,18 @@
+import type { TableId } from "./Table";
+
 export type SortOrder = "asc" | "desc";
 export type SortType = "numeric" | "numericArray" | "text";
 
-export interface SortConfigState {
+export interface SortConfig {
     sortOrder?: SortOrder;
     sortSysName?: string;
     sortSysNameStatus?: string;
     sortType?: SortType;
 }
+
+export type SortConfigState = {
+    [tableId in TableId]: SortConfig;
+};
 
 interface SortCompareOptions {
     statusA: string | number;

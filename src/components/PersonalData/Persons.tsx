@@ -13,7 +13,7 @@ const Persons = ({ persons }: PersonsProps) => {
 
     return (
         <Table
-            id={"pd"}
+            id="persons"
             columns={columns}
             data={persons}
             isMobileView={true}

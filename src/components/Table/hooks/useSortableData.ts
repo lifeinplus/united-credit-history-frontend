@@ -2,11 +2,11 @@ import { useMemo } from "react";
 
 import { useAppSelector } from "../../../app/hooks";
 import { selectSortConfig } from "../../../features/sortConfig";
-import type { SortCompare, TableData } from "../../../types";
+import type { SortCompare, TableData, TableId } from "../../../types";
 
-const useSortableData = (data: TableData[]) => {
+const useSortableData = (data: TableData[], tableId: TableId) => {
     const { sortOrder, sortSysName, sortSysNameStatus, sortType } =
-        useAppSelector(selectSortConfig);
+        useAppSelector((state) => selectSortConfig(state, tableId));
 
     const sortedData = useMemo(() => {
         if (!sortType || !sortSysName) return data;

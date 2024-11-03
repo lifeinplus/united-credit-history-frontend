@@ -1,5 +1,5 @@
 import type { ReportRecord } from "./Report";
-import type { SortConfigState } from "./Sort";
+import type { SortConfig } from "./Sort";
 import type { User } from "./User";
 
 export type HandleSetPage = (page: number) => void;
@@ -13,7 +13,7 @@ export interface PaginationState {
 }
 
 export interface PaginationQueryArg
-    extends Pick<SortConfigState, "sortOrder" | "sortSysName"> {
+    extends Pick<SortConfig, "sortOrder" | "sortSysName"> {
     limit: number;
     page: number;
     searchValue: string;

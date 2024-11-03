@@ -4,9 +4,8 @@ import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PanelHeader, Table } from "../../components";
-import type { SortConfigState } from "../../types";
+import type { TableId } from "../../types";
 import { userListColumns } from "../../utils";
-
 import {
     selectActivePage,
     setFromEntry,
@@ -15,9 +14,8 @@ import {
     setTotalPages,
 } from "../pagination";
 import { selectSearchValue, setSearchSysName } from "../search";
-import { selectSortConfig, setSortConfig } from "../sortConfig";
+import { selectSortConfig } from "../sortConfig";
 import { selectTheme } from "../theme";
-
 import { useGetUsersPaginatedQuery } from ".";
 
 const UserList = () => {
@@ -27,24 +25,22 @@ const UserList = () => {
     const theme = useAppSelector(selectTheme);
     const searchValue = useAppSelector(selectSearchValue);
     const page = useAppSelector(selectActivePage);
-    const { sortOrder, sortSysName } = useAppSelector(selectSortConfig);
 
-    const sortConfig: SortConfigState = {
-        sortOrder: "asc",
-        sortSysName: "creationDate",
-    };
+    const tableId: TableId = "users";
+    const { sortOrder, sortSysName } = useAppSelector((state) =>
+        selectSortConfig(state, tableId)
+    );
 
     useEffect(() => {
         dispatch(setSearchSysName("username"));
-        dispatch(setSortConfig(sortConfig));
     }, []);
 
     const { data, isFetching } = useGetUsersPaginatedQuery({
         limit: 9,
         page,
         searchValue,
-        sortOrder: sortOrder || sortConfig.sortOrder,
-        sortSysName: sortSysName || sortConfig.sortSysName,
+        sortOrder,
+        sortSysName,
     });
 
     useEffect(() => {
@@ -77,7 +73,7 @@ const UserList = () => {
                     <div className="row">
                         <div className="col">
                             <Table
-                                id={"ul"}
+                                id={tableId}
                                 columns={columns}
                                 data={data?.results}
                                 isActions={true}
