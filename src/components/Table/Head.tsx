@@ -1,33 +1,24 @@
 import classNames from "classnames";
-import { forwardRef, memo, useEffect } from "react";
+import { forwardRef, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-    requestSort,
-    resetSortConfig,
-    selectSortConfig,
-} from "../../features/sortConfig";
+import { requestSort, selectSortConfig } from "../../features/sortConfig";
 import { selectTheme } from "../../features/theme";
 import type { TableHeadProps } from "../../types";
-
 import { useTooltip } from "./hooks";
 
 const Head = forwardRef<HTMLTableSectionElement, TableHeadProps>(
-    ({ columns, isActions, isTooltips }, ref) => {
+    ({ columns, isActions, isTooltips, tableId }, ref) => {
         const { t } = useTranslation("table");
 
         const dispatch = useAppDispatch();
-        const { sortOrder, sortSysName } = useAppSelector(selectSortConfig);
         const theme = useAppSelector(selectTheme);
-
         useTooltip(isTooltips, columns);
 
-        useEffect(() => {
-            return () => {
-                dispatch(resetSortConfig());
-            };
-        }, []);
+        const { sortOrder, sortSysName } = useAppSelector((state) =>
+            selectSortConfig(state, tableId)
+        );
 
         return (
             <thead className="align-middle" ref={ref}>
@@ -81,8 +72,10 @@ const Head = forwardRef<HTMLTableSectionElement, TableHeadProps>(
                                               dispatch(
                                                   requestSort({
                                                       sortType,
-                                                      sysName,
-                                                      sysNameStatus,
+                                                      sortSysName: sysName,
+                                                      sortSysNameStatus:
+                                                          sysNameStatus,
+                                                      tableId,
                                                   })
                                               )
                                         : undefined
@@ -105,19 +98,12 @@ const Head = forwardRef<HTMLTableSectionElement, TableHeadProps>(
 );
 
 function propsAreEqual(
-    {
-        columns: prevColumns,
-        sortSysName: prevSortSysName,
-    }: Readonly<TableHeadProps>,
-    {
-        columns: nextColumns,
-        sortSysName: nextSortSysName,
-    }: Readonly<TableHeadProps>
+    { columns: prevColumns }: Readonly<TableHeadProps>,
+    { columns: nextColumns }: Readonly<TableHeadProps>
 ): boolean {
     return (
         prevColumns.length === nextColumns.length &&
-        prevColumns.every((item, i) => item.name === nextColumns[i].name) &&
-        prevSortSysName === nextSortSysName
+        prevColumns.every((item, i) => item.name === nextColumns[i].name)
     );
 }
 

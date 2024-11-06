@@ -26,8 +26,8 @@ interface UserQueryResult {
 }
 
 const usersApiSlice = apiSlice.injectEndpoints({
-    endpoints: (build) => ({
-        changeUserAvatarById: build.mutation<
+    endpoints: (builder) => ({
+        changeUserAvatarById: builder.mutation<
             UserQueryResult,
             UserAvatarQueryArg
         >({
@@ -37,7 +37,7 @@ const usersApiSlice = apiSlice.injectEndpoints({
                 body: formData,
             }),
         }),
-        changeUserPasswordById: build.mutation<
+        changeUserPasswordById: builder.mutation<
             UserQueryResult,
             UserPasswordQueryArg
         >({
@@ -47,14 +47,14 @@ const usersApiSlice = apiSlice.injectEndpoints({
                 body: { currentPassword, newPassword },
             }),
         }),
-        deleteUserById: build.mutation<UserQueryResult, UserId>({
+        deleteUserById: builder.mutation<UserQueryResult, UserId>({
             query: (id) => ({
                 url: `users/${id}`,
                 method: "DELETE",
             }),
             invalidatesTags: ["Users"],
         }),
-        editUserById: build.mutation<UserQueryResult, UserQueryArg>({
+        editUserById: builder.mutation<UserQueryResult, UserQueryArg>({
             query: ({ id, isResetPassword, roles }) => ({
                 url: `users/${id}`,
                 method: "PUT",
@@ -62,10 +62,25 @@ const usersApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["Users"],
         }),
-        getUsersPaginated: build.query<PaginationResult, PaginationQueryArg>({
-            query: ({ limit, page, searchValue, sortOrder, sortSysName }) =>
-                `users/paginated?page=${page}&limit=${limit}&search=${searchValue}&sort=${sortSysName}&order=${sortOrder}`,
-            keepUnusedDataFor: 5,
+        getUsersPaginated: builder.query<PaginationResult, PaginationQueryArg>({
+            query: ({ limit, page, searchValue, sortOrder, sortSysName }) => {
+                let query = `users/paginated?page=${page}&limit=${limit}`;
+
+                if (searchValue) {
+                    query += `&search=${encodeURIComponent(searchValue)}`;
+                }
+
+                if (sortSysName) {
+                    query += `&sort=${encodeURIComponent(sortSysName)}`;
+                }
+
+                if (sortOrder) {
+                    query += `&order=${encodeURIComponent(sortOrder)}`;
+                }
+
+                return query;
+            },
+            keepUnusedDataFor: 1,
             providesTags: ["Users"],
         }),
     }),

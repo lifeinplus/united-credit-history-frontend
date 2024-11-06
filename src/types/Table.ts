@@ -14,6 +14,8 @@ export type DataType =
 
 export type TableData = Loan | Person | ReportRecord | User;
 
+export type TableId = "loans" | "persons" | "reports" | "users";
+
 export interface TableColumn {
     alignment?: string;
     badgeEqual?: string;
@@ -32,7 +34,7 @@ export interface TableColumn {
 }
 
 export interface TableProps {
-    id: string;
+    id: TableId;
     columns: TableColumn[];
     data?: TableData[];
     isActions?: boolean;
@@ -51,7 +53,7 @@ export interface TableHeadProps {
     columns: TableColumn[];
     isActions: boolean;
     isTooltips: boolean;
-    sortSysName?: string;
+    tableId: TableId;
 }
 
 export interface TableBodyProps {

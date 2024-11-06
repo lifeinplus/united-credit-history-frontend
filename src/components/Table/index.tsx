@@ -4,14 +4,12 @@ import { useAppSelector } from "../../app/hooks";
 import { Pagination } from "../../features/pagination";
 import { selectTheme } from "../../features/theme";
 import type { TableProps } from "../../types";
-
 import {
     useRowActive,
     useSortableData,
     useStickyHeader,
     useTableScroll,
 } from "./hooks";
-
 import Body from "./Body";
 import Head from "./Head";
 import ScrollButtons from "./ScrollButtons";
@@ -34,7 +32,7 @@ const Table = ({
     const theme = useAppSelector(selectTheme);
 
     const rowActiveData = useRowActive(isRowActive, data);
-    const sortedData = useSortableData(rowActiveData);
+    const sortedData = useSortableData(rowActiveData, id);
 
     const [tableWrapperRef, headerRef] = useStickyHeader(isStickyHeader);
     const [scrollWrapperRef, btnRefs, handleScroll] =
@@ -75,6 +73,7 @@ const Table = ({
                         isActions={isActions}
                         isTooltips={isTooltips}
                         ref={headerRef}
+                        tableId={id}
                     />
                     <Body
                         columns={columns}

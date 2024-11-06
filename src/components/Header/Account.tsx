@@ -4,10 +4,9 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { axiosPrivate, BASE_URL } from "../../features/api";
+import { axiosClient } from "../../features/api";
 import {
     logOut,
-    selectAvatarPath,
     selectFirstName,
     selectLastName,
     selectRoles,
@@ -21,6 +20,7 @@ import {
     showPasswordChangeModal,
 } from "../../features/modals";
 import { selectTheme } from "../../features/theme";
+import { useAvatar } from "../../hooks";
 
 const Account = () => {
     const navigate = useNavigate();
@@ -28,12 +28,13 @@ const Account = () => {
 
     const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
-    const avatarPath = useAppSelector(selectAvatarPath);
     const firstName = useAppSelector(selectFirstName);
     const lastName = useAppSelector(selectLastName);
     const roles = useAppSelector(selectRoles);
     const userId = useAppSelector(selectUserId) || "";
     const username = useAppSelector(selectUsername);
+
+    const avatarUrl = useAvatar();
 
     return username ? <Inside /> : <Outside />;
 
@@ -53,7 +54,7 @@ const Account = () => {
         };
 
         const handleLogout = async () => {
-            await axiosPrivate("/auth/logout")
+            await axiosClient("/auth/logout")
                 .then(() => {
                     dispatch(logOut());
                     navigate("/login");
@@ -75,9 +76,9 @@ const Account = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                 >
-                    {avatarPath ? (
+                    {avatarUrl ? (
                         <Image
-                            src={`${BASE_URL}/${avatarPath}`}
+                            src={avatarUrl}
                             rounded
                             width="16"
                             height="16"
