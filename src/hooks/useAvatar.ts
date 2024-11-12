@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 
 import { useAppSelector } from "../app/hooks";
-import { selectAvatarName, selectUserId } from "../features/auth";
+import {
+    selectAvatarName,
+    selectAvatarVersion,
+    selectUserId,
+} from "../features/auth";
 import useAxiosPrivate from "./useAxiosPrivate";
 
 export const useAvatar = () => {
     const [avatarURL, setAvatarURL] = useState<string>("");
     const avatarName = useAppSelector(selectAvatarName);
+    const avatarVersion = useAppSelector(selectAvatarVersion);
     const userId = useAppSelector(selectUserId);
     const axiosPrivate = useAxiosPrivate();
 
@@ -39,7 +44,7 @@ export const useAvatar = () => {
             setAvatarURL("");
             URL.revokeObjectURL(objectURL);
         };
-    }, [avatarName]);
+    }, [avatarName, avatarVersion]);
 
     return [avatarURL];
 };

@@ -22,6 +22,7 @@ interface UserQueryArg {
 }
 
 interface UserQueryResult {
+    avatarName: string;
     message: string;
 }
 

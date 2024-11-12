@@ -10,9 +10,8 @@ import {
     isDataMessageError,
     isFetchBaseQueryError,
 } from "../../utils";
-
+import { setAvatarName } from "../auth";
 import { useChangeUserAvatarByIdMutation, type UserId } from "../users";
-
 import { hideModals, selectStatus, selectAvatarChangeData, setStatus } from ".";
 
 const ChangeAvatarModal = () => {
@@ -61,7 +60,7 @@ const ChangeAvatarModal = () => {
                 formData,
             }).unwrap();
 
-            toast.success(response.message);
+            dispatch(setAvatarName(response.avatarName));
             handleHide();
         } catch (error) {
             dispatch(setStatus("failed"));

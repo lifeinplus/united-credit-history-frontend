@@ -28,6 +28,7 @@ export interface AuthRequireProps {
 export interface AuthState {
     accessToken?: string;
     avatarName?: string;
+    avatarVersion?: number;
     firstName?: string;
     lastName?: string;
     roles?: number[];
