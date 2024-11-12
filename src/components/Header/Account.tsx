@@ -34,9 +34,8 @@ const Account = () => {
     const userId = useAppSelector(selectUserId) || "";
     const username = useAppSelector(selectUsername);
 
+    const [avatarURL] = useAvatar();
     const [logoutUser] = useLogoutUserMutation();
-
-    const avatarUrl = useAvatar();
 
     return username ? <Inside /> : <Outside />;
 
@@ -79,9 +78,9 @@ const Account = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                 >
-                    {avatarUrl ? (
+                    {avatarURL ? (
                         <Image
-                            src={avatarUrl}
+                            src={avatarURL}
                             rounded
                             width="16"
                             height="16"

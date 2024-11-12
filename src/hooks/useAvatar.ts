@@ -1,38 +1,45 @@
 import { useEffect, useState } from "react";
 
 import { useAppSelector } from "../app/hooks";
-import { selectAvatarPath } from "../features/auth";
+import { selectAvatarName, selectUserId } from "../features/auth";
 import useAxiosPrivate from "./useAxiosPrivate";
 
 export const useAvatar = () => {
-    const [avatarUrl, setAvatarUrl] = useState<string>();
-    const avatarPath = useAppSelector(selectAvatarPath);
+    const [avatarURL, setAvatarURL] = useState<string>("");
+    const avatarName = useAppSelector(selectAvatarName);
+    const userId = useAppSelector(selectUserId);
     const axiosPrivate = useAxiosPrivate();
 
     useEffect(() => {
+        let objectURL: string = "";
+
         const fetchAvatar = async () => {
-            if (avatarPath) {
-                try {
-                    const response = await axiosPrivate.get(avatarPath, {
-                        responseType: "blob",
-                    });
+            if (!avatarName) return;
 
-                    const blob = response.data;
-                    const objectUrl = URL.createObjectURL(blob);
-                    setAvatarUrl(objectUrl);
+            try {
+                const response = await axiosPrivate.get(
+                    `users/${userId}/avatar/${avatarName}`,
+                    { responseType: "blob" }
+                );
 
-                    return () => URL.revokeObjectURL(objectUrl);
-                } catch (error) {
-                    console.error(
-                        "An error occurred while fetching the avatar:",
-                        error
-                    );
-                }
+                const blob = response.data;
+                objectURL = URL.createObjectURL(blob);
+                setAvatarURL(objectURL);
+            } catch (error) {
+                console.error(
+                    "An error occurred while fetching the avatar:",
+                    error
+                );
             }
         };
 
         fetchAvatar();
-    }, [avatarPath]);
 
-    return avatarUrl;
+        return () => {
+            setAvatarURL("");
+            URL.revokeObjectURL(objectURL);
+        };
+    }, [avatarName]);
+
+    return [avatarURL];
 };

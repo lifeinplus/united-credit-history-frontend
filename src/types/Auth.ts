@@ -14,7 +14,7 @@ export interface AuthQueryRegister {
 export interface AuthResultLogin
     extends Pick<
         AuthState,
-        "accessToken" | "avatarPath" | "roles" | "userId"
+        "accessToken" | "avatarName" | "roles" | "userId"
     > {}
 
 export interface AuthResultRegister {
@@ -27,7 +27,7 @@ export interface AuthRequireProps {
 
 export interface AuthState {
     accessToken?: string;
-    avatarPath?: string;
+    avatarName?: string;
     firstName?: string;
     lastName?: string;
     roles?: number[];

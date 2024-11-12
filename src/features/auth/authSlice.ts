@@ -12,7 +12,7 @@ export const authSlice = createSlice({
     },
     selectors: {
         selectAccessToken: (state) => state.accessToken,
-        selectAvatarPath: (state) => state.avatarPath,
+        selectAvatarName: (state) => state.avatarName,
         selectFirstName: (state) => state.firstName,
         selectLastName: (state) => state.lastName,
         selectRoles: (state) => state.roles,
@@ -25,7 +25,7 @@ export const { logOut, setCredentials } = authSlice.actions;
 
 export const {
     selectAccessToken,
-    selectAvatarPath,
+    selectAvatarName,
     selectFirstName,
     selectLastName,
     selectRoles,
