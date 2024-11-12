@@ -8,15 +8,21 @@ import type {
 } from "../../types";
 
 const authApiSlice = apiSlice.injectEndpoints({
-    endpoints: (build) => ({
-        loginUser: build.mutation<AuthResultLogin, AuthQueryLogin>({
+    endpoints: (builder) => ({
+        loginUser: builder.mutation<AuthResultLogin, AuthQueryLogin>({
             query: (credentials) => ({
                 url: "auth/login",
                 method: "POST",
                 body: { ...credentials },
             }),
         }),
-        registerUser: build.mutation<AuthResultRegister, AuthQueryRegister>({
+        logoutUser: builder.mutation<void, void>({
+            query: () => ({
+                url: "auth/logout",
+                method: "POST",
+            }),
+        }),
+        registerUser: builder.mutation<AuthResultRegister, AuthQueryRegister>({
             query: (credentials) => ({
                 url: "auth/register",
                 method: "POST",
@@ -26,4 +32,8 @@ const authApiSlice = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useLoginUserMutation, useRegisterUserMutation } = authApiSlice;
+export const {
+    useLoginUserMutation,
+    useLogoutUserMutation,
+    useRegisterUserMutation,
+} = authApiSlice;
