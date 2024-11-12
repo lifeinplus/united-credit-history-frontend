@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { axiosClient } from "../../features/api";
 import {
     logOut,
     selectFirstName,
@@ -12,6 +11,7 @@ import {
     selectRoles,
     selectUserId,
     selectUsername,
+    useLogoutUserMutation,
 } from "../../features/auth";
 import {
     setAvatarChangeData,
@@ -34,7 +34,8 @@ const Account = () => {
     const userId = useAppSelector(selectUserId) || "";
     const username = useAppSelector(selectUsername);
 
-    const avatarUrl = useAvatar();
+    const [avatarURL] = useAvatar();
+    const [logoutUser] = useLogoutUserMutation();
 
     return username ? <Inside /> : <Outside />;
 
@@ -54,12 +55,13 @@ const Account = () => {
         };
 
         const handleLogout = async () => {
-            await axiosClient("/auth/logout")
-                .then(() => {
-                    dispatch(logOut());
-                    navigate("/login");
-                })
-                .catch((error) => console.error(error));
+            try {
+                await logoutUser();
+                dispatch(logOut());
+                navigate("/login");
+            } catch (error) {
+                console.error(error);
+            }
         };
 
         return (
@@ -76,9 +78,9 @@ const Account = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                 >
-                    {avatarUrl ? (
+                    {avatarURL ? (
                         <Image
-                            src={avatarUrl}
+                            src={avatarURL}
                             rounded
                             width="16"
                             height="16"

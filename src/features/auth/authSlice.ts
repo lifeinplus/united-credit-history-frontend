@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { AuthState } from "../../types";
 
 const initialState: AuthState = {};
@@ -8,11 +8,20 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         logOut: () => initialState,
-        setCredentials: (_, action) => action.payload,
+        setAvatarName: (state, action: PayloadAction<string>) => {
+            const { avatarVersion: version } = state;
+            state.avatarName = action.payload;
+            state.avatarVersion = version ? version + 1 : 1;
+        },
+        setCredentials: (_, action: PayloadAction<AuthState>) => ({
+            ...action.payload,
+            avatarVersion: 0,
+        }),
     },
     selectors: {
         selectAccessToken: (state) => state.accessToken,
-        selectAvatarPath: (state) => state.avatarPath,
+        selectAvatarName: (state) => state.avatarName,
+        selectAvatarVersion: (state) => state.avatarVersion,
         selectFirstName: (state) => state.firstName,
         selectLastName: (state) => state.lastName,
         selectRoles: (state) => state.roles,
@@ -21,11 +30,12 @@ export const authSlice = createSlice({
     },
 });
 
-export const { logOut, setCredentials } = authSlice.actions;
+export const { logOut, setAvatarName, setCredentials } = authSlice.actions;
 
 export const {
     selectAccessToken,
-    selectAvatarPath,
+    selectAvatarName,
+    selectAvatarVersion,
     selectFirstName,
     selectLastName,
     selectRoles,
