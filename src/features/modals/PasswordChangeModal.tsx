@@ -1,4 +1,4 @@
-import { ChangeEvent, memo } from "react";
+import { ChangeEvent, memo, useState } from "react";
 import { Button, Form, Modal, Spinner } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -9,53 +9,94 @@ import {
     isDataMessageError,
     isFetchBaseQueryError,
 } from "../../utils";
-
 import { useChangeUserPasswordByIdMutation, type UserId } from "../users";
-
 import {
     hideModals,
     selectStatus,
     selectPasswordChangeData,
     setStatus,
-    setPasswordChangeData,
 } from ".";
 
+type Field = "currentPassword" | "newPassword";
+
+interface ErrorField {
+    length?: string;
+    match?: string;
+}
+
+interface ErrorData extends Record<Field, ErrorField> {}
+
+interface FormData extends Record<Field, string> {}
+
 const PasswordChangeModal = () => {
-    const { t } = useTranslation("modal");
+    const { t } = useTranslation(["modal", "auth"]);
 
     const dispatch = useAppDispatch();
     const status = useAppSelector(selectStatus);
-    const { currentPassword, newPassword, show, userId } = useAppSelector(
-        selectPasswordChangeData
-    );
+    const { show, userId } = useAppSelector(selectPasswordChangeData);
+
+    const initialFormData: FormData = {
+        currentPassword: "",
+        newPassword: "",
+    };
+
+    const initialErrorData: ErrorData = {
+        currentPassword: {},
+        newPassword: {},
+    };
+
+    const [formData, setFormData] = useState<FormData>(initialFormData);
+    const [errorData, setErrorData] = useState<ErrorData>(initialErrorData);
 
     const [changeUserPasswordById] = useChangeUserPasswordByIdMutation();
 
-    const handleCurrentPassword = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(
-            setPasswordChangeData({
-                currentPassword: e.target.value,
-            })
+    const validateForm = () => {
+        const newErrors: ErrorData = initialErrorData;
+
+        if (formData.currentPassword.length < 8) {
+            newErrors.currentPassword.length = t("errors.passwordLength", {
+                ns: "auth",
+            });
+        }
+
+        if (formData.newPassword.length < 8) {
+            newErrors.newPassword.length = t("errors.passwordLength", {
+                ns: "auth",
+            });
+        }
+
+        if (formData.newPassword === formData.currentPassword) {
+            newErrors.newPassword.match = t("errors.passwordsMatch", {
+                ns: "auth",
+            });
+        }
+
+        setErrorData(newErrors);
+
+        return Object.values<ErrorField>(newErrors).every(
+            (item) => Object.keys(item).length === 0
         );
     };
 
-    const handleNewPassword = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(
-            setPasswordChangeData({
-                newPassword: e.target.value,
-            })
-        );
+    const handleFormData = (e: ChangeEvent<HTMLInputElement>) => {
+        const { id, value } = e.target;
+        setFormData({ ...formData, [id]: value });
+        setErrorData({ ...errorData, [id]: {} });
     };
 
     const handleHide = () => {
+        setFormData(initialFormData);
+        setErrorData(initialErrorData);
         dispatch(hideModals());
     };
 
     const handleSave = () => {
+        if (!validateForm()) return;
+
         try {
             const verifiedUserId = ensureUserId(userId);
             dispatch(setStatus("loading"));
-            setTimeout(() => changePassword(verifiedUserId), 500);
+            setTimeout(() => runChangePassword(verifiedUserId), 500);
         } catch (error) {
             console.error(error);
             if (error instanceof Error) {
@@ -64,12 +105,11 @@ const PasswordChangeModal = () => {
         }
     };
 
-    const changePassword = async (id: UserId) => {
+    const runChangePassword = async (id: UserId) => {
         try {
             const response = await changeUserPasswordById({
                 id,
-                currentPassword,
-                newPassword,
+                ...formData,
             }).unwrap();
 
             toast.success(response.message);
@@ -99,18 +139,32 @@ const PasswordChangeModal = () => {
                         <Form.Label>{t("label.currentPassword")}</Form.Label>
                         <Form.Control
                             autoFocus
-                            onChange={handleCurrentPassword}
+                            isInvalid={!!errorData.currentPassword.length}
+                            isValid={formData.currentPassword.length >= 8}
+                            onChange={handleFormData}
                             type="password"
-                            value={currentPassword}
+                            value={formData.currentPassword}
                         />
+                        <Form.Control.Feedback type="invalid">
+                            {errorData.currentPassword.length}
+                        </Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group controlId="newPassword" className="mb-3">
                         <Form.Label>{t("label.newPassword")}</Form.Label>
                         <Form.Control
-                            onChange={handleNewPassword}
+                            isInvalid={
+                                !!errorData.newPassword.length ||
+                                !!errorData.newPassword.match
+                            }
+                            isValid={formData.newPassword.length >= 8}
+                            onChange={handleFormData}
                             type="password"
-                            value={newPassword}
+                            value={formData.newPassword}
                         />
+                        <Form.Control.Feedback type="invalid">
+                            {errorData.newPassword.length ||
+                                errorData.newPassword.match}
+                        </Form.Control.Feedback>
                     </Form.Group>
                 </Form>
             </Modal.Body>

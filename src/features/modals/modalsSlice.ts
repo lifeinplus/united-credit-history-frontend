@@ -8,8 +8,6 @@ interface AvatarChangeData extends Pick<AuthState, "userId"> {
 }
 
 interface PasswordChangeData extends Pick<AuthState, "userId"> {
-    currentPassword: string;
-    newPassword: string;
     show: boolean;
 }
 
@@ -36,8 +34,6 @@ const initialState: ModalsState = {
         show: false,
     },
     passwordChangeData: {
-        currentPassword: "",
-        newPassword: "",
         show: false,
     },
     status: "idle",
