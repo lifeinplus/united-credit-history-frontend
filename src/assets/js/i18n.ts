@@ -13,7 +13,7 @@ i18next
         // debug: true,
         supportedLngs: Object.keys(langs),
         fallbackLng: "en",
-        ns: ["credit_history", "header", "personal_data"],
+        ns: ["header", "footer"],
         detection: {
             order: ["path", "cookie", "htmlTag", "localStorage", "subdomain"],
             caches: ["cookie"],

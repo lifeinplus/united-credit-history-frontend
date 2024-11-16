@@ -1,0 +1,8 @@
+{
+    "firstNameRequired": "First name is required.",
+    "lastNameRequired": "Last name is required.",
+    "passwordMinLength": "Password must be at least 8 characters long.",
+    "passwordsDifference": "Passwords must be different.",
+    "passwordsMatch": "Passwords do not match.",
+    "usernameRequired": "Username is required."
+}

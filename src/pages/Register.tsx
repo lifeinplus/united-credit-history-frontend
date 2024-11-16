@@ -148,7 +148,7 @@ const Register = () => {
                                 value={formData.firstName}
                             />
                             <Form.Control.Feedback type="invalid">
-                                {t("errors.firstName")}
+                                {t("firstNameRequired", { ns: "validation" })}
                             </Form.Control.Feedback>
                             <Form.Label htmlFor="firstName">
                                 {t("labels.firstName")}
@@ -167,7 +167,7 @@ const Register = () => {
                                 value={formData.lastName}
                             />
                             <Form.Control.Feedback type="invalid">
-                                {t("errors.lastName")}
+                                {t("lastNameRequired", { ns: "validation" })}
                             </Form.Control.Feedback>
                             <Form.Label htmlFor="lastName">
                                 {t("labels.lastName")}
@@ -187,7 +187,7 @@ const Register = () => {
                         value={formData.username}
                     />
                     <Form.Control.Feedback type="invalid">
-                        {t("errors.username")}
+                        {t("usernameRequired", { ns: "validation" })}
                     </Form.Control.Feedback>
                     <Form.Label htmlFor="username">
                         {t("labels.username")}
@@ -207,7 +207,7 @@ const Register = () => {
                                 value={formData.password}
                             />
                             <Form.Control.Feedback type="invalid">
-                                {t("errors.password")}
+                                {t("passwordMinLength", { ns: "validation" })}
                             </Form.Control.Feedback>
                             <Form.Label htmlFor="password">
                                 {t("labels.password")}
@@ -226,7 +226,7 @@ const Register = () => {
                                 value={formData.confirmPassword}
                             />
                             <Form.Control.Feedback type="invalid">
-                                {t("errors.confirmPassword")}
+                                {t("passwordsMatch", { ns: "validation" })}
                             </Form.Control.Feedback>
                             <Form.Label htmlFor="confirmPassword">
                                 {t("labels.confirmPassword")}

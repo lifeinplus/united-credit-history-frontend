@@ -97,17 +97,17 @@ const Account = () => {
                     <Dropdown.Divider />
                     {roles?.find((role) => role === 1010) && (
                         <Dropdown.Item onClick={handleUsers}>
-                            {t("users")}
+                            {t("account.users")}
                         </Dropdown.Item>
                     )}
                     <Dropdown.Item onClick={handleAvatar}>
-                        {t("changeAvatar")}
+                        {t("account.changeAvatar")}
                     </Dropdown.Item>
                     <Dropdown.Item onClick={handlePassword}>
-                        {t("changePassword")}
+                        {t("account.changePassword")}
                     </Dropdown.Item>
                     <Dropdown.Item onClick={handleLogout}>
-                        {t("logout")}
+                        {t("account.logout")}
                     </Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>

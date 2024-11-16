@@ -1,7 +1,9 @@
 {
-    "changeAvatar": "Change Avatar",
-    "changePassword": "Change Password",
-    "logout": "Sign out",
-    "title": "United Credit History",
-    "users": "User List"
+    "account": {
+        "users": "User List",
+        "changeAvatar": "Change Avatar",
+        "changePassword": "Change Password",
+        "logout": "Sign out"
+    },
+    "title": "United Credit History"
 }

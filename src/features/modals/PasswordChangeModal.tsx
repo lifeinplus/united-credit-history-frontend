@@ -1,4 +1,4 @@
-import { ChangeEvent, memo, useState } from "react";
+import { ChangeEvent, memo, useEffect, useState } from "react";
 import { Button, Form, Modal, Spinner } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
@@ -20,8 +20,8 @@ import {
 type Field = "currentPassword" | "newPassword";
 
 interface ErrorField {
-    length?: string;
-    match?: string;
+    difference?: boolean;
+    minLength?: boolean;
 }
 
 interface ErrorData extends Record<Field, ErrorField> {}
@@ -29,7 +29,7 @@ interface ErrorData extends Record<Field, ErrorField> {}
 interface FormData extends Record<Field, string> {}
 
 const PasswordChangeModal = () => {
-    const { t } = useTranslation(["modal", "auth"]);
+    const { t } = useTranslation(["modal", "validation"]);
 
     const dispatch = useAppDispatch();
     const status = useAppSelector(selectStatus);
@@ -54,21 +54,15 @@ const PasswordChangeModal = () => {
         const newErrors: ErrorData = initialErrorData;
 
         if (formData.currentPassword.length < 8) {
-            newErrors.currentPassword.length = t("errors.passwordLength", {
-                ns: "auth",
-            });
+            newErrors.currentPassword.minLength = true;
         }
 
         if (formData.newPassword.length < 8) {
-            newErrors.newPassword.length = t("errors.passwordLength", {
-                ns: "auth",
-            });
+            newErrors.newPassword.minLength = true;
         }
 
         if (formData.newPassword === formData.currentPassword) {
-            newErrors.newPassword.match = t("errors.passwordsMatch", {
-                ns: "auth",
-            });
+            newErrors.newPassword.difference = true;
         }
 
         setErrorData(newErrors);
@@ -139,32 +133,38 @@ const PasswordChangeModal = () => {
                         <Form.Label>{t("label.currentPassword")}</Form.Label>
                         <Form.Control
                             autoFocus
-                            isInvalid={!!errorData.currentPassword.length}
+                            isInvalid={!!errorData.currentPassword.minLength}
                             isValid={formData.currentPassword.length >= 8}
                             onChange={handleFormData}
                             type="password"
                             value={formData.currentPassword}
                         />
                         <Form.Control.Feedback type="invalid">
-                            {errorData.currentPassword.length}
+                            {t("passwordMinLength", { ns: "validation" })}
                         </Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group controlId="newPassword" className="mb-3">
                         <Form.Label>{t("label.newPassword")}</Form.Label>
                         <Form.Control
                             isInvalid={
-                                !!errorData.newPassword.length ||
-                                !!errorData.newPassword.match
+                                !!errorData.newPassword.minLength ||
+                                !!errorData.newPassword.difference
                             }
                             isValid={formData.newPassword.length >= 8}
                             onChange={handleFormData}
                             type="password"
                             value={formData.newPassword}
                         />
-                        <Form.Control.Feedback type="invalid">
-                            {errorData.newPassword.length ||
-                                errorData.newPassword.match}
-                        </Form.Control.Feedback>
+                        {errorData.newPassword.minLength && (
+                            <Form.Control.Feedback type="invalid">
+                                {t("passwordMinLength", { ns: "validation" })}
+                            </Form.Control.Feedback>
+                        )}
+                        {errorData.newPassword.difference && (
+                            <Form.Control.Feedback type="invalid">
+                                {t("passwordsDifference", { ns: "validation" })}
+                            </Form.Control.Feedback>
+                        )}
                     </Form.Group>
                 </Form>
             </Modal.Body>

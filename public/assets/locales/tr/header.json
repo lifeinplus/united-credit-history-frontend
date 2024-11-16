@@ -1,7 +1,9 @@
 {
-    "changeAvatar": "Avatarı değiştir",
-    "changePassword": "Şifre değiştir",
-    "logout": "Çıkış yap",
-    "title": "Konsolide Kredi Geçmişi",
-    "users": "Kullanıcı listesi"
+    "account": {
+        "users": "Kullanıcı listesi",
+        "changeAvatar": "Avatarı değiştir",
+        "changePassword": "Şifre değiştir",
+        "logout": "Çıkış yap"
+    },
+    "title": "Konsolide Kredi Geçmişi"
 }
