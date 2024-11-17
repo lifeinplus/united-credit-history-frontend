@@ -1,7 +1,8 @@
 import PersistLogin from "./PersistLogin";
-import RequireAuth from "./RequireAuth";
+import RequirePasswordChange from "./RequirePasswordChange";
+import RequireRoles from "./RequireRoles";
 
-export { PersistLogin, RequireAuth };
+export { PersistLogin, RequirePasswordChange, RequireRoles };
 
 export * from "./authApiSlice";
 export * from "./authSlice";

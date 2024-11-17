@@ -1,0 +1,34 @@
+{
+    "buttons": {
+        "cancel": "Отмена",
+        "change": "Изменить",
+        "delete": "Удалить",
+        "login": "Войти",
+        "register": "Зарегистрироваться",
+        "save": "Сохранить"
+    },
+    "labels": {
+        "confirmPassword": "Подтвердите пароль",
+        "currentPassword": "Текущий пароль",
+        "firstName": "Имя",
+        "lastName": "Фамилия",
+        "newPassword": "Новый пароль",
+        "password": "Пароль",
+        "resetPassword": "Сбросить пароль",
+        "roles": "Роли",
+        "selectAvatar": "Выберите аватар",
+        "username": "Имя пользователя"
+    },
+    "links": {
+        "login": "Регистрация",
+        "register": "Вход"
+    },
+    "titles": {
+        "changeAvatar": "Изменить аватар",
+        "changePassword": "Изменить пароль",
+        "delete": "Удалить",
+        "edit": "Редактировать",
+        "login": "Вход",
+        "register": "Регистрация"
+    }
+}

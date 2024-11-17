@@ -1,24 +1,5 @@
 {
-    "title": {
-        "changeAvatar": "Avatarı değiştir",
-        "changePassword": "Şifre değiştir",
-        "delete": "Silmek",
-        "edit": "Düzenlemek"
-    },
-    "label": {
-        "currentPassword": "Mevcut şifre",
-        "newPassword": "Yeni şifre",
-        "resetPassword": "Şifreyi sıfırla",
-        "roles": "Roller",
-        "selectAvatar": "Bir avatar seçin",
-        "username": "Kullanıcı adı"
-    },
     "message": {
         "delete": "Kullanıcıyı silmek istediğinizden emin misiniz ({{username}})?"
-    },
-    "button": {
-        "cancel": "İptal",
-        "delete": "Silmek",
-        "save": "Kaydetmek"
     }
 }

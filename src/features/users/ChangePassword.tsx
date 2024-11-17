@@ -1,7 +1,16 @@
-import { ChangeEvent, memo, useEffect, useState } from "react";
-import { Button, Form, Modal, Spinner } from "react-bootstrap";
+import classNames from "classnames";
+import {
+    ChangeEvent,
+    FormEvent,
+    memo,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
+import { Button, Form, Spinner } from "react-bootstrap";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
@@ -9,13 +18,9 @@ import {
     isDataMessageError,
     isFetchBaseQueryError,
 } from "../../utils";
-import { useChangeUserPasswordByIdMutation, type UserId } from "../users";
-import {
-    hideModals,
-    selectStatus,
-    selectPasswordChangeData,
-    setStatus,
-} from ".";
+import { selectUserId, setCredentials } from "../auth";
+import { selectStatus, setStatus } from "../modals";
+import { useChangeUserPasswordByIdMutation, type UserId } from ".";
 
 type Field = "currentPassword" | "newPassword";
 
@@ -28,12 +33,15 @@ interface ErrorData extends Record<Field, ErrorField> {}
 
 interface FormData extends Record<Field, string> {}
 
-const PasswordChangeModal = () => {
-    const { t } = useTranslation(["common", "validation"]);
+const ChangePassword = () => {
+    const navigate = useNavigate();
+    const { t } = useTranslation();
+
+    const currentPasswordRef = useRef<HTMLInputElement>(null);
 
     const dispatch = useAppDispatch();
     const status = useAppSelector(selectStatus);
-    const { show, userId } = useAppSelector(selectPasswordChangeData);
+    const userId = useAppSelector(selectUserId);
 
     const initialFormData: FormData = {
         currentPassword: "",
@@ -49,6 +57,10 @@ const PasswordChangeModal = () => {
     const [errorData, setErrorData] = useState<ErrorData>(initialErrorData);
 
     const [changeUserPasswordById] = useChangeUserPasswordByIdMutation();
+
+    useEffect(() => {
+        currentPasswordRef.current?.focus();
+    }, []);
 
     const validateForm = () => {
         const newErrors: ErrorData = { ...initialErrorData };
@@ -78,13 +90,9 @@ const PasswordChangeModal = () => {
         setErrorData({ ...errorData, [id]: {} });
     };
 
-    const handleHide = () => {
-        setFormData(initialFormData);
-        setErrorData(initialErrorData);
-        dispatch(hideModals());
-    };
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
-    const handleSave = () => {
         if (!validateForm()) return;
 
         try {
@@ -106,8 +114,9 @@ const PasswordChangeModal = () => {
                 ...formData,
             }).unwrap();
 
-            toast.success(response.message);
-            handleHide();
+            dispatch(setCredentials(response));
+            dispatch(setStatus("succeeded"));
+            navigate("/reports", { replace: true });
         } catch (error) {
             dispatch(setStatus("failed"));
             console.error(error);
@@ -123,72 +132,72 @@ const PasswordChangeModal = () => {
     };
 
     return (
-        <Modal show={show} onHide={handleHide} centered>
-            <Modal.Header closeButton>
-                <Modal.Title>{t("titles.changePassword")}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <Form.Group controlId="currentPassword" className="mb-3">
-                        <Form.Label>{t("labels.currentPassword")}</Form.Label>
-                        <Form.Control
-                            autoFocus
-                            isInvalid={!!errorData.currentPassword.minLength}
-                            isValid={formData.currentPassword.length >= 8}
-                            onChange={handleFormData}
-                            type="password"
-                            value={formData.currentPassword}
-                        />
+        <section className={classNames("uch-change-password", "w-100")}>
+            <h3 className="mb-3 fw-normal">{t("titles.changePassword")}</h3>
+
+            <Form noValidate onSubmit={handleSubmit}>
+                <Form.Floating className="mb-4">
+                    <Form.Control
+                        id="currentPassword"
+                        isInvalid={errorData.currentPassword.minLength}
+                        isValid={formData.currentPassword.length >= 8}
+                        onChange={handleFormData}
+                        placeholder={t("labels.currentPassword")}
+                        ref={currentPasswordRef}
+                        type="password"
+                        value={formData.currentPassword}
+                    />
+                    <Form.Label htmlFor="currentPassword">
+                        {t("labels.currentPassword")}
+                    </Form.Label>
+                    <Form.Control.Feedback type="invalid">
+                        {t("validation:passwordMinLength")}
+                    </Form.Control.Feedback>
+                </Form.Floating>
+
+                <Form.Floating className="mb-4">
+                    <Form.Control
+                        id="newPassword"
+                        isInvalid={
+                            errorData.newPassword.minLength ||
+                            errorData.newPassword.difference
+                        }
+                        isValid={formData.newPassword.length >= 8}
+                        onChange={handleFormData}
+                        placeholder={t("labels.newPassword")}
+                        type="password"
+                        value={formData.newPassword}
+                    />
+                    <Form.Label htmlFor="newPassword">
+                        {t("labels.newPassword")}
+                    </Form.Label>
+                    {errorData.newPassword.minLength && (
                         <Form.Control.Feedback type="invalid">
                             {t("validation:passwordMinLength")}
                         </Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Form.Group controlId="newPassword" className="mb-3">
-                        <Form.Label>{t("labels.newPassword")}</Form.Label>
-                        <Form.Control
-                            isInvalid={
-                                !!errorData.newPassword.minLength ||
-                                !!errorData.newPassword.difference
-                            }
-                            isValid={formData.newPassword.length >= 8}
-                            onChange={handleFormData}
-                            type="password"
-                            value={formData.newPassword}
-                        />
-                        {errorData.newPassword.minLength && (
-                            <Form.Control.Feedback type="invalid">
-                                {t("validation:passwordMinLength")}
-                            </Form.Control.Feedback>
-                        )}
-                        {errorData.newPassword.difference && (
-                            <Form.Control.Feedback type="invalid">
-                                {t("validation:passwordsDifference")}
-                            </Form.Control.Feedback>
-                        )}
-                    </Form.Group>
-                </Form>
-            </Modal.Body>
-
-            <Modal.Footer>
-                <Button onClick={handleHide} variant="secondary">
-                    {t("buttons.cancel")}
-                </Button>
+                    )}
+                    {errorData.newPassword.difference && (
+                        <Form.Control.Feedback type="invalid">
+                            {t("validation:passwordsDifference")}
+                        </Form.Control.Feedback>
+                    )}
+                </Form.Floating>
 
                 <Button
+                    className="w-100 py-2"
                     disabled={status === "loading"}
-                    onClick={handleSave}
+                    type="submit"
                     variant="primary"
                 >
                     {status === "loading" ? (
                         <Spinner animation="border" size="sm" />
                     ) : (
-                        t("buttons.save")
+                        t("buttons.change")
                     )}
                 </Button>
-            </Modal.Footer>
-        </Modal>
+            </Form>
+        </section>
     );
 };
 
-export default memo(PasswordChangeModal);
+export default memo(ChangePassword);

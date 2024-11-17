@@ -9,9 +9,7 @@ import {
     isDataMessageError,
     isFetchBaseQueryError,
 } from "../../utils";
-
 import { useEditUserByIdMutation, type UserId } from "../users";
-
 import {
     hideModals,
     selectStatus,
@@ -21,7 +19,7 @@ import {
 } from ".";
 
 const UserEditModal = () => {
-    const { t } = useTranslation("modal");
+    const { t } = useTranslation();
 
     const dispatch = useAppDispatch();
     const status = useAppSelector(selectStatus);
@@ -91,12 +89,12 @@ const UserEditModal = () => {
     return (
         <Modal show={show} onHide={handleHide} centered>
             <Modal.Header closeButton>
-                <Modal.Title>{t("title.edit")}</Modal.Title>
+                <Modal.Title>{t("titles.edit")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
                     <Form.Group controlId="username" className="mb-3">
-                        <Form.Label>{t("label.username")}:</Form.Label>
+                        <Form.Label>{t("labels.username")}:</Form.Label>
                         <Form.Control
                             type="text"
                             disabled
@@ -104,7 +102,7 @@ const UserEditModal = () => {
                         ></Form.Control>
                     </Form.Group>
                     <Form.Group controlId="roles" className="mb-3">
-                        <Form.Label>{t("label.roles")}:</Form.Label>
+                        <Form.Label>{t("labels.roles")}:</Form.Label>
                         <Form.Control
                             as="textarea"
                             autoFocus
@@ -116,7 +114,7 @@ const UserEditModal = () => {
                     <Form.Check
                         id="resetPassword"
                         checked={isResetPassword}
-                        label={t("label.resetPassword")}
+                        label={t("labels.resetPassword")}
                         onChange={handleChangeResetPassword}
                         type={"checkbox"}
                     />
@@ -124,7 +122,7 @@ const UserEditModal = () => {
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={handleHide} variant="secondary">
-                    {t("button.cancel")}
+                    {t("buttons.cancel")}
                 </Button>
                 <Button
                     disabled={status === "loading"}
@@ -134,7 +132,7 @@ const UserEditModal = () => {
                     {status === "loading" ? (
                         <Spinner animation="border" size="sm" />
                     ) : (
-                        t("button.save")
+                        t("buttons.save")
                     )}
                 </Button>
             </Modal.Footer>

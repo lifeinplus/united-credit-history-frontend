@@ -1,8 +1,14 @@
-.uch-auth {
+.uch-auth,
+.uch-change-password {
     max-width: 300px;
 }
 
-.uch-auth .form-floating:focus-within {
+.uch-register {
+    max-width: 400px;
+}
+
+.uch-auth .form-floating:focus-within,
+.uch-register .form-floating:focus-within {
     z-index: 2;
 }
 
@@ -13,19 +19,6 @@
 }
 
 .uch-auth input[type="password"] {
-    margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-}
-
-.uch-register {
-    max-width: 400px;
-}
-
-.uch-register .form-floating:focus-within {
-    z-index: 2;
-}
-
-.uch-register input[type="password"] {
-    margin-bottom: 10px;
 }

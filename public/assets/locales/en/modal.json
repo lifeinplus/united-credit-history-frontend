@@ -1,24 +1,5 @@
 {
-    "title": {
-        "changeAvatar": "Change Avatar",
-        "changePassword": "Change Password",
-        "delete": "Delete",
-        "edit": "Edit"
-    },
-    "label": {
-        "currentPassword": "Current Password",
-        "newPassword": "New Password",
-        "resetPassword": "Reset Password",
-        "roles": "Roles",
-        "selectAvatar": "Select an avatar",
-        "username": "Username"
-    },
     "message": {
         "delete": "Are you sure you want to delete the user ({{username}})?"
-    },
-    "button": {
-        "cancel": "Cancel",
-        "delete": "Delete",
-        "save": "Save"
     }
 }

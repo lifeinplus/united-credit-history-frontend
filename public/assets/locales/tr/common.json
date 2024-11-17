@@ -1,0 +1,34 @@
+{
+    "buttons": {
+        "cancel": "İptal",
+        "change": "Değiştir",
+        "delete": "Silmek",
+        "login": "Giriş yap",
+        "register": "Üye olmak",
+        "save": "Kaydetmek"
+    },
+    "labels": {
+        "confirmPassword": "Şifreyi onayla",
+        "currentPassword": "Mevcut şifre",
+        "firstName": "Ad",
+        "lastName": "Soyadı",
+        "newPassword": "Yeni şifre",
+        "password": "Şifre",
+        "resetPassword": "Şifreyi sıfırla",
+        "roles": "Roller",
+        "selectAvatar": "Bir avatar seçin",
+        "username": "Kullanıcı adı"
+    },
+    "links": {
+        "login": "Üye olmak",
+        "register": "Giriş yap"
+    },
+    "titles": {
+        "changeAvatar": "Avatarı değiştir",
+        "changePassword": "Şifre değiştir",
+        "delete": "Silmek",
+        "edit": "Düzenlemek",
+        "login": "Giriş yap",
+        "register": "Üye olmak"
+    }
+}

@@ -1,24 +1,5 @@
 {
-    "title": {
-        "changeAvatar": "Изменить аватар",
-        "changePassword": "Изменить пароль",
-        "delete": "Удалить",
-        "edit": "Редактировать"
-    },
-    "label": {
-        "currentPassword": "Текущий пароль",
-        "newPassword": "Новый пароль",
-        "resetPassword": "Сбросить пароль",
-        "roles": "Роли",
-        "selectAvatar": "Выберите аватар",
-        "username": "Имя пользователя"
-    },
     "message": {
         "delete": "Вы действительно хотите удалить пользователя ({{username}})?"
-    },
-    "button": {
-        "cancel": "Отмена",
-        "delete": "Удалить",
-        "save": "Сохранить"
     }
 }

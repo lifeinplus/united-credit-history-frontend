@@ -5,7 +5,7 @@ import type { AuthRequireProps } from "../../types";
 
 import { selectRoles, selectUsername } from ".";
 
-const RequireAuth = ({ allowedRoles }: AuthRequireProps) => {
+const RequireRoles = ({ allowedRoles }: AuthRequireProps) => {
     const roles = useAppSelector(selectRoles);
     const username = useAppSelector(selectUsername);
     const location = useLocation();
@@ -19,4 +19,4 @@ const RequireAuth = ({ allowedRoles }: AuthRequireProps) => {
     );
 };
 
-export default RequireAuth;
+export default RequireRoles;

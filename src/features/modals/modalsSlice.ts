@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { AuthState } from "../../types";
 
-type Status = "idle" | "loading" | "failed";
+type Status = "idle" | "loading" | "succeeded" | "failed";
 
 interface AvatarChangeData extends Pick<AuthState, "userId"> {
     show: boolean;

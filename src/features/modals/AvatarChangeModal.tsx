@@ -15,7 +15,7 @@ import { useChangeUserAvatarByIdMutation, type UserId } from "../users";
 import { hideModals, selectStatus, selectAvatarChangeData, setStatus } from ".";
 
 const ChangeAvatarModal = () => {
-    const { t } = useTranslation("modal");
+    const { t } = useTranslation();
     const [avatar, setAvatar] = useState<File>();
 
     const dispatch = useAppDispatch();
@@ -79,12 +79,12 @@ const ChangeAvatarModal = () => {
     return (
         <Modal show={show} onHide={handleHide} centered>
             <Modal.Header closeButton>
-                <Modal.Title>{t("title.changeAvatar")}</Modal.Title>
+                <Modal.Title>{t("titles.changeAvatar")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
                     <Form.Group controlId="selectAvatar" className="mb-3">
-                        <Form.Label>{t("label.selectAvatar")}</Form.Label>
+                        <Form.Label>{t("labels.selectAvatar")}</Form.Label>
                         <Form.Control
                             accept="image/*"
                             autoFocus
@@ -96,7 +96,7 @@ const ChangeAvatarModal = () => {
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={handleHide} variant="secondary">
-                    {t("button.cancel")}
+                    {t("buttons.cancel")}
                 </Button>
                 <Button
                     disabled={status === "loading"}
@@ -106,7 +106,7 @@ const ChangeAvatarModal = () => {
                     {status === "loading" ? (
                         <Spinner animation="border" size="sm" />
                     ) : (
-                        t("button.save")
+                        t("buttons.save")
                     )}
                 </Button>
             </Modal.Footer>
