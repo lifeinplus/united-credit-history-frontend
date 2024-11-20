@@ -72,6 +72,11 @@ The project consists of the following main pages and components:
 
     -   [Search](#search)
     -   [Pagination](#pagination)
+    -   [Modals](#modals)
+        -   [Avatar Change Modal](#avatar-change-modal)
+        -   [Password Change Modal](#password-change-modal)
+        -   [User Edit Modal](#user-edit-modal)
+        -   [User Delete Modal](#user-delete-modal)
     -   [Extended Data and Payment Amounts](#extended-data-and-payment-amounts)
     -   [Table](#table)
         -   [Different Spellings](#different-spellings)
@@ -131,6 +136,34 @@ The "Search" component allows users to type in search queries, which are capture
 The "Pagination" component handles page navigation, tracks the active page with Redux, and updates buttons dynamically. It supports disabling during fetching, adjusts to the theme, and is memoized to avoid unnecessary re-renders.
 
 <img width="800" alt="Pagination" src="/docs/images/components/pagination.png">
+
+### Modals
+
+The modals in the project handle various user management tasks with a focus on simplicity and feedback, using controlled inputs with asynchronous mutation and Redux for state management. All modals are styled with react-bootstrap and support localization with react-i18next.
+
+#### Avatar Change Modal
+
+The "Avatar Change Modal" component allows users to upload and save a new avatar. It validates the input file, updates the avatar, and provides feedback using a loading spinner, error handling, and success messages.
+
+<img width="800" alt="AvatarChangeModal" src="/docs/images/components/modals/avatarChangeModal.png">
+
+#### Password Change Modal
+
+The "Password Change Modal" component allows users to change their passwords. It validates input fields to ensure the passwords are at least 8 characters long and that the new password differs from the current one.
+
+<img width="800" alt="PasswordChangeModal" src="/docs/images/components/modals/passwordChangeModal.png">
+
+#### User Edit Modal
+
+The "User Edit Modal" component edits user details, such as roles and resets password.
+
+<img width="800" alt="UserEditModal" src="/docs/images/components/modals/userEditModal.png">
+
+#### User Delete Modal
+
+The "User Delete Modal" component is a confirmation dialog for deleting a user, displaying the username of the user to be deleted.
+
+<img width="800" alt="UserDeleteModal" src="/docs/images/components/modals/userDeleteModal.png">
 
 ### Extended Data and Payment Amounts
 
