@@ -24,6 +24,8 @@ export const authSlice = createSlice({
         selectAvatarVersion: (state) => state.avatarVersion,
         selectFirstName: (state) => state.firstName,
         selectLastName: (state) => state.lastName,
+        selectIsPasswordChangeRequired: (state) =>
+            state.isPasswordChangeRequired,
         selectRoles: (state) => state.roles,
         selectUserId: (state) => state.userId,
         selectUsername: (state) => state.username,
@@ -38,6 +40,7 @@ export const {
     selectAvatarVersion,
     selectFirstName,
     selectLastName,
+    selectIsPasswordChangeRequired,
     selectRoles,
     selectUserId,
     selectUsername,

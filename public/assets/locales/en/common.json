@@ -1,0 +1,34 @@
+{
+    "buttons": {
+        "cancel": "Cancel",
+        "change": "Change",
+        "delete": "Delete",
+        "login": "Sign in",
+        "register": "Sign up",
+        "save": "Save"
+    },
+    "labels": {
+        "confirmPassword": "Confirm Password",
+        "currentPassword": "Current Password",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "newPassword": "New Password",
+        "password": "Password",
+        "resetPassword": "Reset Password",
+        "roles": "Roles",
+        "selectAvatar": "Select an avatar",
+        "username": "Username"
+    },
+    "links": {
+        "login": "Sign up",
+        "register": "Sign in"
+    },
+    "titles": {
+        "changeAvatar": "Change Avatar",
+        "changePassword": "Change Password",
+        "delete": "Delete",
+        "edit": "Edit",
+        "login": "Sign in",
+        "register": "Sign up"
+    }
+}

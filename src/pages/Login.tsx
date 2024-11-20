@@ -14,7 +14,7 @@ import { isDataMessageError, isFetchBaseQueryError } from "../utils";
 const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { t } = useTranslation(["auth"]);
+    const { t } = useTranslation(["common", "auth"]);
 
     const dispatch = useAppDispatch();
     const theme = useAppSelector(selectTheme);
@@ -36,45 +36,50 @@ const Login = () => {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         const form = e.currentTarget;
         setValidated(true);
 
         if (!form.checkValidity()) return;
 
         setStatus("loading");
-
-        const runLoginUser = async () => {
-            try {
-                const response = await loginUser({
-                    username,
-                    password,
-                }).unwrap();
-
-                dispatch(setCredentials(response));
-                setStatus("succeeded");
-                navigate(from, { replace: true });
-            } catch (err) {
-                setStatus("failed");
-
-                if (isDataMessageError(err)) {
-                    toast.error(err.data.message);
-                } else if (isFetchBaseQueryError(err)) {
-                    const errMsg =
-                        "error" in err ? err.error : JSON.stringify(err.data);
-                    toast.error(errMsg);
-                } else {
-                    console.error(err);
-                }
-            }
-        };
-
         setTimeout(runLoginUser, 500);
     };
 
+    const runLoginUser = async () => {
+        try {
+            const response = await loginUser({
+                username,
+                password,
+            }).unwrap();
+
+            dispatch(setCredentials(response));
+            setStatus("succeeded");
+
+            if (response.isPasswordChangeRequired) {
+                toast.error("You must change your default password.");
+                navigate("/change-password", { replace: true });
+            } else {
+                navigate(from, { replace: true });
+            }
+        } catch (err) {
+            setStatus("failed");
+
+            if (isDataMessageError(err)) {
+                toast.error(err.data.message);
+            } else if (isFetchBaseQueryError(err)) {
+                const errMsg =
+                    "error" in err ? err.error : JSON.stringify(err.data);
+                toast.error(errMsg);
+            } else {
+                console.error(err);
+            }
+        }
+    };
+
     return (
-        <section className={classNames("uch-auth", "my-10", "m-auto")}>
-            <h1 className="h3 mb-3 fw-normal">{t("titles.login")}</h1>
+        <section className={classNames("uch-auth", "w-100")}>
+            <h3 className="mb-3 fw-normal">{t("titles.login")}</h3>
+
             <Form noValidate onSubmit={handleSubmit} validated={validated}>
                 <Form.Floating>
                     <Form.Control
@@ -90,7 +95,7 @@ const Login = () => {
                     </Form.Label>
                 </Form.Floating>
 
-                <Form.Floating>
+                <Form.Floating className="mb-2">
                     <Form.Control
                         id="password"
                         minLength={8}
@@ -106,7 +111,7 @@ const Login = () => {
                 </Form.Floating>
 
                 <Form.Label className="my-3">
-                    {t("questions.login")}{" "}
+                    {t("auth:questions.login")}{" "}
                     <Link className={`uch-link ${theme}`} to={"/register"}>
                         {t("links.login")}
                     </Link>

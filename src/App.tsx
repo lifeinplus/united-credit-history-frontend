@@ -3,11 +3,15 @@ import { useTranslation } from "react-i18next";
 import { Route, Routes } from "react-router-dom";
 
 import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { Layout } from "./components";
-import { PersistLogin, RequireAuth } from "./features/auth";
+import { CenteredLayout, DefaultLayout, Layout } from "./components";
+import {
+    PersistLogin,
+    RequireRoles,
+    RequirePasswordChange,
+} from "./features/auth";
 import { toggleExtendedData } from "./features/extendedData";
 import { selectTheme, toggleTheme } from "./features/theme";
-
+import { ChangePassword } from "./features/users";
 import {
     About,
     Login,
@@ -18,7 +22,6 @@ import {
     Unauthorized,
     Users,
 } from "./pages";
-
 import { langs } from "./utils";
 
 const App = () => {
@@ -69,25 +72,48 @@ const App = () => {
 
     return (
         <Routes>
-            <Route path="/" element={<Layout />}>
-                <Route path="/about" element={<About />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route element={<PersistLogin />}>
+                <Route path="/" element={<Layout />}>
+                    <Route element={<CenteredLayout />}>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route
+                            path="/change-password"
+                            element={<ChangePassword />}
+                        />
+                    </Route>
 
-                <Route element={<PersistLogin />}>
-                    <Route element={<RequireAuth allowedRoles={[2020]} />}>
-                        <Route path="/reports">
-                            <Route index element={<Reports />} />
-                            <Route path=":reportId" element={<Report />} />
+                    <Route element={<DefaultLayout />}>
+                        <Route path="/about" element={<About />} />
+                        <Route
+                            path="/unauthorized"
+                            element={<Unauthorized />}
+                        />
+
+                        <Route element={<RequirePasswordChange />}>
+                            <Route
+                                element={<RequireRoles allowedRoles={[2020]} />}
+                            >
+                                <Route path="/reports">
+                                    <Route index element={<Reports />} />
+                                    <Route
+                                        path=":reportId"
+                                        element={<Report />}
+                                    />
+                                </Route>
+                                <Route
+                                    element={
+                                        <RequireRoles allowedRoles={[1010]} />
+                                    }
+                                >
+                                    <Route path="/users" element={<Users />} />
+                                </Route>
+                            </Route>
                         </Route>
-                        <Route element={<RequireAuth allowedRoles={[1010]} />}>
-                            <Route path="/users" element={<Users />} />
-                        </Route>
+
+                        <Route path="*" element={<NotFound />} />
                     </Route>
                 </Route>
-
-                <Route path="*" element={<NotFound />} />
             </Route>
         </Routes>
     );

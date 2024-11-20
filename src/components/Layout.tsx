@@ -9,7 +9,6 @@ import {
     UserEditModal,
 } from "../features/modals";
 import { selectTheme } from "../features/theme";
-
 import { Footer, Header } from ".";
 
 const Layout = () => {
@@ -30,11 +29,11 @@ const Layout = () => {
             <PasswordChangeModal />
             <UserDeleteModal />
             <UserEditModal />
-            <Header />
-            <main className="container-fluid">
+            <div className="d-flex flex-column min-vh-100">
+                <Header />
                 <Outlet />
-            </main>
-            <Footer />
+                <Footer />
+            </div>
         </>
     );
 };

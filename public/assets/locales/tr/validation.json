@@ -1,0 +1,8 @@
+{
+    "firstNameRequired": "Ad gereklidir.",
+    "lastNameRequired": "Soyadı gereklidir.",
+    "passwordMinLength": "Şifre en az 8 karakter uzunluğunda olmalıdır.",
+    "passwordsDifference": "Şifreler farklı olmalı.",
+    "passwordsMatch": "Şifreler uyuşmuyor.",
+    "usernameRequired": "Kullanıcı adı gereklidir."
+}

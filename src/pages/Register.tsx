@@ -24,7 +24,7 @@ interface FormData extends Record<Field, string> {}
 
 const Register = () => {
     const navigate = useNavigate();
-    const { t } = useTranslation(["auth"]);
+    const { t } = useTranslation(["common", "auth", "validation"]);
 
     const theme = useAppSelector(selectTheme);
     const [storageUsername, setStorageUsername] = useLocalStorage(
@@ -131,8 +131,9 @@ const Register = () => {
     };
 
     return (
-        <section className={classNames("uch-register", "my-10", "m-auto")}>
-            <h1 className="h3 mb-3 fw-normal">{t("titles.register")}</h1>
+        <section className={classNames("uch-register", "w-100")}>
+            <h3 className="mb-3 fw-normal">{t("titles.register")}</h3>
+
             <Form noValidate onSubmit={handleSubmit}>
                 <Row className="mb-4">
                     <Col>
@@ -148,7 +149,7 @@ const Register = () => {
                                 value={formData.firstName}
                             />
                             <Form.Control.Feedback type="invalid">
-                                {t("errors.firstName")}
+                                {t("validation:firstNameRequired")}
                             </Form.Control.Feedback>
                             <Form.Label htmlFor="firstName">
                                 {t("labels.firstName")}
@@ -167,7 +168,7 @@ const Register = () => {
                                 value={formData.lastName}
                             />
                             <Form.Control.Feedback type="invalid">
-                                {t("errors.lastName")}
+                                {t("validation:lastNameRequired")}
                             </Form.Control.Feedback>
                             <Form.Label htmlFor="lastName">
                                 {t("labels.lastName")}
@@ -187,14 +188,14 @@ const Register = () => {
                         value={formData.username}
                     />
                     <Form.Control.Feedback type="invalid">
-                        {t("errors.username")}
+                        {t("validation:usernameRequired")}
                     </Form.Control.Feedback>
                     <Form.Label htmlFor="username">
                         {t("labels.username")}
                     </Form.Label>
                 </Form.Floating>
 
-                <Row className="mt-4">
+                <Row className="mt-4 mb-2">
                     <Col>
                         <Form.Floating>
                             <Form.Control
@@ -206,12 +207,12 @@ const Register = () => {
                                 type="password"
                                 value={formData.password}
                             />
-                            <Form.Control.Feedback type="invalid">
-                                {t("errors.password")}
-                            </Form.Control.Feedback>
                             <Form.Label htmlFor="password">
                                 {t("labels.password")}
                             </Form.Label>
+                            <Form.Control.Feedback type="invalid">
+                                {t("validation:passwordMinLength")}
+                            </Form.Control.Feedback>
                         </Form.Floating>
                     </Col>
                     <Col>
@@ -225,18 +226,18 @@ const Register = () => {
                                 type="password"
                                 value={formData.confirmPassword}
                             />
-                            <Form.Control.Feedback type="invalid">
-                                {t("errors.confirmPassword")}
-                            </Form.Control.Feedback>
                             <Form.Label htmlFor="confirmPassword">
                                 {t("labels.confirmPassword")}
                             </Form.Label>
+                            <Form.Control.Feedback type="invalid">
+                                {t("validation:passwordsMatch")}
+                            </Form.Control.Feedback>
                         </Form.Floating>
                     </Col>
                 </Row>
 
                 <Form.Label className="my-3">
-                    {t("questions.register")}{" "}
+                    {t("auth:questions.register")}{" "}
                     <Link className={`uch-link ${theme}`} to={"/login"}>
                         {t("links.register")}
                     </Link>

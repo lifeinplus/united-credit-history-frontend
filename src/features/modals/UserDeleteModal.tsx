@@ -15,7 +15,7 @@ import { useDeleteUserByIdMutation, type UserId } from "../users";
 import { hideModals, selectStatus, selectUserDeleteData, setStatus } from ".";
 
 const UserDeleteModal = () => {
-    const { t } = useTranslation("modal");
+    const { t } = useTranslation(["common", "modal"]);
 
     const dispatch = useAppDispatch();
     const status = useAppSelector(selectStatus);
@@ -63,14 +63,14 @@ const UserDeleteModal = () => {
     return (
         <Modal show={show} onHide={handleHide} centered>
             <Modal.Header closeButton>
-                <Modal.Title>{t("title.delete")}</Modal.Title>
+                <Modal.Title>{t("titles.delete")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <p>{t("message.delete", { username })}</p>
+                <p>{t("modal:message.delete", { username })}</p>
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={handleHide} variant="secondary">
-                    {t("button.cancel")}
+                    {t("buttons.cancel")}
                 </Button>
                 <Button
                     disabled={status === "loading"}
@@ -80,7 +80,7 @@ const UserDeleteModal = () => {
                     {status === "loading" ? (
                         <Spinner animation="border" size="sm" />
                     ) : (
-                        t("button.delete")
+                        t("buttons.delete")
                     )}
                 </Button>
             </Modal.Footer>

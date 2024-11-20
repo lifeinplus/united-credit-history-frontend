@@ -1,5 +1,6 @@
+import ChangePassword from "./ChangePassword";
 import UserList from "./UserList";
 
-export { UserList };
+export { ChangePassword, UserList };
 
 export * from "./usersApiSlice";

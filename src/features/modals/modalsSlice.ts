@@ -1,15 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { AuthState } from "../../types";
 
-type Status = "idle" | "loading" | "failed";
+type Status = "idle" | "loading" | "succeeded" | "failed";
 
 interface AvatarChangeData extends Pick<AuthState, "userId"> {
     show: boolean;
 }
 
 interface PasswordChangeData extends Pick<AuthState, "userId"> {
-    currentPassword: string;
-    newPassword: string;
     show: boolean;
 }
 
@@ -36,8 +34,6 @@ const initialState: ModalsState = {
         show: false,
     },
     passwordChangeData: {
-        currentPassword: "",
-        newPassword: "",
         show: false,
     },
     status: "idle",

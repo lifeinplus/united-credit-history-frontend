@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Image } from "react-bootstrap";
+import { Button, Dropdown, Image } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -65,18 +65,11 @@ const Account = () => {
         };
 
         return (
-            <div className="dropdown">
-                <button
-                    className={classNames(
-                        "btn",
-                        "btn-outline-primary",
-                        `uch-btn-outline-primary ${theme}`,
-                        "btn-sm",
-                        "dropdown-toggle"
-                    )}
-                    type="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
+            <Dropdown align={"end"}>
+                <Dropdown.Toggle
+                    className={classNames(`uch-btn-outline-primary ${theme}`)}
+                    size="sm"
+                    variant="outline-primary"
                 >
                     {avatarURL ? (
                         <Image
@@ -92,71 +85,45 @@ const Account = () => {
                     {firstName || lastName
                         ? [firstName, lastName].join(" ").trim()
                         : username}
-                </button>
-                <ul
+                </Dropdown.Toggle>
+                <Dropdown.Menu
                     className={classNames(
-                        "dropdown-menu",
-                        "dropdown-menu-md-end",
                         theme === "dark" && "dropdown-menu-dark"
                     )}
                 >
+                    <Dropdown.ItemText className="text-secondary">
+                        {username}
+                    </Dropdown.ItemText>
+                    <Dropdown.Divider />
                     {roles?.find((role) => role === 1010) && (
-                        <li>
-                            <button
-                                className="dropdown-item"
-                                onClick={handleUsers}
-                                type="button"
-                            >
-                                {t("users")}
-                            </button>
-                        </li>
+                        <Dropdown.Item onClick={handleUsers}>
+                            {t("account.users")}
+                        </Dropdown.Item>
                     )}
-                    <li>
-                        <button
-                            className="dropdown-item"
-                            onClick={handleAvatar}
-                            type="button"
-                        >
-                            {t("changeAvatar")}
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            className="dropdown-item"
-                            onClick={handlePassword}
-                            type="button"
-                        >
-                            {t("changePassword")}
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            className="dropdown-item"
-                            onClick={handleLogout}
-                            type="button"
-                        >
-                            {t("logout")}
-                        </button>
-                    </li>
-                </ul>
-            </div>
+                    <Dropdown.Item onClick={handleAvatar}>
+                        {t("account.changeAvatar")}
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={handlePassword}>
+                        {t("account.changePassword")}
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={handleLogout}>
+                        {t("account.logout")}
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
         );
     }
 
     function Outside() {
         return (
-            <button
-                className={classNames(
-                    "btn",
-                    "btn-outline-primary",
-                    `uch-btn-outline-primary ${theme}`,
-                    "btn-sm"
-                )}
+            <Button
+                className={classNames(`uch-btn-outline-primary ${theme}`)}
                 onClick={() => navigate("/login")}
-                type="button"
+                size="sm"
+                variant="outline-primary"
             >
                 <i className="bi bi-box-arrow-in-right me-1"></i>
-            </button>
+            </Button>
         );
     }
 };
