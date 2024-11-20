@@ -238,4 +238,4 @@ https://github.com/lifeinplus/united-credit-history-frontend/blob/a0e6bf9a085b6c
 
 ---
 
-v4.30.0 © 2024 Artem Denisov
+v4.30.1 © 2024 Artem Denisov
